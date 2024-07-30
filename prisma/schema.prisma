@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Test {
+  id   String @id @default(uuid())
+  name String
+}
+
+model Users {
+  id    String @id @default(uuid())
+  email String @unique
+  name  String
+
+  @@map("users")
+}
