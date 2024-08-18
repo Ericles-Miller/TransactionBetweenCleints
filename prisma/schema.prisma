@@ -9,10 +9,9 @@ datasource db {
 
 model Permissions {
   id               String             @id @default(uuid())
-  description      String             @db.VarChar(50)
+  description      String             @db.VarChar(50) @unique
   createAt         DateTime           @default(now())
-  updeatedAt       DateTime
-  name             String             @unique @db.VarChar(50)
+  updatedAt       DateTime?
   UsersPermissions UsersPermissions[]
 
   @@map("permissions")
