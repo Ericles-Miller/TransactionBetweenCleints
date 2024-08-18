@@ -16,9 +16,11 @@ export abstract class BaseEntity {
   }
 
 
-  setUpdatedAt(date: Date): void {
+  setUpdatedAt(): void {
     this.updatedAt = new Date();
   }
+
+
 
   // getUpdatedAt(): Date | null {
   //   return this.updatedAt;
