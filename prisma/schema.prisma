@@ -7,15 +7,42 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Test {
-  id   String @id @default(uuid())
-  name String
+model Permissions {
+  id               String             @id @default(uuid())
+  description      String             @db.VarChar(50)
+  createAt         DateTime           @default(now())
+  updeatedAt       DateTime
+  name             String             @unique @db.VarChar(50)
+  UsersPermissions UsersPermissions[]
+
+  @@map("permissions")
 }
 
 model Users {
-  id    String @id @default(uuid())
-  email String @unique
-  name  String
+  id               String             @id @default(uuid())
+  email            String             @unique @db.VarChar(255)
+  createAt         DateTime           @default(now())
+  updeatedAt       DateTime?
+  name             String             @db.VarChar(255)
+  isActive         Boolean
+  createdBy        String
+  updatedBy        String
+  password         String             @db.VarChar(50)
+  UsersPermissions UsersPermissions[]
 
+  @@index([id, email])
   @@map("users")
+}
+
+model UsersPermissions {
+  id           String      @id @default(uuid())
+  createdAt    DateTime    @default(now())
+  updateAt     DateTime    @default(now())
+  permission   Permissions @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  permissionId String
+  user         Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+
+  @@index([id, userId, permissionId])
+  @@map("usersPermissions")
 }
