@@ -1,4 +1,4 @@
-import { IBaseRepository } from "@Applications/Interfaces/shared/IBaseRepository";
+import { IBaseRepository } from "@Domain/Interfaces/Repositories/shared/IBaseRepository";
 import { RepositoryType } from "@Infra/Data/database";
 import { Test, Users } from "@prisma/client";
 import { injectable } from "inversify";

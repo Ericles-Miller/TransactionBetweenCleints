@@ -1,7 +1,7 @@
 import { BaseRepository } from '@Infra/Repositories/shared/BaseRepository';
 import { Container } from 'inversify';
 
-import { IUsersRepository } from '@Applications/Interfaces/IUsersRepository';
+import { IUsersRepository } from '@Domain/Interfaces/Repositories/IUsersRepository';
 import { prisma } from '@Infra/Data/database';
 import { UsersRepository } from '@Infra/Repositories/UsersRepository';
 import { PrismaClient, Users } from '@prisma/client';

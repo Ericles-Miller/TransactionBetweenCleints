@@ -1,5 +1,6 @@
 import { hash } from "bcryptjs";
 import { BaseIsActive } from "./shared/BaseIsActive";
+import { UsersPermission } from "./UsersPermission";
 
 
 export class User extends BaseIsActive {
@@ -7,7 +8,7 @@ export class User extends BaseIsActive {
   email!: string;
   password!: string;
   lastLogin? : Date;
-  //userPermissions: UserPermission[]  = [];
+  userPermissions: UsersPermission[]  = [];
  
   constructor(name: string, password: string, email: string, id: string| null) {
     super(id)
