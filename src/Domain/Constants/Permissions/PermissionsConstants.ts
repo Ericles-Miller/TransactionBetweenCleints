@@ -13,5 +13,5 @@ export class PermissionConstants {
   static clientFinancial = 'Client.Financial';
   static clientMarketing = 'Client.Marketing';
   static clientSupport = 'Client.Support';
-  static clientTechnician = 'Company.Technician';
+  static clientTechnician = 'Client.Technician';
 }

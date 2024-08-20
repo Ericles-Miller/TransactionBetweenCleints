@@ -1,6 +1,7 @@
-import { PermissionConstants } from "@Domain/Constants/Permissions/PermissionsConstants";
+import "reflect-metadata";
 import { Permission } from "@Domain/Entities/Permissions";
 import { PrismaClient } from "@prisma/client";
+import { PermissionConstants } from "@Domain/Constants/Permissions/PermissionsConstants";
 
 
 export class SeedsPermissions {
@@ -54,7 +55,7 @@ export class SeedsPermissions {
     permission = new Permission(PermissionConstants.companyTechnician, null);
     permissions.push(permission);
 
-    permissions.map(async (permission) => {
+    permissions.map(async (permission) => {     
       await this.prisma.permissions.create({
         data: {
           description : permission.description,

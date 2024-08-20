@@ -62,6 +62,6 @@
     "start": "node build/Api/Http/server.js",
     "build": "babel src --out-dir build --copy-files --extensions \".js,.ts\"",
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only  --ignore-watch node_modules --respawn src/Api/Http/server.ts",
-    "seed": "ts-node-dev src/Infra/Data/Seeds/index.ts"
+    "seed": "ts-node-dev -r tsconfig-paths/register  --inspect --transpile-only src/Infra/Data/Seeds/index.ts"
   }
 }
