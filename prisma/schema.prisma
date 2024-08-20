@@ -9,24 +9,25 @@ datasource db {
 
 model Permissions {
   id               String             @id @default(uuid())
-  description      String             @db.VarChar(50) @unique
+  description      String             @unique @db.VarChar(50)
   createAt         DateTime           @default(now())
-  updatedAt       DateTime?
+  updatedAt        DateTime?
   UsersPermissions UsersPermissions[]
 
   @@map("permissions")
 }
 
 model Users {
-  id               String             @id @default(uuid())
-  email            String             @unique @db.VarChar(255)
-  createAt         DateTime           @default(now())
-  updeatedAt       DateTime?
-  name             String             @db.VarChar(255)
-  isActive         Boolean
-  createdBy        String
-  updatedBy        String
-  password         String             @db.VarChar(50)
+  id               String             @id @default(uuid()) 
+  email            String             @unique @db.VarChar(255) 
+  createAt         DateTime           @default(now()) 
+  updeatedAt       DateTime? 
+  name             String             @db.VarChar(255) 
+  isActive         Boolean            @default(false) 
+  createdBy        String? 
+  updatedBy        String? 
+  password         String             @db.VarChar(50) 
+  lastLogin        DateTime 
   UsersPermissions UsersPermissions[]
 
   @@index([id, email])

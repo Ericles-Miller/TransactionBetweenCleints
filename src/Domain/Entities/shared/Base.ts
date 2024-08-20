@@ -1,8 +1,14 @@
+import { AutoMap } from '@automapper/classes';
 import {v4 as uuid} from 'uuid';
 
 export abstract class BaseEntity {
-  public id: string;
+  @AutoMap()
+  public id: string; //
+  
+  @AutoMap()
   public createdAt!: Date;
+  
+  @AutoMap()
   public updatedAt!: Date | null;
 
     constructor(id: string | null) {
@@ -15,14 +21,7 @@ export abstract class BaseEntity {
     }
   }
 
-
   setUpdatedAt(): void {
     this.updatedAt = new Date();
   }
-
-
-
-  // getUpdatedAt(): Date | null {
-  //   return this.updatedAt;
-  // }
 }

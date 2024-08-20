@@ -1,13 +1,28 @@
 import { hash } from "bcryptjs";
 import { BaseIsActive } from "./shared/BaseIsActive";
 import { UsersPermission } from "./UsersPermission";
+import { AutoMap } from '@automapper/classes';
 
 
 export class User extends BaseIsActive {
+  @AutoMap()
   name!: string;
-  email!: string;
-  password!: string;
-  lastLogin? : Date;
+
+  @AutoMap()
+  email!: string; 
+
+  @AutoMap()
+  password!: string; 
+
+  @AutoMap()
+  lastLogin? : Date; 
+
+  @AutoMap()
+  createdBy? : string; 
+
+  @AutoMap()
+  updatedBy?: string; 
+
   userPermissions: UsersPermission[]  = [];
  
   constructor(name: string, password: string, email: string, id: string| null) {

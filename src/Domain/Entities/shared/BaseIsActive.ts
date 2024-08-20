@@ -1,9 +1,11 @@
 import { AppError } from "@Domain/Exceptions/AppError";
 import { BaseEntity } from "./Base";
+import { AutoMap } from "@automapper/classes";
 
 
 export abstract class BaseIsActive extends BaseEntity {
-  isActive!: boolean;
+  @AutoMap()
+  isActive!: boolean; //
 
   protected activate() : void
   {
