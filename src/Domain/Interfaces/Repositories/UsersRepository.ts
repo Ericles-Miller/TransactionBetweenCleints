@@ -8,9 +8,7 @@ export class UsersRepository extends BaseRepository<Users> implements IUsersRepo
   constructor(
     @inject('PrismaClient')
     private prisma : PrismaClient
-  ) {
-    super(prisma.users)
-  }
+  ) { super(prisma.users) }
 
   async checkEmailAlreadyExist(email: string): Promise<boolean> {
     const count = await this.prisma.users.count({
