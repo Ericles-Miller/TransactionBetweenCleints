@@ -1,4 +1,3 @@
-import { Permission } from "@Domain/Entities/Permissions";
 
 export interface ICreateUserRequestDTO {
   name: string;

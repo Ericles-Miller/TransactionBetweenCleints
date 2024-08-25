@@ -5,6 +5,7 @@ import { IUsersRepository } from '@Domain/Interfaces/Repositories/IUsersReposito
 import { prisma } from '@Infra/Data/database';
 import { UsersRepository } from '@Infra/Repositories/UsersRepository';
 import { PrismaClient, Users } from '@prisma/client';
+import { CreateUserUseCase } from '@Applications/UseCase/Auth/CreateUserUseCase';
 
 export const container = new Container();
 
@@ -14,3 +15,7 @@ container.bind<BaseRepository<Users>>('UsersRepository').to(UsersRepository);
 
 /// interfaces
 container.bind<IUsersRepository>(UsersRepository).toSelf().inSingletonScope();
+
+
+/// useCases
+container.bind<CreateUserUseCase>(CreateUserUseCase).toSelf();

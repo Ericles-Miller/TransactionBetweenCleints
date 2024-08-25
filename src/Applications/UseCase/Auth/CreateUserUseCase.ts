@@ -1,12 +1,11 @@
 import { ICreateUserRequestDTO } from '@Applications/DTOs/Requests/ICreateUserRequestDTO';
+import { PrismaMapper } from '@Applications/Mappings/AutoMapping.Profile';
 import { User } from '@Domain/Entities/User';
 import { AppError } from '@Domain/Exceptions/AppError';
 import { PermissionsExceptionsMessages } from '@Domain/Exceptions/ExceptionsMessages/PermissionsExceptionsMessages';
 import { IPermissionsRepository } from '@Domain/Interfaces/Repositories/IPermissionsRepository';
 import { IUsersRepository } from '@Domain/Interfaces/Repositories/IUsersRepository';
-import { users } from '@Infra/Data/database';
-import { PrismaClient } from '@prisma/client';
-import { plainToClass, plainToInstance } from 'class-transformer';
+import { Users } from '@prisma/client';
 import { inject, injectable } from 'inversify';
 
 @injectable()
@@ -24,13 +23,10 @@ export class CreateUserUseCase {
     this.ValidatePermissions(permissions);
 
     const user = new User(name, password, email, null);
-    // setar o creatby do campo de user 
-    //fazer o mapping de user com o objeto do prisma 
+    const mapper = new PrismaMapper<User, Users>(); 
+    const prismaUser = mapper.map(user);
 
-    const userMap = plainToClass(PrismaClient['users'], user)
-
-    // fazer um create ja inserindo as permissions do user 
-    await this.usersRepository.create(userMap);
+    await this.usersRepository.create(prismaUser);  
   }
 
   private async ValidatePermissions(permissions: string[]): Promise<void> {

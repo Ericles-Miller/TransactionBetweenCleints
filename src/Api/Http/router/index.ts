@@ -1,6 +1,6 @@
 import { Router } from "express";
+import { userRouters } from "./User.routes";
 
 export const router = Router();
 
-/// modelo para criar um endpoint para uma entidade grupo
-//router.use('/users', usersRoutes)
+router.use('/users', userRouters);

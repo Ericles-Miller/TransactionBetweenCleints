@@ -21,3 +21,8 @@ export async function checkDatabaseConnection() {
     await prisma.$disconnect();
   }
 }
+
+type HashMap<T> = {[key: string]: T};
+
+const userPrismaMap: HashMap<Users> = {};
+

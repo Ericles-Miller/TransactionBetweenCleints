@@ -2,13 +2,8 @@ import { AutoMap } from '@automapper/classes';
 import {v4 as uuid} from 'uuid';
 
 export abstract class BaseEntity {
-  @AutoMap()
-  public id: string; //
-  
-  @AutoMap()
+  public id: string; 
   public createdAt!: Date;
-  
-  @AutoMap()
   public updatedAt!: Date | null;
 
     constructor(id: string | null) {

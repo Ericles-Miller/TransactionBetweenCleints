@@ -1,11 +1,11 @@
 import { IBaseRepository } from "@Domain/Interfaces/Repositories/shared/IBaseRepository";
 import { RepositoryType } from "@Infra/Data/database";
-import { Test, Users } from "@prisma/client";
+import { Users } from "@prisma/client";
 import { injectable } from "inversify";
 
 
 @injectable()
-export class BaseRepository<T extends Users| Test> implements IBaseRepository<T> {
+export abstract class BaseRepository<T extends Users| Permissions> implements IBaseRepository<T> {
   protected readonly repository: RepositoryType<T>;
 
   constructor(repository: RepositoryType<T>) {
@@ -13,13 +13,13 @@ export class BaseRepository<T extends Users| Test> implements IBaseRepository<T>
   }
  
   async findById(id: string): Promise<T | null> {
-    const context: T = await this.repository.findUnique({
+    const context = await this.repository.findUnique({
       where: { id },
     });
     return context;
   }
 
-  async create(data: T): Promise<void> {
+  async create<T>(data: T): Promise<void> {
     await this.repository.create({ data });
   }
 

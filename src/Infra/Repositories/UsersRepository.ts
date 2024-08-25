@@ -17,11 +17,10 @@ export class UsersRepository extends BaseRepository<Users> implements IUsersRepo
 
   async checkEmailAlreadyExist(email: string) : Promise<Users|null> {
     const user = await prisma.users.findFirst({ where: { email } });
-
     return user;
   }
 
   async setUserTrue(id: string): Promise<void> {
-    await prisma.users.update({ where: { id }, data: { enable: true } });
+    await prisma.users.update({ where: { id }, data: { isActive: true } });
   }
 }
