@@ -22,7 +22,4 @@ export async function checkDatabaseConnection() {
   }
 }
 
-type HashMap<T> = {[key: string]: T};
-
-const userPrismaMap: HashMap<Users> = {};
 

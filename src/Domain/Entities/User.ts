@@ -9,14 +9,12 @@ export class User extends BaseIsActive {
   lastLogin? : Date; 
   createdBy? : string; 
   updatedBy?: string; 
-
-  userPermissions: UsersPermission[]  = [];
+  readonly userPermissions!: UsersPermission[];
  
-  constructor(name: string, password: string, email: string, id: string| null) {
-    super(id)
+  constructor(name: string, email: string) {
+    super()
     this.setEmail(email);
     this.setName(name);
-    this.setPassword(password);
   }
 
   setEmail(email:string) {

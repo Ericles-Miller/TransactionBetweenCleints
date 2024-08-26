@@ -20,13 +20,20 @@ export class CreateUserUseCase {
   ) {}
 
   async execute({ email, name, password, permissions }: ICreateUserRequestDTO) : Promise<void> {
-    this.ValidatePermissions(permissions);
+    // criar validaate para email
 
-    const user = new User(name, password, email, null);
+    const user = new User(name, email);
+    await user.setPassword(password)
+    
+    // salvar as permissoes do user 
+    this.ValidatePermissions(permissions);
+    
     const mapper = new PrismaMapper<User, Users>(); 
     const prismaUser = mapper.map(user);
 
     await this.usersRepository.create(prismaUser);  
+    // retornar o user sem a senha fazendo o mapping 
+    // remover a libraly mapper
   }
 
   private async ValidatePermissions(permissions: string[]): Promise<void> {

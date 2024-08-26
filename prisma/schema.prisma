@@ -18,16 +18,16 @@ model Permissions {
 }
 
 model Users {
-  id               String             @id @default(uuid()) 
-  email            String             @unique @db.VarChar(255) 
-  createAt         DateTime           @default(now()) 
-  updeatedAt       DateTime? 
-  name             String             @db.VarChar(255) 
-  isActive         Boolean            @default(false) 
-  createdBy        String? 
-  updatedBy        String? 
-  password         String             @db.VarChar(50) 
-  lastLogin        DateTime 
+  id               String             @id @default(uuid())
+  email            String             @unique @db.VarChar(255)
+  createdAt         DateTime           @default(now())
+  updatedAt        DateTime?
+  name             String             @db.VarChar(255)
+  isActive         Boolean            @default(false)
+  createdBy        String?
+  updatedBy        String?
+  password         String             @db.VarChar(300)
+  lastLogin        DateTime?
   UsersPermissions UsersPermissions[]
 
   @@index([id, email])

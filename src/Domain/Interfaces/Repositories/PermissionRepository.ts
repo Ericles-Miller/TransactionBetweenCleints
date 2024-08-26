@@ -1,13 +1,13 @@
 import { BaseRepository } from "@Infra/Repositories/shared/BaseRepository";
 import { IPermissionsRepository } from "./IPermissionsRepository";
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 import { Permissions, PrismaClient } from "@prisma/client";
 
-
+@injectable()
 export class PermissionRepository extends BaseRepository<Permissions> implements IPermissionsRepository {
   constructor(
-    @inject('PrismaCLient')
-    private prisma: PrismaClient
+    @inject('PrismaClient')
+    private readonly prisma: PrismaClient
   ){ 
     super(prisma.permissions)
   }

@@ -1,9 +1,9 @@
 import { BaseRepository } from "@Infra/Repositories/shared/BaseRepository";
 import { IUsersRepository } from "./IUsersRepository";
 import { PrismaClient, Users } from "@prisma/client";
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 
-
+@injectable()
 export class UsersRepository extends BaseRepository<Users> implements IUsersRepository {
   constructor(
     @inject('PrismaClient')

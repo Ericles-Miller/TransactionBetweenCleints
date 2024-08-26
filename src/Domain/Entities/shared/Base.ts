@@ -1,4 +1,3 @@
-import { AutoMap } from '@automapper/classes';
 import {v4 as uuid} from 'uuid';
 
 export abstract class BaseEntity {
@@ -6,14 +5,10 @@ export abstract class BaseEntity {
   public createdAt!: Date;
   public updatedAt!: Date | null;
 
-    constructor(id: string | null) {
-    if (!id) {
-      this.id = uuid();
-      this.createdAt = new Date();
-      this.updatedAt = null;
-    } else {
-      this.id = id;
-    }
+    constructor() {
+    this.id = uuid();
+    this.createdAt = new Date();
+    this.updatedAt = null;
   }
 
   setUpdatedAt(): void {
