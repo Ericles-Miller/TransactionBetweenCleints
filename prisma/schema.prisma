@@ -9,9 +9,9 @@ datasource db {
 
 model Permissions {
   id               String             @id @default(uuid())
-  description      String             @db.VarChar(50) @unique
+  description      String             @unique @db.VarChar(50)
   createAt         DateTime           @default(now())
-  updatedAt       DateTime?
+  updatedAt        DateTime?
   UsersPermissions UsersPermissions[]
 
   @@map("permissions")
@@ -20,13 +20,14 @@ model Permissions {
 model Users {
   id               String             @id @default(uuid())
   email            String             @unique @db.VarChar(255)
-  createAt         DateTime           @default(now())
-  updeatedAt       DateTime?
+  createdAt         DateTime           @default(now())
+  updatedAt        DateTime?
   name             String             @db.VarChar(255)
-  isActive         Boolean
-  createdBy        String
-  updatedBy        String
-  password         String             @db.VarChar(50)
+  isActive         Boolean            @default(false)
+  createdBy        String?
+  updatedBy        String?
+  password         String             @db.VarChar(300)
+  lastLogin        DateTime?
   UsersPermissions UsersPermissions[]
 
   @@index([id, email])
@@ -36,7 +37,7 @@ model Users {
 model UsersPermissions {
   id           String      @id @default(uuid())
   createdAt    DateTime    @default(now())
-  updateAt     DateTime    @default(now())
+  updatedAt     DateTime?    @default(now())
   permission   Permissions @relation(fields: [permissionId], references: [id], onDelete: Cascade)
   permissionId String
   user         Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -44,4 +45,9 @@ model UsersPermissions {
 
   @@index([id, userId, permissionId])
   @@map("usersPermissions")
+}
+
+enum TypePermission {
+  Company
+  Client
 }

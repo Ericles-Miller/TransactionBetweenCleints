@@ -2,7 +2,7 @@ import { BaseEntity } from "./shared/Base";
 
 export class Permission extends BaseEntity {
 
-  public description!: string;
+  description!: string;
 
   constructor(description: string, id: string| null) {
     super(id)
@@ -11,7 +11,7 @@ export class Permission extends BaseEntity {
 
   setDescription(description: string) : void {
     // validar a descricao
-    description = description;
+    this.description = description;
   }
 
   getDescription() : string {

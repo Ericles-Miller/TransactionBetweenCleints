@@ -1,16 +1,28 @@
-import { BaseRepository } from '@Infra/Repositories/shared/BaseRepository';
 import { Container } from 'inversify';
 
-import { IUsersRepository } from '@Applications/Interfaces/IUsersRepository';
-import { prisma } from '@Infra/Data/database';
-import { UsersRepository } from '@Infra/Repositories/UsersRepository';
-import { PrismaClient, Users } from '@prisma/client';
+import { CreateUserUseCase } from '@Applications/UseCase/Auth/CreateUserUseCase';
+import { IWriteUserRepository } from '@Domain/Interfaces/Repositories/Users/IWriteUserRepository';
+import { UsersRepository } from '@Infra/Repositories/Users/UsersRepository';
+import { IReadUserRepository } from '@Domain/Interfaces/Repositories/Users/IReadUserRepository';
+import { IReadPermissionRepository } from '@Domain/Interfaces/Repositories/Auth/Permissions/IReadPermissionsRepository';
+import { PermissionRepository } from '@Infra/Repositories/PermissionRepository';
+
+import { AddPermissions } from '@Applications/UseCase/Shared/AddPermissions';
+import { IWriteUserPermissionsRepository } from '@Domain/Interfaces/Repositories/Auth/UserPermissions/IWriteUserPermissionsRepository';
+import { UserPermissionRepository } from '@Infra/Repositories/UserPermission/UserPermissionRepository';
 
 export const container = new Container();
 
-/// prisma
-container.bind<PrismaClient>('PrismaClient').toConstantValue(prisma);
-container.bind<BaseRepository<Users>>('UsersRepository').to(UsersRepository);
+// container.bind<PrismaClient>('PrismaClient').toConstantValue(prisma);
 
 /// interfaces
-container.bind<IUsersRepository>(UsersRepository).toSelf().inSingletonScope();
+container.bind<IWriteUserRepository>('WriteUserRepository').to(UsersRepository).inSingletonScope();
+container.bind<IReadUserRepository>('ReadUserRepository').to(UsersRepository).inSingletonScope();
+
+container.bind<AddPermissions>(AddPermissions).toSelf();
+
+container.bind<IReadPermissionRepository>('ReadPermissionRepository').to(PermissionRepository).inSingletonScope();
+container.bind<IWriteUserPermissionsRepository>('WriteUserPermissionRepository').to(UserPermissionRepository);
+
+/// useCases
+container.bind<CreateUserUseCase>(CreateUserUseCase).toSelf();

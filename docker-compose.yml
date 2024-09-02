@@ -3,7 +3,7 @@ services:
   pantry-tracker-db:
     image: postgres
     restart: always
-    container_name: pantry-tracker-db
+    container_name: AccessControllUser
     ports:
       - 5435:5432
     environment:

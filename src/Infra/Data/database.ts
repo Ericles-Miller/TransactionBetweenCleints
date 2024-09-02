@@ -1,16 +1,6 @@
-import { Permissions, PrismaClient, Users, UsersPermissions } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
-export const { users, permissions, usersPermissions } = new PrismaClient();
 export const prisma = new PrismaClient();
-
-export type RepositoryType<T> = T extends Users
-  ? PrismaClient['users']
-  : T extends Permissions
-  ? PrismaClient['permissions']
-  : T extends UsersPermissions
-  ? PrismaClient['usersPermissions']
-  :never;
-
 
 export async function checkDatabaseConnection() {
   try {
@@ -21,3 +11,5 @@ export async function checkDatabaseConnection() {
     await prisma.$disconnect();
   }
 }
+
+
