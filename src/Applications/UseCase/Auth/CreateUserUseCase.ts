@@ -2,45 +2,43 @@ import { ICreateUserRequestDTO } from '@Applications/DTOs/Requests/ICreateUserRe
 import { PrismaMapper } from '@Applications/Mappings/AutoMapping.Profile';
 import { User } from '@Domain/Entities/User';
 import { AppError } from '@Domain/Exceptions/AppError';
-import { PermissionsExceptionsMessages } from '@Domain/Exceptions/ExceptionsMessages/PermissionsExceptionsMessages';
-import { IPermissionsRepository } from '@Domain/Interfaces/Repositories/IPermissionsRepository';
-import { IUsersRepository } from '@Domain/Interfaces/Repositories/IUsersRepository';
 import { Users } from '@prisma/client';
 import { inject, injectable } from 'inversify';
+import { AddPermissions } from '../Shared/AddPermissions';
+import { UserResponseDTO } from '@Applications/DTOs/Responses/UserReponseDTO';
+import { plainToInstance } from 'class-transformer';
+import { IWriteUserRepository } from '@Domain/Interfaces/Repositories/Users/IWriteUserRepository';
+import { IReadUserRepository } from '@Domain/Interfaces/Repositories/Users/IReadUserRepository';
 
 @injectable()
 export class CreateUserUseCase {
-
   constructor(
-    @inject('UsersRepository')
-    private usersRepository: IUsersRepository,
+    @inject('WriteUserRepository')
+    private writeUsersRepository: IWriteUserRepository,
 
-    @inject('PermissionRepository')
-    private permissionsRepository: IPermissionsRepository
+    @inject('ReadUserRepository')
+    private readUsersRepository: IReadUserRepository,
+
+    @inject(AddPermissions)
+    private addPermission: AddPermissions
   ) {}
 
-  async execute({ email, name, password, permissions }: ICreateUserRequestDTO) : Promise<void> {
-    // criar validaate para email
+  async execute({ email, name, password, permissions }: ICreateUserRequestDTO) : Promise<UserResponseDTO> {
+    const userExists = await this.readUsersRepository.checkEmailAlreadyExist(email);
+    if(userExists)
+      throw new AppError('User already exists!', 400);
 
     const user = new User(name, email);
     await user.setPassword(password)
-    
-    // salvar as permissoes do user 
-    this.ValidatePermissions(permissions);
-    
+        
     const mapper = new PrismaMapper<User, Users>(); 
-    const prismaUser = mapper.map(user);
+    let prismaUser = mapper.map(user);
+    
+    prismaUser = await this.writeUsersRepository.create(prismaUser);  
+    
+    await this.addPermission.execute(prismaUser, permissions);
 
-    await this.usersRepository.create(prismaUser);  
-    // retornar o user sem a senha fazendo o mapping 
-    // remover a libraly mapper
-  }
-
-  private async ValidatePermissions(permissions: string[]): Promise<void> {
-    Promise.all(permissions.map(async (item) => {
-      const permission = await this.permissionsRepository.findById(item);
-      if(!permission)
-        throw new AppError(PermissionsExceptionsMessages.PermissionIdNotExists, 404);
-    })); 
+    // send email 
+    return plainToInstance(UserResponseDTO, user);
   }
 }

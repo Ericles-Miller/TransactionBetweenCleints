@@ -6,8 +6,26 @@ export class UsersPermission extends BaseEntity {
   userId!: string;
   permissionId!: string;
 
-  user!: User;
-  permission?: Permission;
+  readonly user!: User;
+  readonly permission!: Permission;
+
+  constructor(userId: string, permissionId: string) {
+    super()
+    this.setUserId(userId)
+    this.setPermissionId(permissionId)
+  }
+
+  setUserId(userId: string) : void {
+    //validate se e um uuid
+    this.userId = userId;
+  }
+
+  setPermissionId(permissionId: string) : void {
+    // validate by repository
+    // crio uma classe que le esse id em uma const
+    this.permissionId = permissionId;
+  }
+
 
   getUserEmail(): string {
     return this.user ? this.user.email : '';

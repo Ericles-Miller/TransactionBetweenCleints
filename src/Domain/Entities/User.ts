@@ -3,6 +3,7 @@ import { BaseIsActive } from "./shared/BaseIsActive";
 import { UsersPermission } from "./UsersPermission";
 
 export class User extends BaseIsActive {  
+  
   name!: string;
   email!: string; 
   password!: string; 

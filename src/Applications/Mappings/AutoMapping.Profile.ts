@@ -1,4 +1,4 @@
-import { IMapper } from "@Domain/Interfaces/Repositories/shared/IMapper";
+import { IMapper } from "@Domain/Interfaces/Repositories/Shared/IMapper";
 
 export class PrismaMapper<TSource, TDestination> implements IMapper<TSource, TDestination> {
   constructor() {}
