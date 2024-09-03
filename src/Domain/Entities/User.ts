@@ -10,7 +10,7 @@ export class User extends BaseIsActive {
   lastLogin? : Date; 
   createdBy? : string; 
   updatedBy?: string; 
-  readonly userPermissions!: UsersPermission[];
+  readonly usersPermissions!: UsersPermission[];
  
   constructor(name: string, email: string) {
     super()

@@ -1,15 +1,16 @@
 import { Container } from 'inversify';
 
-import { CreateUserUseCase } from '@Applications/UseCase/Auth/CreateUserUseCase';
+import { CreateUserUseCase } from '@Applications/UseCases/Auth/CreateUserUseCase';
 import { IWriteUserRepository } from '@Domain/Interfaces/Repositories/Users/IWriteUserRepository';
 import { UsersRepository } from '@Infra/Repositories/Users/UsersRepository';
 import { IReadUserRepository } from '@Domain/Interfaces/Repositories/Users/IReadUserRepository';
 import { IReadPermissionRepository } from '@Domain/Interfaces/Repositories/Auth/Permissions/IReadPermissionsRepository';
 import { PermissionRepository } from '@Infra/Repositories/PermissionRepository';
 
-import { AddPermissions } from '@Applications/UseCase/Shared/AddPermissions';
+import { AddPermissions } from '@Applications/UseCases/Shared/AddPermissions';
 import { IWriteUserPermissionsRepository } from '@Domain/Interfaces/Repositories/Auth/UserPermissions/IWriteUserPermissionsRepository';
 import { UserPermissionRepository } from '@Infra/Repositories/UserPermission/UserPermissionRepository';
+import { LoginUserUseCase } from '@Applications/UseCases/Auth/LoginUserUseCase';
 
 export const container = new Container();
 
@@ -26,3 +27,4 @@ container.bind<IWriteUserPermissionsRepository>('WriteUserPermissionRepository')
 
 /// useCases
 container.bind<CreateUserUseCase>(CreateUserUseCase).toSelf();
+container.bind<LoginUserUseCase>(LoginUserUseCase).toSelf();

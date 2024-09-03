@@ -1,13 +1,12 @@
 import { IReadUserRepository } from "@Domain/Interfaces/Repositories/Users/IReadUserRepository";
 import { IWriteUserRepository } from "@Domain/Interfaces/Repositories/Users/IWriteUserRepository";
-import { prisma } from "@Infra/Data/database";
+import { prisma, UserWithPermissions } from "@Infra/Data/database";
 import { Users } from "@prisma/client";
 import { injectable } from "inversify";
 
 @injectable()
 export class UsersRepository implements IWriteUserRepository, IReadUserRepository {
   private repository = prisma.users;
-
 
   async create(user: Users): Promise<Users> {
     const context = await this.repository.create({
@@ -26,6 +25,23 @@ export class UsersRepository implements IWriteUserRepository, IReadUserRepositor
       data: {isActive : true},
       where: { id}
     });
+  }
+
+  async getByEmail(email: string): Promise<UserWithPermissions | null> {
+    const user = await this.repository.findFirst({
+      where: {
+        email
+      },
+      include: {
+        UsersPermissions: {
+          select: {
+            permission: true
+          }
+        }
+      }
+    });
+
+    return user;
   }
 }
   

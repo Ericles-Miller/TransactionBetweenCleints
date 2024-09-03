@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Users, UsersPermissions } from '@prisma/client';
 
 export const prisma = new PrismaClient();
 
@@ -12,4 +12,5 @@ export async function checkDatabaseConnection() {
   }
 }
 
+export type UserWithPermissions = Users & { UsersPermissions: UsersPermissions[] };
 
