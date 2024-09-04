@@ -12,5 +12,4 @@ export async function checkDatabaseConnection() {
   }
 }
 
-export type UserWithPermissions = Users & { UsersPermissions: UsersPermissions[] };
 

@@ -1,6 +1,7 @@
 import { IReadUserRepository } from "@Domain/Interfaces/Repositories/Users/IReadUserRepository";
 import { IWriteUserRepository } from "@Domain/Interfaces/Repositories/Users/IWriteUserRepository";
-import { prisma, UserWithPermissions } from "@Infra/Data/database";
+import { UserWithPermissions } from "@Domain/Types/DataTypes/UserWithPermissions";
+import { prisma } from "@Infra/Data/database";
 import { Users } from "@prisma/client";
 import { injectable } from "inversify";
 
@@ -29,19 +30,14 @@ export class UsersRepository implements IWriteUserRepository, IReadUserRepositor
 
   async getByEmail(email: string): Promise<UserWithPermissions | null> {
     const user = await this.repository.findFirst({
-      where: {
-        email
-      },
+      where: { email },
       include: {
-        UsersPermissions: {
-          select: {
-            permission: true
-          }
-        }
+        UsersPermissions: true
       }
     });
 
-    return user;
-  }
+    return user as UserWithPermissions | null;
+}
+
 }
   

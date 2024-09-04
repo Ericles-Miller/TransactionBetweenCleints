@@ -1,7 +1,7 @@
 import { User } from "@Domain/Entities/User";
 import { UsersPermission } from "@Domain/Entities/UsersPermission";
 import { IMapper } from "@Domain/Interfaces/Repositories/Shared/IMapper";
-import { UserWithPermissions } from "@Infra/Data/database";
+import { UserWithPermissions } from "@Domain/Types/DataTypes/UserWithPermissions";
 
 export class PrismaMapper<TSource, TDestination> implements IMapper<TSource, TDestination> {
   constructor() {}

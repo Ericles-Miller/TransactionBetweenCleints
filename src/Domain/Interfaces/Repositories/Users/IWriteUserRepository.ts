@@ -1,4 +1,4 @@
-import { UserWithPermissions } from "@Infra/Data/database";
+import { UserWithPermissions } from "@Domain/Types/DataTypes/UserWithPermissions";
 import { Users } from "@prisma/client";
 
 export interface IWriteUserRepository {
