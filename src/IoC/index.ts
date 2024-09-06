@@ -1,19 +1,20 @@
 import { Container } from 'inversify';
 
-import { CreateUserUseCase } from '@Applications/UseCase/Auth/CreateUserUseCase';
+import { CreateUserUseCase } from '@Applications/UseCases/Auth/CreateUserUseCase';
 import { IWriteUserRepository } from '@Domain/Interfaces/Repositories/Users/IWriteUserRepository';
 import { UsersRepository } from '@Infra/Repositories/Users/UsersRepository';
 import { IReadUserRepository } from '@Domain/Interfaces/Repositories/Users/IReadUserRepository';
 import { IReadPermissionRepository } from '@Domain/Interfaces/Repositories/Auth/Permissions/IReadPermissionsRepository';
 import { PermissionRepository } from '@Infra/Repositories/PermissionRepository';
 
-import { AddPermissions } from '@Applications/UseCase/Shared/AddPermissions';
+import { AddPermissions } from '@Applications/UseCases/Shared/AddPermissions';
 import { IWriteUserPermissionsRepository } from '@Domain/Interfaces/Repositories/Auth/UserPermissions/IWriteUserPermissionsRepository';
 import { UserPermissionRepository } from '@Infra/Repositories/UserPermission/UserPermissionRepository';
+import { LoginUserUseCase } from '@Applications/UseCases/Auth/LoginUserUseCase';
+import { CreateAccessTokenUseCase } from '@Applications/UseCases/Auth/CreateAccessToken/CreateAccessTokenUseCase';
+import { CredentialsToken } from '@Applications/UseCases/Shared/CredentialsToken';
 
 export const container = new Container();
-
-// container.bind<PrismaClient>('PrismaClient').toConstantValue(prisma);
 
 /// interfaces
 container.bind<IWriteUserRepository>('WriteUserRepository').to(UsersRepository).inSingletonScope();
@@ -26,3 +27,7 @@ container.bind<IWriteUserPermissionsRepository>('WriteUserPermissionRepository')
 
 /// useCases
 container.bind<CreateUserUseCase>(CreateUserUseCase).toSelf();
+container.bind<LoginUserUseCase>(LoginUserUseCase).toSelf();
+container.bind<CreateAccessTokenUseCase>(CreateAccessTokenUseCase).toSelf();
+container.bind<CredentialsToken>(CredentialsToken).toSelf();
+

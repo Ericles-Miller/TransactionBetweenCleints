@@ -5,7 +5,7 @@ import { AppError } from '@Domain/Exceptions/AppError';
 import { Users } from '@prisma/client';
 import { inject, injectable } from 'inversify';
 import { AddPermissions } from '../Shared/AddPermissions';
-import { UserResponseDTO } from '@Applications/DTOs/Responses/UserReponseDTO';
+import { UserResponseDTO } from '@Applications/DTOs/Responses/UserResponseDTO';
 import { plainToInstance } from 'class-transformer';
 import { IWriteUserRepository } from '@Domain/Interfaces/Repositories/Users/IWriteUserRepository';
 import { IReadUserRepository } from '@Domain/Interfaces/Repositories/Users/IReadUserRepository';
