@@ -9,8 +9,8 @@ export class LoginUserController {
 
     const loginUserUseCase = container.get(LoginUserUseCase);
 
-    await loginUserUseCase.execute(email, password);
+    const token = await loginUserUseCase.execute(email, password);
 
-    return response.status(201).send();
+    return response.json(token);
   }
 }

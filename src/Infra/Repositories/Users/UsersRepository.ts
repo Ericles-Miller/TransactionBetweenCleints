@@ -37,7 +37,18 @@ export class UsersRepository implements IWriteUserRepository, IReadUserRepositor
     });
 
     return user as UserWithPermissions | null;
-}
+  }
+
+  async findNameByEmail(email: string): Promise<string| null> {
+    const name = await this.repository.findFirst({ 
+      where: { email},
+      select: {name : true}
+    });
+
+    if(name?.name)
+      return name?.name;
+    return null;
+  }
 
 }
   

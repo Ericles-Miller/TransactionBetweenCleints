@@ -29,18 +29,13 @@ export class PrismaMapper<TSource, TDestination> implements IMapper<TSource, TDe
   }
 
   mapUserWithPermissions(userWithPermissions: UserWithPermissions): User {
-    // Mapear o usuário usando o PrismaMapper
     const userMapper = new PrismaMapper<UserWithPermissions, User>();
     const user: User = userMapper.map(userWithPermissions);
   
-    // Mapear manualmente as permissões, se necessário
-
-    // preciso verificar como usar a propriedade user mapping tanto para criar tanto para login
-
     user.usersPermissions = userWithPermissions.UsersPermissions.map(up => {
       return new UsersPermission(
-        up.permissionId,
         up.userId,
+        up.permissionId,
       );
     });
   
