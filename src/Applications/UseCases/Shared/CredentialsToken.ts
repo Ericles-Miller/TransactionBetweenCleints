@@ -45,8 +45,8 @@ export abstract class CredentialsToken {
 
     permissions = await this.readPermissionRepository.readDescriptionsByIdsReadOnly(permissions!);
     if(!permissions)
-      throw new AppError('Access Denied', 404);
-    
+      throw new AppError('userNot Found', 404);
+
     return permissions;
   }
 }
