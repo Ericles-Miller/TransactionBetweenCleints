@@ -15,10 +15,10 @@ export class AuthUserRepository implements IAuthUserRepository {
     return user
   }
 
-  async updateUser(user: User) : Promise<void> {
+  async updateUserRefreshToken({ lastLogin, refreshTokenCode, updatedAt, id }: User) : Promise<void> {
     await this.repository.update({
-      data: user,
-      where: {id: user.id}
+      data: { lastLogin, refreshTokenCode, updatedAt },
+      where: {id}
     })
   }
 }

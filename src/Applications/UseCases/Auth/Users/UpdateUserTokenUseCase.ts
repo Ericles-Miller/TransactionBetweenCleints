@@ -1,8 +1,6 @@
-import { PrismaMapper } from "@Applications/Mappings/AutoMapping.Profile";
 import { User } from "@Domain/Entities/User";
 import { AppError } from "@Domain/Exceptions/AppError";
 import { AuthUserRepository } from "@Infra/Repositories/Auth/AuthUserRepository";
-import { Users } from "@prisma/client";
 import { inject, injectable } from "inversify";
 
 @injectable()
@@ -12,23 +10,18 @@ export class UpdateUserTokenUseCase {
     private authUserRepository: AuthUserRepository
   ) {}
 
-  async execute(email: string, refreshToken: string) : Promise<void> {
-    const user = await this.authUserRepository.authGetByEmail(email);
-    if(!user) 
+  async execute(user: User, refreshToken: string) : Promise<void> {
+    const findUser = await this.authUserRepository.authGetByEmail(user.email);
+    if(!findUser) 
       throw new AppError('Access Denied', 400);
 
-    if(user.isActive === false)
+    if(findUser.isActive === false)
       throw new AppError('Access Denied', 400);
 
-    // // fazer o mapping 
-    // const userMapper  = new PrismaMapper<Users, User>();
-    // const mappedUser: User = userMapper.map(user);
+    user.setRefreshToken(refreshToken);
+    user.setLatLogin();
+    user.setUpdatedAt();
 
-
-    // mappedUser.setRefreshToken(refreshToken);
-    // mappedUser.setLatLogin();
-    // mappedUser.setUpdatedAt();
-
-    // await this.authUserRepository.updateUser(mappedUser);
+    await this.authUserRepository.updateUserRefreshToken(user);
   }
 }

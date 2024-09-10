@@ -20,28 +20,26 @@ export class LoginUserUseCase {
   ) {}
 
   async execute({email, password}: ILoginRequestDTO) : Promise<ResponseDTO<ILoginResponseDTO>> {
-    const findUser = await this.writeUserRepository.getByEmail(email);
+    let findUser = await this.writeUserRepository.getByEmail(email);
     if(!findUser) 
       throw new AppError('Email or password incorrect!', 404);
     
+    const prismaMapper = new PrismaMapper<any, User>();
+    const user = prismaMapper.mapPrismaUserToDomainUser(findUser);
+        
     const passwordMatch = await compare(password, findUser.password);
     if(!passwordMatch)
       throw new AppError('Email or password incorrect!', 404);
 
-    const user = this.validateFields(findUser);
+    this.validateFields(user);
     
     const token = await this.createAccessTokenUseCase.createAccessToken(user);
     const refreshToken = await this.createAccessTokenUseCase.generateRefreshToken(user);
     return new ResponseDTO<ILoginResponseDTO>({token, refreshToken});
   }
 
-  private validateFields(user: UserWithPermissions): User {
-    const userMapper = new PrismaMapper<UserWithPermissions, User>();
-    const mappedUser: User = userMapper.mapUserWithPermissions(user);
-
-    if(mappedUser.isActive === false || mappedUser.usersPermissions?.length == 0)
+  private validateFields(user: User): void {
+    if(user.isActive === false || user.usersPermissions?.length == 0)
       throw new AppError('Access Denied', 400);
-
-    return mappedUser;
   }
 }

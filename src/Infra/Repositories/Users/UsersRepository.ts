@@ -32,7 +32,7 @@ export class UsersRepository implements IWriteUserRepository, IReadUserRepositor
     const user = await this.repository.findFirst({
       where: { email },
       include: {
-        UsersPermissions: true
+        usersPermissions: true
       }
     });
 

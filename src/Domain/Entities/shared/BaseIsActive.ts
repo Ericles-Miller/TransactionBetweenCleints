@@ -4,6 +4,9 @@ import { BaseEntity } from "./Base";
 export abstract class BaseIsActive extends BaseEntity {
   isActive!: boolean; 
 
+  constructor(id: string | null) {
+    super(id);
+  }
   protected activate() : void
   {
     this.isActive ? new AppError("Is already active", 400) : true;

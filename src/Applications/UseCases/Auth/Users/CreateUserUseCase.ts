@@ -28,7 +28,7 @@ export class CreateUserUseCase {
     if(userExists)
       throw new AppError('User already exists!', 400);
 
-    const user = new User(name, email);
+    const user = new User(name, email, null);
     await user.setPassword(password)
         
     const mapper = new PrismaMapper<User, Users>(); 

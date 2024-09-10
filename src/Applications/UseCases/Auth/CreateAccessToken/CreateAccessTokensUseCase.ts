@@ -32,7 +32,7 @@ export abstract class CreateAccessTokensUseCase {
       {expiresIn: Configuration.authApiSecrets.refreshExpiresIn!, algorithm: 'HS256'}
     );
 
-    await this.updateUserTokenUseCase.execute(user.email,refreshToken);
+    await this.updateUserTokenUseCase.execute(user,refreshToken);
 
     return refreshToken;
   }

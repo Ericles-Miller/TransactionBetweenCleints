@@ -7,14 +7,14 @@ export class User extends BaseIsActive {
   name!: string;
   email!: string; 
   password!: string; 
-  lastLogin? : Date; 
-  createdBy? : string; 
-  updatedBy?: string; 
+  lastLogin: Date | null = null; 
+  createdBy: string | null = null; 
+  updatedBy?: string | null = null;
   usersPermissions?: UsersPermission[];
   refreshTokenCode?: string;
  
-  constructor(name: string, email: string) {
-    super()
+  constructor(name: string, email: string, id: string | null) {
+    super(id)
     this.setEmail(email);
     this.setName(name);
   }
