@@ -1,7 +1,6 @@
-import { LoginUserUseCase } from "@Applications/UseCases/Auth/LoginUserUseCase";
+import { LoginUserUseCase } from "@Applications/UseCases/Auth/CreateAccessToken/LoginUserUseCase";
 import { Request, Response } from "express";
 import { container } from "IoC";
-
 
 export class LoginUserController {
   async handle(request: Request, response: Response): Promise<Response> {
@@ -9,8 +8,8 @@ export class LoginUserController {
 
     const loginUserUseCase = container.get(LoginUserUseCase);
 
-    const token = await loginUserUseCase.execute(email, password);
+    const responseData = await loginUserUseCase.execute({ email, password });
 
-    return response.json(token);
+    return response.json(responseData);
   }
 }

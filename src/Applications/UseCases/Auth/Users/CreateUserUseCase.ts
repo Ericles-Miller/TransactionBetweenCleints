@@ -1,14 +1,14 @@
-import { ICreateUserRequestDTO } from '@Applications/DTOs/Requests/ICreateUserRequestDTO';
+import { ICreateUserRequestDTO } from '@Applications/DTOs/Requests/Auth/ICreateUserRequestDTO';
 import { PrismaMapper } from '@Applications/Mappings/AutoMapping.Profile';
 import { User } from '@Domain/Entities/User';
 import { AppError } from '@Domain/Exceptions/AppError';
 import { Users } from '@prisma/client';
 import { inject, injectable } from 'inversify';
-import { AddPermissions } from '../Shared/AddPermissions';
 import { UserResponseDTO } from '@Applications/DTOs/Responses/UserResponseDTO';
 import { plainToInstance } from 'class-transformer';
 import { IWriteUserRepository } from '@Domain/Interfaces/Repositories/Users/IWriteUserRepository';
 import { IReadUserRepository } from '@Domain/Interfaces/Repositories/Users/IReadUserRepository';
+import { AddPermissions } from '@Applications/UseCases/Shared/AddPermissions';
 
 @injectable()
 export class CreateUserUseCase {
@@ -28,7 +28,7 @@ export class CreateUserUseCase {
     if(userExists)
       throw new AppError('User already exists!', 400);
 
-    const user = new User(name, email);
+    const user = new User(name, email, null);
     await user.setPassword(password)
         
     const mapper = new PrismaMapper<User, Users>(); 

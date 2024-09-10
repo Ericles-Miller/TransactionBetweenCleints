@@ -1,6 +1,5 @@
 import { Container } from 'inversify';
 
-import { CreateUserUseCase } from '@Applications/UseCases/Auth/CreateUserUseCase';
 import { IWriteUserRepository } from '@Domain/Interfaces/Repositories/Users/IWriteUserRepository';
 import { UsersRepository } from '@Infra/Repositories/Users/UsersRepository';
 import { IReadUserRepository } from '@Domain/Interfaces/Repositories/Users/IReadUserRepository';
@@ -10,9 +9,13 @@ import { PermissionRepository } from '@Infra/Repositories/PermissionRepository';
 import { AddPermissions } from '@Applications/UseCases/Shared/AddPermissions';
 import { IWriteUserPermissionsRepository } from '@Domain/Interfaces/Repositories/Auth/UserPermissions/IWriteUserPermissionsRepository';
 import { UserPermissionRepository } from '@Infra/Repositories/UserPermission/UserPermissionRepository';
-import { LoginUserUseCase } from '@Applications/UseCases/Auth/LoginUserUseCase';
-import { CreateAccessTokenUseCase } from '@Applications/UseCases/Auth/CreateAccessToken/CreateAccessTokenUseCase';
+import { CreateAccessTokensUseCase } from '@Applications/UseCases/Auth/CreateAccessToken/CreateAccessTokensUseCase';
 import { CredentialsToken } from '@Applications/UseCases/Shared/CredentialsToken';
+import { AuthUserRepository } from '@Infra/Repositories/Auth/AuthUserRepository';
+import { IAuthUserRepository } from '@Domain/Interfaces/Repositories/Auth/IAuthUserRepository';
+import { CreateUserUseCase } from '@Applications/UseCases/Auth/Users/CreateUserUseCase';
+import { LoginUserUseCase } from '@Applications/UseCases/Auth/CreateAccessToken/LoginUserUseCase';
+import { UpdateUserTokenUseCase } from '@Applications/UseCases/Auth/Users/UpdateUserTokenUseCase';
 
 export const container = new Container();
 
@@ -22,12 +25,15 @@ container.bind<IReadUserRepository>('ReadUserRepository').to(UsersRepository).in
 
 container.bind<AddPermissions>(AddPermissions).toSelf();
 
+// repositories
 container.bind<IReadPermissionRepository>('ReadPermissionRepository').to(PermissionRepository).inSingletonScope();
 container.bind<IWriteUserPermissionsRepository>('WriteUserPermissionRepository').to(UserPermissionRepository);
+container.bind<IAuthUserRepository>('AuthUserRepository').to(AuthUserRepository);
+
 
 /// useCases
 container.bind<CreateUserUseCase>(CreateUserUseCase).toSelf();
 container.bind<LoginUserUseCase>(LoginUserUseCase).toSelf();
-container.bind<CreateAccessTokenUseCase>(CreateAccessTokenUseCase).toSelf();
+container.bind<CreateAccessTokensUseCase>(CreateAccessTokensUseCase).toSelf();
 container.bind<CredentialsToken>(CredentialsToken).toSelf();
-
+container.bind<UpdateUserTokenUseCase>(UpdateUserTokenUseCase).toSelf();

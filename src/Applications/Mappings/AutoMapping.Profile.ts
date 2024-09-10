@@ -32,7 +32,7 @@ export class PrismaMapper<TSource, TDestination> implements IMapper<TSource, TDe
     const userMapper = new PrismaMapper<UserWithPermissions, User>();
     const user: User = userMapper.map(userWithPermissions);
   
-    user.usersPermissions = userWithPermissions.UsersPermissions.map(up => {
+    user.usersPermissions = userWithPermissions.usersPermissions?.map(up => {
       return new UsersPermission(
         up.userId,
         up.permissionId,
@@ -41,4 +41,24 @@ export class PrismaMapper<TSource, TDestination> implements IMapper<TSource, TDe
   
     return user;
   }
+
+    mapPrismaUserToDomainUser(prismaUser: UserWithPermissions): User {
+      const user = new User(prismaUser.name, prismaUser.email, prismaUser.id);
+      user.createdAt = prismaUser.createdAt;
+      user.password = prismaUser.password;
+      user.lastLogin = prismaUser.lastLogin;
+      user.createdBy = prismaUser.createdBy;
+      user.updatedBy = prismaUser.updatedBy;
+      user.refreshTokenCode = prismaUser.refreshTokenCode;
+      user.isActive = prismaUser.isActive;
+
+      user.usersPermissions = prismaUser.usersPermissions?.map(up => {
+        return new UsersPermission(
+          up.userId,
+          up.permissionId,
+        );
+      });
+      
+      return user;
+    }
 }
