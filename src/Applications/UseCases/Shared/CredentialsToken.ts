@@ -3,8 +3,9 @@ import { AppError } from '@Domain/Exceptions/AppError';
 import { IReadPermissionRepository } from '@Domain/Interfaces/Repositories/Auth/Permissions/IReadPermissionsRepository';
 import { IReadUserRepository } from '@Domain/Interfaces/Repositories/Users/IReadUserRepository';
 import { inject, injectable } from 'inversify';
-import { ISubject } from '../Auth/CreateAccessToken/CreateAccessTokenUseCase';
 import { UsersPermission } from '@Domain/Entities/UsersPermission';
+import { Configuration } from '@Domain/Config';
+import { ISubject } from '@Domain/Interfaces/Auth/ISubject';
 
 @injectable()
 export abstract class CredentialsToken {
@@ -21,6 +22,8 @@ export abstract class CredentialsToken {
       email: await this.generateEmailClaims(user.email),
       name: await this.generateNameClaim(user.email),
       permissions: await this.generatePermissionsClaims(user.usersPermissions!),
+      audience: Configuration.authApiSecrets.audience!,
+      issuer: Configuration.authApiSecrets.issuer!,
     };
 
     return payload;

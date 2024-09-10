@@ -11,6 +11,7 @@ export class User extends BaseIsActive {
   createdBy? : string; 
   updatedBy?: string; 
   usersPermissions?: UsersPermission[];
+  refreshTokenCode?: string;
  
   constructor(name: string, email: string) {
     super()
@@ -37,8 +38,12 @@ export class User extends BaseIsActive {
     this.setUpdatedAt();
   }
 
-  setLatLogin() {
+  setLatLogin() : void {
     this.lastLogin = new Date();
     this.setUpdatedAt();
+  }
+
+  setRefreshToken(code : string) {
+    this.refreshTokenCode = code;
   }
 }

@@ -29,6 +29,7 @@ model Users {
   password         String             @db.VarChar(300)
   lastLogin        DateTime?
   UsersPermissions UsersPermissions[]
+  refreshTokenCode String?  
 
   @@index([id, email])
   @@map("users")

@@ -5,19 +5,22 @@ import { IWriteUserRepository } from "@Domain/Interfaces/Repositories/Users/IWri
 import { UserWithPermissions } from "@Domain/Types/DataTypes/UserWithPermissions";
 import { compare } from "bcryptjs";
 import { inject, injectable } from "inversify";
-import { CreateAccessTokenUseCase } from "./CreateAccessToken/CreateAccessTokenUseCase";
+import { ILoginRequestDTO } from "@Applications/DTOs/Requests/Auth/ILoginRequestDTO";
+import { CreateAccessTokensUseCase } from "./CreateAccessTokensUseCase";
+import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
+import { ILoginResponseDTO } from "@Applications/DTOs/Responses/Auth/ILoginResponseDTO";
 
 @injectable()
 export class LoginUserUseCase {
   constructor(
     @inject('WriteUserRepository')
     private readonly writeUserRepository: IWriteUserRepository,
-    @inject(CreateAccessTokenUseCase)
-    private readonly createAccessTokenUseCase: CreateAccessTokenUseCase
+    @inject(CreateAccessTokensUseCase)
+    private readonly createAccessTokenUseCase: CreateAccessTokensUseCase
   ) {}
 
-  async execute(email: string, password: string) : Promise<string> { // aterar para DTO
-    let findUser = await this.writeUserRepository.getByEmail(email);
+  async execute({email, password}: ILoginRequestDTO) : Promise<ResponseDTO<ILoginResponseDTO>> {
+    const findUser = await this.writeUserRepository.getByEmail(email);
     if(!findUser) 
       throw new AppError('Email or password incorrect!', 404);
     
@@ -27,8 +30,9 @@ export class LoginUserUseCase {
 
     const user = this.validateFields(findUser);
     
-    const token = await this.createAccessTokenUseCase.execute(user);
-    return token;
+    const token = await this.createAccessTokenUseCase.createAccessToken(user);
+    const refreshToken = await this.createAccessTokenUseCase.generateRefreshToken(user);
+    return new ResponseDTO<ILoginResponseDTO>({token, refreshToken});
   }
 
   private validateFields(user: UserWithPermissions): User {
