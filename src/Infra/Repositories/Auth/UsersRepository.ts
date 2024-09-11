@@ -49,5 +49,13 @@ export class UsersRepository implements IUserRepository {
     return null;
   }
 
+  async readAll(): Promise<Users[]> {
+    return await this.repository.findMany();
+  }
+
+  async getById(id: string): Promise<Users| null> {
+    return await this.repository.findFirst({where: {id}});
+  }
+
 }
   

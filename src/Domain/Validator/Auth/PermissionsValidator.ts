@@ -20,6 +20,6 @@ export class PermissionsValidator extends GenericValidator{
 
     const regex = GenericEntityConstants.validCharsDescription;
     if (!regex.test(description)) 
-      throw new AppError(PermissionErrorMessages.InvalidCharsDescription, 404);
+      throw new AppError(PermissionErrorMessages.invalidCharsDescription, 404);
   }
 }

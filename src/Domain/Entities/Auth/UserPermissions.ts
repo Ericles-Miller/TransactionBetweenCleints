@@ -1,5 +1,5 @@
 import { Permission } from "./Permissions";
-import { BaseEntity } from "../shared/Base";
+import { BaseEntity } from "../Shared/Base";
 import { User } from "./User";
 
 export class UserPermissions extends BaseEntity {

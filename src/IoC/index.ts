@@ -7,14 +7,16 @@ import { PermissionRepository } from '@Infra/Repositories/Auth/PermissionReposit
 import { AddPermissions } from '@Applications/UseCases/Shared/AddPermissions';
 import { IUserPermissionsRepository } from '@Domain/Interfaces/Repositories/Auth/IUserPermissionsRepository';
 import { UserPermissionsRepository } from '@Infra/Repositories/Auth/UserPermissionRepository';
-import { CreateAccessTokensUseCase } from '@Applications/UseCases/Auth/CreateAccessToken/CreateAccessTokensUseCase';
 import { CredentialsToken } from '@Applications/UseCases/Shared/CredentialsToken';
 import { AuthUserRepository } from '@Infra/Repositories/Auth/AuthUserRepository';
 import { IAuthUserRepository } from '@Domain/Interfaces/Repositories/Auth/IAuthUserRepository';
 import { CreateUserUseCase } from '@Applications/UseCases/Auth/Users/CreateUserUseCase';
-import { LoginUserUseCase } from '@Applications/UseCases/Auth/CreateAccessToken/LoginUserUseCase';
-import { UpdateUserTokenUseCase } from '@Applications/UseCases/Auth/Users/UpdateUserTokenUseCase';
+import { UpdateUserTokenUseCase } from '@Applications/UseCases/Auth/AccessToken/UpdateUserTokenUseCase';
 import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
+import { ReadAllUsersUseCase } from '@Applications/UseCases/Auth/Users/ReadAllUsersUseCase';
+import { ReadUserByIdUseCase } from '@Applications/UseCases/Auth/Users/ReadUserByIdUseCase';
+import { CreateAccessTokensUseCase } from '@Applications/UseCases/Auth/AccessToken/CreateAccessToken/CreateAccessTokensUseCase';
+import { LoginUserUseCase } from '@Applications/UseCases/Auth/AccessToken/CreateAccessToken/LoginUserUseCase';
 
 export const container = new Container();
 
@@ -35,3 +37,5 @@ container.bind<LoginUserUseCase>(LoginUserUseCase).toSelf();
 container.bind<CreateAccessTokensUseCase>(CreateAccessTokensUseCase).toSelf();
 container.bind<CredentialsToken>(CredentialsToken).toSelf();
 container.bind<UpdateUserTokenUseCase>(UpdateUserTokenUseCase).toSelf();
+container.bind<ReadAllUsersUseCase>(ReadAllUsersUseCase).toSelf();
+container.bind<ReadUserByIdUseCase>(ReadUserByIdUseCase).toSelf();

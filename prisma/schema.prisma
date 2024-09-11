@@ -8,28 +8,26 @@ datasource db {
 }
 
 model Permissions {
-  id               String             @id @default(uuid())
-  description      String             @unique @db.VarChar(50)
-  createAt         DateTime           @default(now())
-  updatedAt        DateTime?
+  id              String            @id @default(uuid())
+  description     String            @unique @db.VarChar(50)
+  createAt        DateTime          @default(now())
   userPermissions UserPermissions[]
 
   @@map("permissions")
 }
 
 model Users {
-  id               String             @id @default(uuid())
-  email            String             @unique @db.VarChar(255)
-  createdAt         DateTime           @default(now())
+  id               String            @id @default(uuid())
+  name             String            @db.VarChar(255)
+  email            String            @unique @db.VarChar(255)
+  password         String            @db.VarChar(300)
+  balance          Float             @default(0.0)
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
   updatedAt        DateTime?
-  name             String             @db.VarChar(255)
-  isActive         Boolean            @default(false)
-  createdBy        String?
-  updatedBy        String?
-  password         String             @db.VarChar(300)
   lastLogin        DateTime?
-  userPermissions UserPermissions[]
-  refreshTokenCode String?  
+  userPermissions  UserPermissions[]
+  refreshTokenCode String?
 
   @@index([id, email])
   @@map("users")
@@ -38,7 +36,7 @@ model Users {
 model UserPermissions {
   id           String      @id @default(uuid())
   createdAt    DateTime    @default(now())
-  updatedAt     DateTime?    @default(now())
+  updatedAt    DateTime?   @default(now())
   permission   Permissions @relation(fields: [permissionId], references: [id], onDelete: Cascade)
   permissionId String
   user         Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -46,4 +44,17 @@ model UserPermissions {
 
   @@index([id, userId, permissionId])
   @@map("usersPermissions")
+}
+
+model Transactions {
+  id         String @id @default(uuid())
+  senderId   String
+  receiverId String
+  amount     Float
+  status     String
+  createdAt  DateTime @default(now())
+  updatedAt DateTime? 
+  
+  @@index([id, senderId, receiverId])
+  @@map("transactions")
 }
