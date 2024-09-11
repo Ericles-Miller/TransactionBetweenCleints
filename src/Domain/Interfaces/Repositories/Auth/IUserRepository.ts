@@ -8,5 +8,6 @@ export interface IUserRepository {
   checkEmailAlreadyExist(email: string) : Promise<boolean>
   findNameByEmail(email: string) : Promise<string|null>
   readAll(): Promise<Users[]>
+  getById(id: string): Promise<Users| null>
 
 }
