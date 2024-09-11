@@ -23,6 +23,7 @@ export class ReadUserByIdUseCase {
       
       const response = mapperUserResponse(user);
       return new ResponseDTO<UserResponseDTO>(response);
+      
     } catch (error) {
       if(error instanceof AppError)
         throw error;

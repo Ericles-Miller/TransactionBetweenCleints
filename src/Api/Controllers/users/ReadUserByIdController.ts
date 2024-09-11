@@ -2,7 +2,6 @@ import { ReadUserByIdUseCase } from "@Applications/UseCases/Auth/Users/ReadUserB
 import { Request, Response } from "express";
 import { container } from "IoC";
 
-
 export class ReadUserByIdController {
   async handle(request: Request, response: Response) : Promise<Response> {
     const { id } = request.params;
