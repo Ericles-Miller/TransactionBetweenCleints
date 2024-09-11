@@ -49,5 +49,9 @@ export class UsersRepository implements IUserRepository {
     return null;
   }
 
+  async readAll(): Promise<Users[]> {
+    return await this.repository.findMany();
+  }
+
 }
   

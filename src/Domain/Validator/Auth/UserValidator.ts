@@ -3,6 +3,7 @@ import { GenericValidator } from "../Shared/GenericValidator";
 import { UserConstants } from "@Domain/Constants/Auth/UserConstants";
 import { UserErrorMessages } from "@Domain/Exceptions/Errors/Auth/UserErrorMessages";
 import { GenericEntityConstants } from "@Domain/Constants/Shared/GenericEntityConstant";
+import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
 
 export class UserValidator extends GenericValidator{
 
@@ -11,18 +12,18 @@ export class UserValidator extends GenericValidator{
 
     const regex = UserConstants.validCharsEmail;
     if(!regex.test(email))
-      throw new AppError(UserErrorMessages.invalidCharsEmail, 400);
+      throw new AppError(new ResponseDTO<string>(UserErrorMessages.invalidCharsEmail), 400);
   }
 
   validateName(name: string): void {
     this.textFieldEmptyOrNull(name);
 
     if(name.length <= GenericEntityConstants.minLengthName || name.length > GenericEntityConstants.maxLengthName)
-      throw new AppError(UserErrorMessages.invalidLengthName, 400);
+      throw new AppError(new ResponseDTO<string>(UserErrorMessages.invalidLengthName), 400);
 
     const regex = GenericEntityConstants.validCharName;
     if(!regex.test(name))
-      throw new AppError(UserErrorMessages.invalidCharsName, 400);
+      throw new AppError(new ResponseDTO<string>(UserErrorMessages.invalidCharsName), 400);
   }
 
   validateRefreshTokenCode(refreshToken: string): void {
@@ -30,12 +31,12 @@ export class UserValidator extends GenericValidator{
 
     if(refreshToken.length < UserConstants.lengthRefreshTokenCode || 
         refreshToken.length > UserConstants.maxLengthRefreshTokenCode) 
-      throw new AppError(UserErrorMessages.invalidLengthRefreshTokenCode, 400);
+      throw new AppError(new ResponseDTO<string>(UserErrorMessages.invalidLengthRefreshTokenCode), 400);
   }
 
   validatePassword(password: string): void {
     if(password.length < UserConstants.minLengthPassword || password.length > UserConstants.maxLengthPassword)
-      throw new AppError(UserErrorMessages.invalidLengthPassword, 400);
+      throw new AppError(new ResponseDTO<string>(UserErrorMessages.invalidLengthPassword), 400);
 
     // verificar para fortalecer a senha 
     
@@ -43,11 +44,11 @@ export class UserValidator extends GenericValidator{
 
   validateBalance(balance: number) : void {
     if(balance < 0 || null) 
-      throw new AppError(UserErrorMessages.balanceInvalid, 400);
+      throw new AppError(new ResponseDTO<string>(UserErrorMessages.balanceInvalid), 400);
 
     const regex = UserConstants.regexBalance;
     if(!regex.test)
-      throw new AppError(UserErrorMessages.balanceInvalid, 404);
+      throw new AppError(new ResponseDTO<string>(UserErrorMessages.balanceInvalid), 404);
   }
 
 }

@@ -15,6 +15,7 @@ import { CreateUserUseCase } from '@Applications/UseCases/Auth/Users/CreateUserU
 import { LoginUserUseCase } from '@Applications/UseCases/Auth/CreateAccessToken/LoginUserUseCase';
 import { UpdateUserTokenUseCase } from '@Applications/UseCases/Auth/Users/UpdateUserTokenUseCase';
 import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
+import { ReadAllUsersUseCase } from '@Applications/UseCases/Auth/Users/ReadAllUsersUseCase';
 
 export const container = new Container();
 
@@ -35,3 +36,4 @@ container.bind<LoginUserUseCase>(LoginUserUseCase).toSelf();
 container.bind<CreateAccessTokensUseCase>(CreateAccessTokensUseCase).toSelf();
 container.bind<CredentialsToken>(CredentialsToken).toSelf();
 container.bind<UpdateUserTokenUseCase>(UpdateUserTokenUseCase).toSelf();
+container.bind<ReadAllUsersUseCase>(ReadAllUsersUseCase).toSelf();

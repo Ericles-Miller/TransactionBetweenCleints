@@ -7,5 +7,6 @@ export interface IUserRepository {
   getByEmail(email: string): Promise<UserWithPermissions| null>;
   checkEmailAlreadyExist(email: string) : Promise<boolean>
   findNameByEmail(email: string) : Promise<string|null>
+  readAll(): Promise<Users[]>
 
 }
