@@ -1,9 +1,9 @@
 import { CredentialsToken } from "@Applications/UseCases/Shared/CredentialsToken";
 import { Configuration } from "@Domain/Config";
-import { User } from "@Domain/Entities/User";
 import { inject, injectable } from "inversify";
 import jwt from 'jsonwebtoken';
 import { UpdateUserTokenUseCase } from "../Users/UpdateUserTokenUseCase";
+import { User } from "@Domain/Entities/Auth/User";
 
 
 @injectable()

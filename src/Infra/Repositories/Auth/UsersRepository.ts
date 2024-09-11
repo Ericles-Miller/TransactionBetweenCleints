@@ -1,6 +1,6 @@
 import { IUserRepository } from "@Domain/Interfaces/Repositories/Auth/IUserRepository";
 import { UserWithPermissions } from "@Domain/Types/DataTypes/UserWithPermissions";
-import { prisma } from "@Infra/Data/database";
+import { prisma } from "@Infra/DataBase/database";
 import { Users } from "@prisma/client";
 import { injectable } from "inversify";
 
@@ -31,7 +31,7 @@ export class UsersRepository implements IUserRepository {
     const user = await this.repository.findFirst({
       where: { email },
       include: {
-        usersPermissions: true
+        userPermissions: true
       }
     });
 

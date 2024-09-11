@@ -1,27 +1,27 @@
-import { User } from '@Domain/Entities/User';
 import { AppError } from '@Domain/Exceptions/Shared/AppError';
 import { IPermissionRepository } from '@Domain/Interfaces/Repositories/Auth/IPermissionsRepository';
-import { IUserRepository } from '@Domain/Interfaces/Repositories/Users/IUserRepository';
 import { inject, injectable } from 'inversify';
-import { UsersPermission } from '@Domain/Entities/UsersPermission';
+import { UserPermissions } from '@Domain/Entities/Auth/UserPermissions';
 import { Configuration } from '@Domain/Config';
 import { ISubject } from '@Domain/Interfaces/Auth/ISubject';
+import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
+import { User } from '@Domain/Entities/Auth/User';
 
 @injectable()
 export abstract class CredentialsToken {
   
   constructor(
-    @inject('ReadUserRepository')
-    private readonly readUserRepository: IUserRepository,
-    @inject('ReadPermissionRepository')
-    private readonly readPermissionRepository: IPermissionRepository,
+    @inject('UsersRepository')
+    private readonly usersRepository: IUserRepository,
+    @inject('PermissionRepository')
+    private readonly permissionRepository: IPermissionRepository,
   ) {}
 
   async generateCredentials(user: User ): Promise<ISubject> {
     const payload = {
       email: await this.generateEmailClaims(user.email),
       name: await this.generateNameClaim(user.email),
-      permissions: await this.generatePermissionsClaims(user.usersPermissions!),
+      permissions: await this.generatePermissionsClaims(user.userPermissions!),
       audience: Configuration.authApiSecrets.audience!,
       issuer: Configuration.authApiSecrets.issuer!,
     };
@@ -30,23 +30,23 @@ export abstract class CredentialsToken {
   }
 
   private async generateEmailClaims(email: string) : Promise<string> {
-    const userExists = await this.readUserRepository.checkEmailAlreadyExist(email);
+    const userExists = await this.usersRepository.checkEmailAlreadyExist(email);
     if(!userExists) 
       throw new AppError('User not found', 404);
     return email;
   }
 
   private async generateNameClaim(email: string) : Promise<string> {
-    const name = await this.readUserRepository.findNameByEmail(email);
+    const name = await this.usersRepository.findNameByEmail(email);
     if(!name)
       throw new AppError('userNot Found', 404);
     return name;
   }
 
-  private async generatePermissionsClaims(usersPermissions: UsersPermission[]): Promise<string[]> {
-    let permissions = usersPermissions.map(usersPermission => usersPermission.permissionId);
+  private async generatePermissionsClaims(userPermissions: UserPermissions[]): Promise<string[]> {
+    let permissions = userPermissions.map(usersPermission => usersPermission.permissionId);
 
-    permissions = await this.readPermissionRepository.readDescriptionsByIdsReadOnly(permissions!);
+    permissions = await this.permissionRepository.readDescriptionsByIdsReadOnly(permissions!);
     if(!permissions)
       throw new AppError('userNot Found', 404);
 

@@ -1,16 +1,17 @@
 import { hash } from "bcryptjs";
-import { BaseIsActive } from "./shared/BaseIsActive";
-import { UsersPermission } from "./UsersPermission";
+import { UserValidator } from "@Domain/Validator/Auth/UserValidator";
+import { BaseIsActive } from "../shared/BaseIsActive";
+import { UserPermissions } from "./UserPermissions";
 
+const validator = new UserValidator();
 export class User extends BaseIsActive {  
-  
   name!: string;
   email!: string; 
   password!: string; 
   lastLogin: Date | null = null; 
   createdBy: string | null = null; 
   updatedBy?: string | null = null;
-  usersPermissions?: UsersPermission[];
+  userPermissions?: UserPermissions[];
   refreshTokenCode?: string;
  
   constructor(name: string, email: string, id: string | null) {
@@ -20,19 +21,22 @@ export class User extends BaseIsActive {
   }
 
   setEmail(email:string) {
-    // validate email
+    validator.validateEmail(email);
+   
     this.email = email;
     this.setUpdatedAt();
   }
 
   setName(name: string){
-    //validate name
+    validator.validateName(name);
+    
     this.name = name;
     this.setUpdatedAt();
   }
 
   async setPassword(password: string) : Promise<void> {
-    //validate password
+    validator.validatePassword(password);
+
     const passwordHash = await hash(password, 8);
     this.password = passwordHash;
     this.setUpdatedAt();
@@ -44,6 +48,7 @@ export class User extends BaseIsActive {
   }
 
   setRefreshToken(code : string) {
+    validator.validateRefreshTokenCode(code);
     this.refreshTokenCode = code;
   }
 }

@@ -5,7 +5,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 import { router } from "./router";
 import { AppError } from "@Domain/Exceptions/Shared/AppError";
-import { checkDatabaseConnection } from "@Infra/Data/database";
+import { checkDatabaseConnection } from "@Infra/DataBase/database";
 import { Configuration } from "@Domain/Config";
 
 

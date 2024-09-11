@@ -1,7 +1,5 @@
-import { UsersPermissions } from "@prisma/client";
+import { UserPermissions } from "@prisma/client";
 
 export interface IUserPermissionsRepository {
-  create(permission: UsersPermissions): Promise<void>;
-  companyCountAdminsAsync(): Promise<number>;
-  delete(userId: string, permissionId: string): Promise<void>
+  create(usersPermission: UserPermissions[]): Promise<void>;
 }

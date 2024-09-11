@@ -1,16 +1,16 @@
 import { Permission } from "./Permissions";
-import { BaseEntity } from "./shared/Base";
+import { BaseEntity } from "../shared/Base";
 import { User } from "./User";
 
-export class UsersPermission extends BaseEntity {
+export class UserPermissions extends BaseEntity {
   userId!: string;
   permissionId!: string;
 
   readonly user!: User;
   readonly permission!: Permission;
 
-  constructor(userId: string, permissionId: string) {
-    super()
+  constructor(userId: string, permissionId: string, id: string | null) {
+    super(id)
     this.setUserId(userId)
     this.setPermissionId(permissionId)
   }

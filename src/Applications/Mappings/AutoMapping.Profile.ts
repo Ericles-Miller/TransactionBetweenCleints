@@ -1,5 +1,5 @@
-import { User } from "@Domain/Entities/User";
-import { UsersPermission } from "@Domain/Entities/UsersPermission";
+import { User } from "@Domain/Entities/Auth/User";
+import { UserPermissions } from "@Domain/Entities/Auth/UserPermissions";
 import { IMapper } from "@Domain/Interfaces/Shared/IMapper";
 import { UserWithPermissions } from "@Domain/Types/DataTypes/UserWithPermissions";
 
@@ -32,10 +32,11 @@ export class PrismaMapper<TSource, TDestination> implements IMapper<TSource, TDe
     const userMapper = new PrismaMapper<UserWithPermissions, User>();
     const user: User = userMapper.map(userWithPermissions);
   
-    user.usersPermissions = userWithPermissions.usersPermissions?.map(up => {
-      return new UsersPermission(
+    user.userPermissions = userWithPermissions.userPermissions?.map(up => {
+      return new UserPermissions(
         up.userId,
         up.permissionId,
+        null
       );
     });
   
@@ -52,10 +53,11 @@ export class PrismaMapper<TSource, TDestination> implements IMapper<TSource, TDe
       user.refreshTokenCode = prismaUser.refreshTokenCode;
       user.isActive = prismaUser.isActive;
 
-      user.usersPermissions = prismaUser.usersPermissions?.map(up => {
-        return new UsersPermission(
+      user.userPermissions = prismaUser.userPermissions?.map(up => {
+        return new UserPermissions(
           up.userId,
           up.permissionId,
+          null
         );
       });
       

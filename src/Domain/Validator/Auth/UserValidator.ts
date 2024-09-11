@@ -33,4 +33,12 @@ export class UserValidator extends GenericValidator{
       throw new AppError(UserErrorMessages.invalidLengthRefreshTokenCode, 400);
   }
 
+  validatePassword(password: string): void {
+    if(password.length < UserConstants.minLengthPassword || password.length > UserConstants.maxLengthPassword)
+      throw new AppError(UserErrorMessages.invalidLengthPassword, 400);
+
+    // verificar para fortalecer a senha 
+    
+  }
+
 }

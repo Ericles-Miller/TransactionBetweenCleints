@@ -1,5 +1,5 @@
 import { ETypePermission } from "@Domain/Enums/ETypePermissions";
-import { Permissions } from "@prisma/client";
+import { Permissions, UserPermissions } from "@prisma/client";
 
 export interface IPermissionRepository {
   listAllPermission(): Promise<Permissions[]>
