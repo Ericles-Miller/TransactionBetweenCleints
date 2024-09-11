@@ -41,4 +41,13 @@ export class UserValidator extends GenericValidator{
     
   }
 
+  validateBalance(balance: number) : void {
+    if(balance < 0 || null) 
+      throw new AppError(UserErrorMessages.balanceInvalid, 400);
+
+    const regex = UserConstants.regexBalance;
+    if(!regex.test)
+      throw new AppError(UserErrorMessages.balanceInvalid, 404);
+  }
+
 }

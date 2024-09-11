@@ -14,4 +14,6 @@ export class UserErrorMessages extends GenericErrorMessages {
 
   static invalidLengthPassword = `The password must be between ${UserConstants.minLengthPassword} and 
     ${UserConstants.maxLengthPassword} characters.`
+  
+  static balanceInvalid = 'The balance value should be than biggest 0, or contains just numbers';
 }

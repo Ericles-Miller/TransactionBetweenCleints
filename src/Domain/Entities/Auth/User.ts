@@ -9,15 +9,15 @@ export class User extends BaseIsActive {
   email!: string; 
   password!: string; 
   lastLogin: Date | null = null; 
-  createdBy: string | null = null; 
-  updatedBy?: string | null = null;
+  balance!: number;
   userPermissions?: UserPermissions[];
   refreshTokenCode?: string;
  
-  constructor(name: string, email: string, id: string | null) {
+  constructor(name: string, email: string, balance: number, id: string | null) {
     super(id)
     this.setEmail(email);
     this.setName(name);
+    this.setBalance(balance);
   }
 
   setEmail(email:string) {
@@ -50,5 +50,10 @@ export class User extends BaseIsActive {
   setRefreshToken(code : string) {
     validator.validateRefreshTokenCode(code);
     this.refreshTokenCode = code;
+  }
+
+  setBalance(balance: number) : void {
+    validator.validateBalance(balance);
+    this.balance = balance;
   }
 }

@@ -10,6 +10,8 @@ import { UserResponseDTO } from '@Applications/DTOs/Responses/Auth/Users/UserRes
 import { IPermissionRepository } from '@Domain/Interfaces/Repositories/Auth/IPermissionsRepository';
 import { PermissionErrorMessages } from '@Domain/Exceptions/Errors/Auth/PermissionErrorMessages';
 import { User } from '@Domain/Entities/Auth/User';
+import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
+import { mapperUserResponse } from '@Applications/Mappings/mapperUserResponse';
 
 @injectable()
 export class CreateUserUseCase {
@@ -22,13 +24,13 @@ export class CreateUserUseCase {
     private addPermission: AddPermissions
   ) {}
 
-  async execute({ email, name, password, permissions }: ICreateUserRequestDTO) : Promise<UserResponseDTO> {
+  async execute({ email, name, password, permissions, balance }: ICreateUserRequestDTO) : Promise<ResponseDTO<UserResponseDTO>> {
     await this.validateUser(email, permissions);
 
-    const user = new User(name, email, null);
+    const user = new User(name, email, balance, null);
     await user.setPassword(password)
         
-    const mapper = new PrismaMapper<User, Users>(); 
+    let mapper = new PrismaMapper<User, Users>(); 
     let prismaUser = mapper.map(user);
     
     prismaUser = await this.usersRepository.create(prismaUser);  
@@ -36,8 +38,9 @@ export class CreateUserUseCase {
     await this.addPermission.execute(prismaUser.id, permissions);
 
     user.setCleanUpdatedAt();
-    return plainToInstance(UserResponseDTO, user);
+    const response = mapperUserResponse(user);
 
+    return new ResponseDTO<UserResponseDTO>(response);
   }
 
   private async validateUser(email:string, permissions: string[]) : Promise<void> {
