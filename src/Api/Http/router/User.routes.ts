@@ -1,5 +1,5 @@
 import { LoginUserController } from "@Api/Controllers/auth/LoginController";
-import { CreateUserController } from "@Api/Controllers/auth/CreateUserController";
+import { CreateUserController } from "@Api/Controllers/users/CreateUserController";
 import { Router } from "express";
 
 export const userRouters = Router();

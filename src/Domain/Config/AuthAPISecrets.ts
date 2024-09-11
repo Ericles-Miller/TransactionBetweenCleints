@@ -1,4 +1,4 @@
-import { AppError } from "@Domain/Exceptions/AppError";
+import { AppError } from "@Domain/Exceptions/Shared/AppError";
 
 export class AuthAPISecrets {
   secretKey: string;

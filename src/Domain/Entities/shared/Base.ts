@@ -17,6 +17,9 @@ export abstract class BaseEntity {
 
   }
 
+  setCleanUpdatedAt() {
+    this.updatedAt = null;
+  }
   setUpdatedAt(): void {
     this.updatedAt = new Date();
   }

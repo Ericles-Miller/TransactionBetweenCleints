@@ -1,5 +1,5 @@
-import { User } from "@Domain/Entities/User";
-import { AppError } from "@Domain/Exceptions/AppError";
+import { User } from "@Domain/Entities/Auth/User";
+import { AppError } from "@Domain/Exceptions/Shared/AppError";
 import { AuthUserRepository } from "@Infra/Repositories/Auth/AuthUserRepository";
 import { inject, injectable } from "inversify";
 
