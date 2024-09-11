@@ -1,6 +1,6 @@
 import { hash } from "bcryptjs";
 import { UserValidator } from "@Domain/Validator/Auth/UserValidator";
-import { BaseIsActive } from "../shared/BaseIsActive";
+import { BaseIsActive } from "../Shared/BaseIsActive";
 import { UserPermissions } from "./UserPermissions";
 
 const validator = new UserValidator();

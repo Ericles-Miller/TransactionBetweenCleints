@@ -46,6 +46,9 @@ export class CreateUserUseCase {
     if(user)
       throw new AppError('User already exists!', 400);
 
+    if(permissions.length === 0)
+      throw new AppError(PermissionErrorMessages.permissionsNull, 400);
+
     const findPermissions = await this.permissionRepository.readAllIdsReadOnly(permissions);
     if(findPermissions.length !== permissions.length) 
       throw new AppError(PermissionErrorMessages.arrayPermissionsError, 400);
