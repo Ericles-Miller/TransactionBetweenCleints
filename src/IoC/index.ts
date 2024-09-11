@@ -1,13 +1,13 @@
 import { Container } from 'inversify';
 
-import { IWriteUserRepository } from '@Domain/Interfaces/Repositories/Users/IWriteUserRepository';
+import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
 import { UsersRepository } from '@Infra/Repositories/Users/UsersRepository';
-import { IReadUserRepository } from '@Domain/Interfaces/Repositories/Users/IReadUserRepository';
-import { IReadPermissionRepository } from '@Domain/Interfaces/Repositories/Auth/Permissions/IReadPermissionsRepository';
+import { IUserRepository } from '@Domain/Interfaces/Repositories/Users/IUserRepository';
+import { IPermissionRepository } from '@Domain/Interfaces/Repositories/Auth/IPermissionsRepository';
 import { PermissionRepository } from '@Infra/Repositories/PermissionRepository';
 
 import { AddPermissions } from '@Applications/UseCases/Shared/AddPermissions';
-import { IWriteUserPermissionsRepository } from '@Domain/Interfaces/Repositories/Auth/UserPermissions/IWriteUserPermissionsRepository';
+import { IUserPermissionsRepository } from '@Domain/Interfaces/Repositories/Auth/IUserPermissionsRepository';
 import { UserPermissionRepository } from '@Infra/Repositories/UserPermission/UserPermissionRepository';
 import { CreateAccessTokensUseCase } from '@Applications/UseCases/Auth/CreateAccessToken/CreateAccessTokensUseCase';
 import { CredentialsToken } from '@Applications/UseCases/Shared/CredentialsToken';
@@ -20,14 +20,14 @@ import { UpdateUserTokenUseCase } from '@Applications/UseCases/Auth/Users/Update
 export const container = new Container();
 
 /// interfaces
-container.bind<IWriteUserRepository>('WriteUserRepository').to(UsersRepository).inSingletonScope();
-container.bind<IReadUserRepository>('ReadUserRepository').to(UsersRepository).inSingletonScope();
+container.bind<IUserRepository>('WriteUserRepository').to(UsersRepository).inSingletonScope();
+container.bind<IUserRepository>('ReadUserRepository').to(UsersRepository).inSingletonScope();
 
 container.bind<AddPermissions>(AddPermissions).toSelf();
 
 // repositories
-container.bind<IReadPermissionRepository>('ReadPermissionRepository').to(PermissionRepository).inSingletonScope();
-container.bind<IWriteUserPermissionsRepository>('WriteUserPermissionRepository').to(UserPermissionRepository);
+container.bind<IPermissionRepository>('ReadPermissionRepository').to(PermissionRepository).inSingletonScope();
+container.bind<IUserPermissionsRepository>('WriteUserPermissionRepository').to(UserPermissionRepository);
 container.bind<IAuthUserRepository>('AuthUserRepository').to(AuthUserRepository);
 
 

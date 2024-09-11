@@ -1,7 +1,7 @@
 import { UsersPermission } from "@Domain/Entities/UsersPermission";
-import { AppError } from "@Domain/Exceptions/AppError";
-import { IReadPermissionRepository } from "@Domain/Interfaces/Repositories/Auth/Permissions/IReadPermissionsRepository";
-import { IWriteUserPermissionsRepository } from "@Domain/Interfaces/Repositories/Auth/UserPermissions/IWriteUserPermissionsRepository";
+import { AppError } from "@Domain/Exceptions/Shared/AppError";
+import { IPermissionRepository } from "@Domain/Interfaces/Repositories/Auth/IPermissionsRepository";
+import { IUserPermissionsRepository } from "@Domain/Interfaces/Repositories/Auth/IUserPermissionsRepository";
 import { Users } from "@prisma/client";
 import { inject, injectable } from "inversify";
 
@@ -9,9 +9,9 @@ import { inject, injectable } from "inversify";
 export class AddPermissions {
   constructor(
     @inject('ReadPermissionRepository')
-    private readonly readPermissionRepository: IReadPermissionRepository,
+    private readonly readPermissionRepository: IPermissionRepository,
     @inject('WriteUserPermissionRepository')
-    private readonly writeUserPermissionRepository: IWriteUserPermissionsRepository
+    private readonly writeUserPermissionRepository: IUserPermissionsRepository
   ) {}
 
   async execute(user: Users, permissions: string[]) : Promise<void> {

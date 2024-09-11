@@ -14,4 +14,7 @@ export class PermissionConstants {
   static clientMarketing = 'Client.Marketing';
   static clientSupport = 'Client.Support';
   static clientTechnician = 'Client.Technician';
+
+  static minLength = 3;
+  static maxLength = 50;
 }

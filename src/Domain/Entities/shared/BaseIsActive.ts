@@ -1,4 +1,4 @@
-import { AppError } from "@Domain/Exceptions/AppError";
+import { AppError } from "@Domain/Exceptions/Shared/AppError";
 import { BaseEntity } from "./Base";
 
 export abstract class BaseIsActive extends BaseEntity {

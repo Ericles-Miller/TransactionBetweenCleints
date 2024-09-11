@@ -1,11 +1,11 @@
 import { injectable } from "inversify";
 import { Permissions } from "@prisma/client";
-import { IReadPermissionRepository } from "@Domain/Interfaces/Repositories/Auth/Permissions/IReadPermissionsRepository";
+import { IPermissionRepository } from "@Domain/Interfaces/Repositories/Auth/IPermissionsRepository";
 import { prisma } from "@Infra/Data/database";
 import { ETypePermission } from "@Domain/Enums/ETypePermissions";
 
 @injectable()
-export class PermissionRepository implements IReadPermissionRepository {
+export class PermissionRepository implements IPermissionRepository {
   private readonly repository = prisma.permissions;
 
   async readAllWithFilterReadOnly(type: ETypePermission): Promise<Permissions[]> {

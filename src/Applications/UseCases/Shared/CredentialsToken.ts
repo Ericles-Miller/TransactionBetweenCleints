@@ -1,7 +1,7 @@
 import { User } from '@Domain/Entities/User';
-import { AppError } from '@Domain/Exceptions/AppError';
-import { IReadPermissionRepository } from '@Domain/Interfaces/Repositories/Auth/Permissions/IReadPermissionsRepository';
-import { IReadUserRepository } from '@Domain/Interfaces/Repositories/Users/IReadUserRepository';
+import { AppError } from '@Domain/Exceptions/Shared/AppError';
+import { IPermissionRepository } from '@Domain/Interfaces/Repositories/Auth/IPermissionsRepository';
+import { IUserRepository } from '@Domain/Interfaces/Repositories/Users/IUserRepository';
 import { inject, injectable } from 'inversify';
 import { UsersPermission } from '@Domain/Entities/UsersPermission';
 import { Configuration } from '@Domain/Config';
@@ -12,9 +12,9 @@ export abstract class CredentialsToken {
   
   constructor(
     @inject('ReadUserRepository')
-    private readonly readUserRepository: IReadUserRepository,
+    private readonly readUserRepository: IUserRepository,
     @inject('ReadPermissionRepository')
-    private readonly readPermissionRepository: IReadPermissionRepository,
+    private readonly readPermissionRepository: IPermissionRepository,
   ) {}
 
   async generateCredentials(user: User ): Promise<ISubject> {

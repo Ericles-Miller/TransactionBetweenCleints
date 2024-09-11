@@ -1,7 +1,7 @@
 import { PrismaMapper } from "@Applications/Mappings/AutoMapping.Profile";
 import { User } from "@Domain/Entities/User";
-import { AppError } from "@Domain/Exceptions/AppError";
-import { IWriteUserRepository } from "@Domain/Interfaces/Repositories/Users/IWriteUserRepository";
+import { AppError } from "@Domain/Exceptions/Shared/AppError";
+import { IUserRepository } from "@Domain/Interfaces/Repositories/Auth/IUserRepository";
 import { UserWithPermissions } from "@Domain/Types/DataTypes/UserWithPermissions";
 import { compare } from "bcryptjs";
 import { inject, injectable } from "inversify";
@@ -14,7 +14,7 @@ import { ILoginResponseDTO } from "@Applications/DTOs/Responses/Auth/ILoginRespo
 export class LoginUserUseCase {
   constructor(
     @inject('WriteUserRepository')
-    private readonly writeUserRepository: IWriteUserRepository,
+    private readonly writeUserRepository: IUserRepository,
     @inject(CreateAccessTokensUseCase)
     private readonly createAccessTokenUseCase: CreateAccessTokensUseCase
   ) {}

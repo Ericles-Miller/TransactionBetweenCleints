@@ -1,12 +1,11 @@
-import { IReadUserRepository } from "@Domain/Interfaces/Repositories/Users/IReadUserRepository";
-import { IWriteUserRepository } from "@Domain/Interfaces/Repositories/Users/IWriteUserRepository";
+import { IUserRepository } from "@Domain/Interfaces/Repositories/Auth/IUserRepository";
 import { UserWithPermissions } from "@Domain/Types/DataTypes/UserWithPermissions";
 import { prisma } from "@Infra/Data/database";
 import { Users } from "@prisma/client";
 import { injectable } from "inversify";
 
 @injectable()
-export class UsersRepository implements IWriteUserRepository, IReadUserRepository {
+export class UsersRepository implements IUserRepository {
   private repository = prisma.users;
 
   async create(user: Users): Promise<Users> {

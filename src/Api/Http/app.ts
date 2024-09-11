@@ -4,7 +4,7 @@ import express, { NextFunction, Request, Response } from "express";
 import * as dotenv from 'dotenv';
 dotenv.config();
 import { router } from "./router";
-import { AppError } from "@Domain/Exceptions/AppError";
+import { AppError } from "@Domain/Exceptions/Shared/AppError";
 import { checkDatabaseConnection } from "@Infra/Data/database";
 import { Configuration } from "@Domain/Config";
 
