@@ -1,9 +1,13 @@
-export class AppError {
-  public readonly message: string;
-  public readonly statusCode: number;
+import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
 
-  constructor(message: string, statusCode: number) {
+export class AppError {
+  public readonly message: ResponseDTO<string>;
+  public readonly statusCode: number;
+  public readonly success: boolean;
+
+  constructor(message: ResponseDTO<string>, statusCode: number) {
     this.message = message;
     this.statusCode = statusCode;
+    this.success = false;
   }
 }

@@ -4,6 +4,6 @@ import { GenericErrorMessages } from "@Domain/Exceptions/Shared/GenericErrorMess
 export class GenericValidator {
   textFieldEmptyOrNull(text: string) : void {
     if (!text || text.trim().length === 0) 
-      throw new AppError(GenericErrorMessages.ItCannotBeEmpty, 400);
+      throw new AppError(GenericErrorMessages.itCannotBeEmpty, 400);
   }
 }
