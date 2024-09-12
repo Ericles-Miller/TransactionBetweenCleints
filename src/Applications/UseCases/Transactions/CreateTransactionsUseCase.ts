@@ -24,7 +24,7 @@ export class CreateTransactionsUseCase {
     private updateBalanceUserUseCase: UpdateBalanceUserUseCase,
 
     @inject(MapperTransactions)
-    private mapperTransactions: MapperTransactions
+    private mapperTransactions: MapperTransactions,
   ) {}
 
   async execute({ amount, receivedId, senderId }: TransactionRequestDTO) : Promise<ResponseDTO<TransactionResponseDTO>> {

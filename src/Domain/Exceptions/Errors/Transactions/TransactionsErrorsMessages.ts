@@ -6,4 +6,5 @@ export class TransactionsErrorsMessages {
   static insufficientBalance = 'The account balance is less than the transaction.'
   static sameUser = 'it is not possible to make a transaction for the same user.';
   static invalidCode = 'Does not exists transactions with this code.';
+  static InverseTransaction = 'The transaction has already been reversed.';
 }

@@ -18,12 +18,14 @@ import { ReadUserByIdUseCase } from '@Applications/UseCases/Auth/Users/ReadUserB
 import { CreateAccessTokensUseCase } from '@Applications/UseCases/Auth/AccessToken/CreateAccessToken/CreateAccessTokensUseCase';
 import { LoginUserUseCase } from '@Applications/UseCases/Auth/AccessToken/CreateAccessToken/LoginUserUseCase';
 import { UpdateIsActiveUseCase } from '@Applications/UseCases/Auth/Users/UpdateIsActiveUseCase';
-import { MapperUser } from '@Applications/Mappings/Users/MapperUser';
 import { ITransactionsRepository } from '@Domain/Interfaces/Repositories/Transactions/ITransactionsRepository';
 import { TransactionsRepository } from '@Infra/Repositories/Transactions/TransactionsRepository';
 import { MapperTransactions } from '@Applications/Mappings/Transactions/MapperTransactions';
 import { CreateTransactionsUseCase } from '@Applications/UseCases/Transactions/CreateTransactionsUseCase';
 import { UpdateBalanceUserUseCase } from '@Applications/UseCases/Auth/Users/UpdateBalanceUserUseCase';
+import { CreateTransactionsReversalUseCase } from '@Applications/UseCases/Transactions/CreateTransactionsReversalUseCase';
+import { TransactionReversalRepository } from '@Infra/Repositories/Transactions/TransactionReversalRepository';
+import { ITransactionReversalRepository } from '@Domain/Interfaces/Repositories/Transactions/ITransactionReversalRepository';
 
 export const container = new Container();
 
@@ -36,7 +38,7 @@ container.bind<IUserRepository>('UsersRepository').to(UsersRepository).inSinglet
 container.bind<IPermissionRepository>('PermissionRepository').to(PermissionRepository).inSingletonScope();
 container.bind<IUserPermissionsRepository>('UserPermissionsRepository').to(UserPermissionsRepository);
 container.bind<IAuthUserRepository>('AuthUserRepository').to(AuthUserRepository);
-
+container.bind<ITransactionReversalRepository>('TransactionReversalRepository').to(TransactionReversalRepository);
 
 /// useCases
 ///users
@@ -55,3 +57,4 @@ container.bind<UpdateUserTokenUseCase>(UpdateUserTokenUseCase).toSelf();
 /// transactions
 container.bind<MapperTransactions>(MapperTransactions).toSelf();
 container.bind<CreateTransactionsUseCase>(CreateTransactionsUseCase).toSelf();
+container.bind<CreateTransactionsReversalUseCase>(CreateTransactionsReversalUseCase).toSelf();
