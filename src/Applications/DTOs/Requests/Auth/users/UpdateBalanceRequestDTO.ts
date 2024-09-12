@@ -1,7 +1,7 @@
 import { Users } from "@prisma/client";
 
 
-export class UPdateBalanceRequestDTO {
+export class UpdateBalanceRequestDTO {
   receivedId!: string;
   sender!: Users;
   amount!: number;

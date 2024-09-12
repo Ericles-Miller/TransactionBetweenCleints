@@ -1,4 +1,4 @@
-import { UPdateBalanceRequestDTO } from "@Applications/DTOs/Requests/Auth/users/UPdateBalanceRequestDTO";
+import { UpdateBalanceRequestDTO } from "@Applications/DTOs/Requests/Auth/users/UpdateBalanceRequestDTO";
 import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
 import { UserErrorMessages } from "@Domain/Exceptions/Errors/Auth/UserErrorMessages";
 import { AppError } from "@Domain/Exceptions/Shared/AppError";
@@ -12,7 +12,7 @@ export class UpdateBalanceUserUseCase {
     private usersRepository: IUserRepository,
   ) {}
 
-  async execute({ receivedId, amount, sender }: UPdateBalanceRequestDTO): Promise<boolean> {
+  async execute({ receivedId, amount, sender }: UpdateBalanceRequestDTO): Promise<boolean> {
     try {
       const user = await this.usersRepository.getById(receivedId);
       if(!user)

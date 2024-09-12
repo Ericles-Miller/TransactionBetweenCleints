@@ -12,6 +12,9 @@ export class TransactionReversal {
   constructor(id: string | null, transactionId: string, reason: string) {
     if(id === null)
       this.id = uuid();
+
+    this.setReason(reason);
+    this.setTransactionId(transactionId);
   }
 
   setTransactionId(transactionId : string) : void {

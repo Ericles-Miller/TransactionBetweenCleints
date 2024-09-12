@@ -8,8 +8,9 @@ import { AppError } from "@Domain/Exceptions/Shared/AppError";
 import { IUserRepository } from "@Domain/Interfaces/Repositories/Auth/IUserRepository";
 import { ITransactionReversalRepository } from "@Domain/Interfaces/Repositories/Transactions/ITransactionReversalRepository";
 import { ITransactionsRepository } from "@Domain/Interfaces/Repositories/Transactions/ITransactionsRepository";
-import { Transactions, TransactionsReversals } from "@prisma/client";
+import { Transactions, TransactionsReversals, Users } from "@prisma/client";
 import { inject, injectable } from "inversify";
+import { UpdateBalanceUserUseCase } from "../Auth/Users/UpdateBalanceUserUseCase";
 
 @injectable()
 export class CreateTransactionsReversalUseCase {
@@ -24,6 +25,9 @@ export class CreateTransactionsReversalUseCase {
 
     @inject('TransactionReversalRepository')
     private readonly transactionReversalRepository : ITransactionReversalRepository,
+
+    @inject(UpdateBalanceUserUseCase)
+    private updateBalanceUserUseCase: UpdateBalanceUserUseCase,
   ){}
 
   async execute({code, reason}: TransactionReversalRequestDTO) : Promise<ResponseDTO<TransactionsReversals>> {
@@ -31,17 +35,46 @@ export class CreateTransactionsReversalUseCase {
     if(!transaction)
       throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.invalidCode), 404);
     
-    this.validateReversalTransaction(transaction);
+    const sender = await this.validateReversalTransaction(transaction);
 
     const transactionsReversal = new TransactionReversal(null, transaction.id, reason);
     const mapperTransactionReversal = this.mapperTransactions.transactionReversalToPrisma(transactionsReversal);
 
-    const response = await this.transactionReversalRepository.create(mapperTransactionReversal);
+    const error = await this.updateBalanceUserUseCase.execute({
+      receivedId: transaction.senderId, amount: transaction.amount, sender,
+    });
 
-    return new ResponseDTO<TransactionsReversals>(response);
+    try {
+      if(error) {
+        throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.TransactInverseFailed), 400);
+      } else {
+        transaction.status = 'REVERSED';
+        transaction.updatedAt = new Date();
+        await this.transactionsRepository.updateStatus(transaction.id, transaction);
+      } 
+      const response = await this.transactionReversalRepository.create(mapperTransactionReversal);
+      return new ResponseDTO<TransactionsReversals>(response);
+    } catch {
+      const newSender = await this.usersRepository.getById(transaction.senderId);
+      if(!newSender)
+        throw new AppError(new ResponseDTO<string>(UserErrorMessages.invalidId), 400);
+
+      const error = await this.updateBalanceUserUseCase.execute({
+        receivedId: transaction.receiverId, amount: transaction.amount, sender: newSender,
+      });
+
+      if(error)
+        throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.unexpectedReverse), 400);
+
+      transaction.status = 'FAILED';
+      transaction.updatedAt = new Date;
+      await this.transactionsRepository.updateStatus(transaction.id, transaction);
+
+      throw new AppError(new ResponseDTO<string>('Reverse transact error. the amount value account was returned'), 400);
+    }
   }
 
-  private async validateReversalTransaction(transaction: Transactions) : Promise<void> {
+  private async validateReversalTransaction(transaction: Transactions) : Promise<Users> {
     const received = await this.usersRepository.getById(transaction.receiverId);
     if(!received)
       throw new AppError(new ResponseDTO<string>(UserErrorMessages.invalidId), 400);
@@ -61,5 +94,7 @@ export class CreateTransactionsReversalUseCase {
 
     if(transaction.status === 'REVERSED')
       throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.InverseTransaction), 400);
+
+    return received;
   }
 }

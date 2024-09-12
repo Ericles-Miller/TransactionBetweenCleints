@@ -17,5 +17,4 @@ export class TransactionsRepository implements ITransactionsRepository {
   async findTransactionByCode(code: string): Promise<Transactions | null> {
     return await this.repository.findFirst({where: { code }});
   }
-
 }
