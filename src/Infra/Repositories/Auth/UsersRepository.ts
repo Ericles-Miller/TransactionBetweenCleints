@@ -57,5 +57,22 @@ export class UsersRepository implements IUserRepository {
     return await this.repository.findFirst({where: {id}});
   }
 
+  async updateBalance(id: string, balance: number): Promise<void> {
+    await this.repository.update({ where: {id}, data: { balance, updatedAt: new Date}  });
+  }
+  async checkIdExists(id: string): Promise<boolean> {
+    const user = await this.repository.count({ where: {id} });
+    return user !== 0 ? true : false
+  }
+
+  async getNameById(id: string): Promise<string> {
+    const context = await this.repository.findFirst({
+      where: {id},
+      select: {name: true}
+    })
+
+    return context?.name ? context.name : '';
+  }
+
 }
   
