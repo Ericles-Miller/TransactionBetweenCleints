@@ -45,3 +45,16 @@ model UserPermissions {
   @@index([id, userId, permissionId])
   @@map("usersPermissions")
 }
+
+model Transactions {
+  id         String @id @default(uuid())
+  senderId   String
+  receiverId String
+  amount     Float
+  status     String
+  createdAt  DateTime @default(now())
+  updatedAt DateTime? 
+  
+  @@index([id, senderId, receiverId])
+  @@map("transactions")
+}

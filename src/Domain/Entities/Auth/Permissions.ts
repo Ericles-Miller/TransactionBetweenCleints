@@ -1,12 +1,12 @@
-import { BaseEntity } from "./shared/Base";
-import { UsersPermission } from "./UserPermissions";
+import { BaseEntity } from "../Shared/Base";
+import { UserPermissions } from "./UserPermissions";
 
 export class Permission extends BaseEntity {
   description!: string;
-  userPermissions?: UsersPermission[];
+  userPermissions?: UserPermissions[];
 
-  constructor(description: string) {
-    super()
+  constructor(description: string, id: string | null) {
+    super(id)
     this.setDescription(description);
   }
 

@@ -4,7 +4,6 @@ import { container } from "IoC";
 
 
 export class CreateUserController {
-
   async handle(request: Request, response: Response) : Promise<Response> {
     const {
       email, name, password, permissions, balance,
@@ -13,7 +12,7 @@ export class CreateUserController {
     const useCase = container.get(CreateUserUseCase);
 
     const user = await useCase.execute({email, name, password, permissions, balance});
-    const uri = `api/v1/users/${user.id}`;
+    const uri = `api/v1/users/${user.data?.id}`;
     
     return response.status(201).location(uri).json(user);
   }

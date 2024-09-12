@@ -3,7 +3,6 @@ import { PrismaMapper } from '@Applications/Mappings/AutoMapping.Profile';
 import { AppError } from '@Domain/Exceptions/Shared/AppError';
 import { Users } from '@prisma/client';
 import { inject, injectable } from 'inversify';
-import { plainToInstance } from 'class-transformer';
 import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
 import { AddPermissions } from '@Applications/UseCases/Shared/AddPermissions';
 import { UserResponseDTO } from '@Applications/DTOs/Responses/Auth/Users/UserResponseDTO';
@@ -40,6 +39,8 @@ export class CreateUserUseCase {
       await this.addPermission.execute(prismaUser.id, permissions);
 
       user.setCleanUpdatedAt();
+      prismaUser = await this.usersRepository.updateUpdateAt(prismaUser.id, user.updatedAt);
+
       const response = mapperUserResponse(prismaUser);
 
       return new ResponseDTO<UserResponseDTO>(response);
