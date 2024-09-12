@@ -4,9 +4,8 @@ export type UserWithPermissions = {
   createdAt: Date;
   updatedAt: Date | null;
   name: string;
+  balance: number;
   isActive: boolean;
-  createdBy: string | null;
-  updatedBy: string | null;
   password: string;
   lastLogin: Date | null;
   refreshTokenCode?: string;

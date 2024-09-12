@@ -17,25 +17,41 @@ import { ReadAllUsersUseCase } from '@Applications/UseCases/Auth/Users/ReadAllUs
 import { ReadUserByIdUseCase } from '@Applications/UseCases/Auth/Users/ReadUserByIdUseCase';
 import { CreateAccessTokensUseCase } from '@Applications/UseCases/Auth/AccessToken/CreateAccessToken/CreateAccessTokensUseCase';
 import { LoginUserUseCase } from '@Applications/UseCases/Auth/AccessToken/CreateAccessToken/LoginUserUseCase';
+import { UpdateIsActiveUseCase } from '@Applications/UseCases/Auth/Users/UpdateIsActiveUseCase';
+import { MapperUser } from '@Applications/Mappings/Users/MapperUser';
+import { ITransactionsRepository } from '@Domain/Interfaces/Repositories/Transactions/ITransactionsRepository';
+import { TransactionsRepository } from '@Infra/Repositories/Transactions/TransactionsRepository';
+import { MapperTransactions } from '@Applications/Mappings/Transactions/MapperTransactions';
+import { CreateTransactionsUseCase } from '@Applications/UseCases/Transactions/CreateTransactionsUseCase';
+import { UpdateBalanceUserUseCase } from '@Applications/UseCases/Auth/Users/UpdateBalanceUserUseCase';
 
 export const container = new Container();
 
 /// interfaces
-container.bind<IUserRepository>('UsersRepository').to(UsersRepository).inSingletonScope();
-
 container.bind<AddPermissions>(AddPermissions).toSelf();
 
 // repositories
+container.bind<ITransactionsRepository>('TransactionsRepository').to(TransactionsRepository).inSingletonScope();
+container.bind<IUserRepository>('UsersRepository').to(UsersRepository).inSingletonScope();
 container.bind<IPermissionRepository>('PermissionRepository').to(PermissionRepository).inSingletonScope();
 container.bind<IUserPermissionsRepository>('UserPermissionsRepository').to(UserPermissionsRepository);
 container.bind<IAuthUserRepository>('AuthUserRepository').to(AuthUserRepository);
 
 
 /// useCases
+///users
 container.bind<CreateUserUseCase>(CreateUserUseCase).toSelf();
+container.bind<ReadAllUsersUseCase>(ReadAllUsersUseCase).toSelf();
+container.bind<ReadUserByIdUseCase>(ReadUserByIdUseCase).toSelf();
+container.bind<UpdateBalanceUserUseCase>(UpdateBalanceUserUseCase).toSelf();
+container.bind<UpdateIsActiveUseCase>(UpdateIsActiveUseCase).toSelf();
+
+//auth
 container.bind<LoginUserUseCase>(LoginUserUseCase).toSelf();
 container.bind<CreateAccessTokensUseCase>(CreateAccessTokensUseCase).toSelf();
 container.bind<CredentialsToken>(CredentialsToken).toSelf();
 container.bind<UpdateUserTokenUseCase>(UpdateUserTokenUseCase).toSelf();
-container.bind<ReadAllUsersUseCase>(ReadAllUsersUseCase).toSelf();
-container.bind<ReadUserByIdUseCase>(ReadUserByIdUseCase).toSelf();
+
+/// transactions
+container.bind<MapperTransactions>(MapperTransactions).toSelf();
+container.bind<CreateTransactionsUseCase>(CreateTransactionsUseCase).toSelf();

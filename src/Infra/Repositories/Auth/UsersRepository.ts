@@ -20,13 +20,6 @@ export class UsersRepository implements IUserRepository {
     return user !== 0 ? true : false
   }
 
-  async setUserTrue(id: string): Promise<void> {
-    await this.repository.update({
-      data: {isActive : true},
-      where: { id}
-    });
-  }
-
   async getByEmail(email: string): Promise<UserWithPermissions | null> {
     const user = await this.repository.findFirst({
       where: { email },
@@ -57,5 +50,28 @@ export class UsersRepository implements IUserRepository {
     return await this.repository.findFirst({where: {id}});
   }
 
+  async updateIsActive(id: string, isActive: boolean) : Promise<void> {
+    await this.repository.update({ where: {id}, data: {isActive, updatedAt: new Date()}});
+  }
+  async updateBalance(id: string, balance: number): Promise<void> {
+    await this.repository.update({ where: {id}, data: { balance, updatedAt: new Date}  });
+  }
+  async checkIdExists(id: string): Promise<boolean> {
+    const user = await this.repository.count({ where: {id} });
+    return user !== 0 ? true : false
+  }
+
+  async getNameById(id: string): Promise<string> {
+    const context = await this.repository.findFirst({
+      where: {id},
+      select: {name: true}
+    })
+
+    return context?.name ? context.name : '';
+  }
+
+  async updateUpdateAt(id: string, updatedAt: null|Date) :Promise<Users> {
+    return await this.repository.update({where: {id}, data: {updatedAt}});
+  }
 }
   

@@ -16,10 +16,14 @@ export class UserErrorMessages extends GenericErrorMessages {
   static invalidLengthPassword = `The password must be between ${UserConstants.minLengthPassword} and 
     ${UserConstants.maxLengthPassword} characters.`
   
-  static balanceInvalid = 'The balance value should be than biggest 0, or contains just numbers';
+  static balanceInvalid = 'The balance value should be than biggest 0, or contains just numbers.';
 
-  static unexpectedReadAll = `${GenericErrorMessages.unexpectedServerError} to read all users`;
-  static unexpectedCreateUser = `${GenericErrorMessages.unexpectedServerError} to create a new User`;
-  static invalidId = 'User does not exists with identifier';
-  static unexpectedReadById = `${GenericErrorMessages.unexpectedServerError} to read user by Id`;
+  static unexpectedReadAll = `${GenericErrorMessages.unexpectedServerError} to read all users.`;
+  static unexpectedCreateUser = `${GenericErrorMessages.unexpectedServerError} to create a new User.`;
+  static invalidId = 'User does not exists with identifier.';
+  static unexpectedReadById = `${GenericErrorMessages.unexpectedServerError} to read user by Id.`;
+  static unexpectedUpdateBalance = `${GenericErrorMessages.unexpectedServerError} to update balance.`;
+  static userInactive = 'The user is inactive.';
+  static unexpectedUpdateIsActive = `${GenericErrorMessages.unexpectedServerError} to updated is active`;
+
 }
