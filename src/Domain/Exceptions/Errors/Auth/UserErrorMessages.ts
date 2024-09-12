@@ -22,4 +22,5 @@ export class UserErrorMessages extends GenericErrorMessages {
   static unexpectedCreateUser = `${GenericErrorMessages.unexpectedServerError} to create a new User`;
   static invalidId = 'User does not exists with identifier';
   static unexpectedReadById = `${GenericErrorMessages.unexpectedServerError} to read user by Id`;
+  static unexpectedUpdateIsActive = `${GenericErrorMessages.unexpectedServerError} to updated is active`;
 }

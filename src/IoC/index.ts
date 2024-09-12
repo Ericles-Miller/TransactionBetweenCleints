@@ -17,6 +17,8 @@ import { ReadAllUsersUseCase } from '@Applications/UseCases/Auth/Users/ReadAllUs
 import { ReadUserByIdUseCase } from '@Applications/UseCases/Auth/Users/ReadUserByIdUseCase';
 import { CreateAccessTokensUseCase } from '@Applications/UseCases/Auth/AccessToken/CreateAccessToken/CreateAccessTokensUseCase';
 import { LoginUserUseCase } from '@Applications/UseCases/Auth/AccessToken/CreateAccessToken/LoginUserUseCase';
+import { UpdateIsActiveUseCase } from '@Applications/UseCases/Auth/Users/UpdateIsActiveUseCase';
+import { MapperUser } from '@Applications/Mappings/Users/MapperUser';
 
 export const container = new Container();
 
@@ -39,3 +41,4 @@ container.bind<CredentialsToken>(CredentialsToken).toSelf();
 container.bind<UpdateUserTokenUseCase>(UpdateUserTokenUseCase).toSelf();
 container.bind<ReadAllUsersUseCase>(ReadAllUsersUseCase).toSelf();
 container.bind<ReadUserByIdUseCase>(ReadUserByIdUseCase).toSelf();
+container.bind<UpdateIsActiveUseCase>(UpdateIsActiveUseCase).toSelf();

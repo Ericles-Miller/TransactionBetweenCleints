@@ -1,5 +1,7 @@
 import { AppError } from "@Domain/Exceptions/Shared/AppError";
 import { BaseEntity } from "./Base";
+import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
+import { GenericErrorMessages } from "@Domain/Exceptions/Shared/GenericErrorMessages";
 
 export abstract class BaseIsActive extends BaseEntity {
   isActive!: boolean; 
@@ -7,14 +9,18 @@ export abstract class BaseIsActive extends BaseEntity {
   constructor(id: string | null) {
     super(id);
   }
-  protected activate() : void
-  {
-    this.isActive ? new AppError("Is already active", 400) : true;
+  protected activate() : void {
+    if(this.isActive)
+      throw new AppError(new ResponseDTO<string>(GenericErrorMessages.isActive), 400);
+   
+    this.isActive = true;
   }        
     
-  protected deactivate() : void
-  {
-    this.isActive ? false : new AppError("Is already inactive", 400);
+  protected deactivate() : void {
+    if(!this.isActive)
+      throw new AppError(new ResponseDTO<string>(GenericErrorMessages.isInactive), 400);
+
+    this.isActive = false;
   }
 
   public setIsActive(status : boolean) : void {
