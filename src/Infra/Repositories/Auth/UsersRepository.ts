@@ -74,5 +74,8 @@ export class UsersRepository implements IUserRepository {
     return context?.name ? context.name : '';
   }
 
+  async updateUpdateAt(id: string, updatedAt: null|Date) :Promise<Users> {
+    return await this.repository.update({where: {id}, data: {updatedAt}});
+  }
 }
   

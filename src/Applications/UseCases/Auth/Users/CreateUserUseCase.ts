@@ -39,6 +39,8 @@ export class CreateUserUseCase {
       await this.addPermission.execute(prismaUser.id, permissions);
 
       user.setCleanUpdatedAt();
+      prismaUser = await this.usersRepository.updateUpdateAt(prismaUser.id, user.updatedAt);
+
       const response = mapperUserResponse(prismaUser);
 
       return new ResponseDTO<UserResponseDTO>(response);

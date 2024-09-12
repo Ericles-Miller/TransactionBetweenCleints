@@ -12,4 +12,5 @@ export interface IUserRepository {
   updateBalance(id: string, balance: number): Promise<void>;
   checkIdExists(id:string):Promise<boolean>;
   getNameById(id: string): Promise<string>;
+  updateUpdateAt(id: string, updatedAt: null|Date) :Promise<Users>
 }

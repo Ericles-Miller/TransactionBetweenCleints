@@ -4,7 +4,6 @@ import { container } from "IoC";
 
 
 export class CreateUserController {
-
   async handle(request: Request, response: Response) : Promise<Response> {
     const {
       email, name, password, permissions, balance,
