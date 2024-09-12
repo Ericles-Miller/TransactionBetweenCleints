@@ -27,13 +27,16 @@ export class CreateTransactionsUseCase {
     private mapperTransactions: MapperTransactions
   ) {}
 
-  async execute({amount,receivedId,senderId}: TransactionRequestDTO) : Promise<ResponseDTO<TransactionResponseDTO>> {
+  async execute({ amount, receivedId, senderId }: TransactionRequestDTO) : Promise<ResponseDTO<TransactionResponseDTO>> {
     const sender = await this.usersRepository.getById(senderId);
     if(!sender)
       throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.invalidSender), 404);
 
     if(!sender.isActive)
       throw new AppError(new ResponseDTO<string>(UserErrorMessages.userInactive), 404);
+
+    if(receivedId === senderId)
+      throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.sameUser), 400);
 
     if(amount > sender.balance)
       throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.insufficientBalance), 400)

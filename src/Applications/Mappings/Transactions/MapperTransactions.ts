@@ -1,11 +1,10 @@
 import { TransactionResponseDTO } from "@Applications/DTOs/Responses/Transactions/TransactionResponseDTO";
 import { Transaction } from "@Domain/Entities/Transactions/Transaction";
 import { IUserRepository } from "@Domain/Interfaces/Repositories/Auth/IUserRepository";
-import { prisma } from "@Infra/DataBase/database";
 import { Transactions } from "@prisma/client";
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 
-
+@injectable()
 export class MapperTransactions {
   constructor(
     @inject('UsersRepository')

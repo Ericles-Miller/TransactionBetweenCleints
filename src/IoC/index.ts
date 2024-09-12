@@ -21,6 +21,7 @@ import { ITransactionsRepository } from '@Domain/Interfaces/Repositories/Transac
 import { TransactionsRepository } from '@Infra/Repositories/Transactions/TransactionsRepository';
 import { MapperTransactions } from '@Applications/Mappings/Transactions/MapperTransactions';
 import { CreateTransactionsUseCase } from '@Applications/UseCases/Transactions/CreateTransactionsUseCase';
+import { UpdateBalanceUserUseCase } from '@Applications/UseCases/Auth/Users/UpdateBalanceUserUseCase';
 
 export const container = new Container();
 
@@ -40,6 +41,7 @@ container.bind<IAuthUserRepository>('AuthUserRepository').to(AuthUserRepository)
 container.bind<CreateUserUseCase>(CreateUserUseCase).toSelf();
 container.bind<ReadAllUsersUseCase>(ReadAllUsersUseCase).toSelf();
 container.bind<ReadUserByIdUseCase>(ReadUserByIdUseCase).toSelf();
+container.bind<UpdateBalanceUserUseCase>(UpdateBalanceUserUseCase).toSelf();
 
 //auth
 container.bind<LoginUserUseCase>(LoginUserUseCase).toSelf();
