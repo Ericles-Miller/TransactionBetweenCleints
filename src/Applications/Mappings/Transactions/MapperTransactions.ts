@@ -19,7 +19,8 @@ export class MapperTransactions {
      receiverId: transaction.receivedId,
      senderId: transaction.senderId,
      status: transaction.status,
-     updatedAt: transaction.updatedAt
+     updatedAt: transaction.updatedAt,
+     code: transaction.code,
     }
     
     return mapperTransaction;
@@ -33,7 +34,8 @@ export class MapperTransactions {
       received: await this.usersRepository.getNameById(transaction.receiverId),
       sender: await this.usersRepository.getNameById(transaction.senderId),
       status: transaction.status,
-      updatedAt: transaction.updatedAt
+      updatedAt: transaction.updatedAt,
+      code: transaction.code,
     }
 
     return mapperTransaction;

@@ -8,5 +8,6 @@ export class TransactionResponseDTO {
   status!: string
   createdAt!: Date;
   updatedAt: Date | null = null;
+  code!: string;
 
 }

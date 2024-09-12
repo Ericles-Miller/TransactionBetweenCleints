@@ -10,11 +10,12 @@ export class TransactionsRepository implements ITransactionsRepository {
   async created(transaction: Transactions): Promise<Transactions> {
     return await this.repository.create({data: transaction});
   }
-  getByIds(senderId: string, receivedId: string): Promise<Transactions | null> {
-    throw new Error("Method not implemented.");
-  }
   async updateStatus(id: string, transaction: Transactions): Promise<Transactions> {
     return await this.repository.update({where: {id}, data: transaction });
+  }
+
+  async findTransactionByCode(code: string): Promise<Transactions | null> {
+    return await this.repository.findFirst({where: { code }});
   }
 
 }

@@ -1,7 +1,7 @@
 import "reflect-metadata";
-import { Permission } from "@Domain/Entities/Permissions";
 import { PrismaClient } from "@prisma/client";
 import { PermissionConstants } from "@Domain/Constants/Auth/PermissionsConstants";
+import { Permission } from "@Domain/Entities/Auth/Permissions";
 
 
 export class SeedsPermissions {
@@ -60,7 +60,6 @@ export class SeedsPermissions {
         data: {
           description : permission.description,
           createAt: permission.createdAt,
-          updatedAt: permission.updatedAt
         },
       })
     })

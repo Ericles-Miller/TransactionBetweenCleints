@@ -47,14 +47,24 @@ model UserPermissions {
 }
 
 model Transactions {
-  id         String @id @default(uuid())
-  senderId   String
-  receiverId String
-  amount     Float
-  status     String
-  createdAt  DateTime @default(now())
-  updatedAt DateTime? 
-  
-  @@index([id, senderId, receiverId])
+  id                    String                  @id @default(uuid())
+  senderId              String
+  receiverId            String
+  amount                Float
+  status                String
+  code                  String                  
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime?
+  TransactionsReversals TransactionsReversals[]
+
+  @@index([id, senderId, receiverId, code])
   @@map("transactions")
+}
+
+model TransactionsReversals {
+  id            String       @id @default(uuid())
+  transactionId String
+  transaction   Transactions @relation(fields: [transactionId], references: [id])
+  reason        String?      @db.VarChar(250)
+  reversedAt    DateTime     @default(now())
 }

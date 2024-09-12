@@ -1,3 +1,4 @@
+import { GenericConstants } from "@Domain/Constants/Shared/GenericConstants";
 import { BaseEntity } from "../Shared/Base";
 import { TransactionValidator } from "@Domain/Validator/Transactions/TransactionsValidator";
 
@@ -9,6 +10,7 @@ export class Transaction extends BaseEntity {
   receivedId!: string
   amount!: number;
   status!: string;
+  code!: string;
   
   constructor(senderId : string, receiverId: string, amount: number, id: string | null) {
     super(id);
@@ -16,6 +18,7 @@ export class Transaction extends BaseEntity {
     this.setReceivedId(receiverId);
     this.setAmount(amount);
     this.setStatus('PENDING');
+    this.setCode();
   }
 
   setSenderId(senderId: string): void {
@@ -34,5 +37,17 @@ export class Transaction extends BaseEntity {
   setStatus(status: string): void {
     this.validator.validateStatus(status);
     this.status = status;
+  }
+
+  setCode(): void {
+    const chars = GenericConstants.charCode;
+    let code = '';
+
+    for (let i = 0; i <=50; i++) {
+      const randomIndex = Math.floor(Math.random() * chars.length);
+      code += chars[randomIndex];
+    }
+
+    this.code = code;
   }
 }
