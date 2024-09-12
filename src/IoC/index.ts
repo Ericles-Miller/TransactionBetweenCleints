@@ -44,6 +44,7 @@ container.bind<CreateUserUseCase>(CreateUserUseCase).toSelf();
 container.bind<ReadAllUsersUseCase>(ReadAllUsersUseCase).toSelf();
 container.bind<ReadUserByIdUseCase>(ReadUserByIdUseCase).toSelf();
 container.bind<UpdateBalanceUserUseCase>(UpdateBalanceUserUseCase).toSelf();
+container.bind<UpdateIsActiveUseCase>(UpdateIsActiveUseCase).toSelf();
 
 //auth
 container.bind<LoginUserUseCase>(LoginUserUseCase).toSelf();
@@ -54,6 +55,3 @@ container.bind<UpdateUserTokenUseCase>(UpdateUserTokenUseCase).toSelf();
 /// transactions
 container.bind<MapperTransactions>(MapperTransactions).toSelf();
 container.bind<CreateTransactionsUseCase>(CreateTransactionsUseCase).toSelf();
-container.bind<ReadAllUsersUseCase>(ReadAllUsersUseCase).toSelf();
-container.bind<ReadUserByIdUseCase>(ReadUserByIdUseCase).toSelf();
-container.bind<UpdateIsActiveUseCase>(UpdateIsActiveUseCase).toSelf();
