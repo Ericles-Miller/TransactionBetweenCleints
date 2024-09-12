@@ -55,6 +55,7 @@ export class CreateTransactionsReversalUseCase {
       const response = await this.transactionReversalRepository.create(mapperTransactionReversal);
       return new ResponseDTO<TransactionsReversals>(response);
     } catch {
+      
       const newSender = await this.usersRepository.getById(transaction.senderId);
       if(!newSender)
         throw new AppError(new ResponseDTO<string>(UserErrorMessages.invalidId), 400);
