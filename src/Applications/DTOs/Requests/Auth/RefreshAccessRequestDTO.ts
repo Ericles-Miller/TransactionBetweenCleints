@@ -1,4 +1,5 @@
 export class RefreshAccessRequestDTO {
   email: string = '';
-  refreshTokenCode: string = ''
+  refreshTokenCode: string = '';
+  token: string = '';
 }

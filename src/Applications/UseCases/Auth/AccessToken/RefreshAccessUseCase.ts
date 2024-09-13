@@ -8,6 +8,7 @@ import { CreateAccessTokensUseCase } from "./CreateAccessTokensUseCase";
 import { MapperUser } from "@Applications/Mappings/Users/MapperUser";
 import { User } from "@Domain/Entities/Auth/User";
 import { RefreshAccessRequestDTO } from "@Applications/DTOs/Requests/Auth/RefreshAccessRequestDTO";
+import { tokenBlacklist } from "@Api/Extensions/AuthorizedFlow";
 
 @injectable()
 export class RefreshAccessUseCase {
@@ -21,7 +22,7 @@ export class RefreshAccessUseCase {
 
   ){}
 
-  async execute({refreshTokenCode, email }: RefreshAccessRequestDTO): Promise<ResponseDTO<ITokensResponseDTO>> {
+  async execute({refreshTokenCode, email, token }: RefreshAccessRequestDTO): Promise<ResponseDTO<ITokensResponseDTO>> {
     try {
       if(!refreshTokenCode || !email)
         throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
@@ -39,6 +40,7 @@ export class RefreshAccessUseCase {
   
       const token = await this.createAccessTokenUseCase.createAccessToken(mapperUser);
       const refreshToken = await this.createAccessTokenUseCase.generateRefreshToken(mapperUser);
+      tokenBlacklist.push(token);
       
       return new ResponseDTO<ITokensResponseDTO>({token, refreshToken}); 
     } catch (error) {

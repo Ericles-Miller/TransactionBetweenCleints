@@ -20,4 +20,8 @@ authRoutes.post('/logout',
 );
 
 
-authRoutes.post('/refresh-access', refreshAccessController.handle);
+authRoutes.post('/refresh-access', 
+  authorizedFlow.authenticateToken,
+  authorizedFlow.authorizePermission('Client.Admin'),
+  refreshAccessController.handle
+);

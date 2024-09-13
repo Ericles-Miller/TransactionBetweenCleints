@@ -1,4 +1,3 @@
-import { PrismaMapper } from "@Applications/Mappings/AutoMapping.Profile";
 import { AppError } from "@Domain/Exceptions/Shared/AppError";
 import { IUserRepository } from "@Domain/Interfaces/Repositories/Auth/IUserRepository";
 import { compare } from "bcryptjs";
