@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Platform Transactions",
-    "description": "------------a definir -----------------------------",
+    "description": "carry out transactions between customers",
     "version": "1.0",
     "contact": {
       "email": "ericlesmiller15@gmail.com"
@@ -91,7 +91,6 @@
       "post": {
         "tags": ["auth"],
         "summary": "login user",
-        "description": "--------------",
         "requestBody": {
           "content" : {
             "application/json": {
@@ -111,7 +110,7 @@
         },
         "responses": {
           "201": {
-            "description": "User created successfully"
+            "description": "User logged in user with successfully"
           },
           "400": {
             "description": "data with error"
@@ -126,7 +125,6 @@
       "post": {
         "tags": ["auth"],
         "summary": "logout user",
-        "description": "--------------",
         "security": [
           { "bearerAuth": []}
         ],
@@ -159,6 +157,9 @@
           },
           "500": {
             "description": "Unexpected server error"
+          },
+          "403": {
+            "description": "unauthorized"
           }
         }
       }
@@ -167,7 +168,7 @@
       "post": {
         "tags": ["auth"],
         "summary": "refresh access",
-        "description": "--------------",
+        "description": "generate a new token and refresh token to user",
         "requestBody": {
           "content" : {
             "application/json": {
@@ -187,13 +188,16 @@
         },
         "responses": {
           "201": {
-            "description": "Logout with successfully"
+            "description": "refresh access with successfully"
           },
           "401": {
             "description": "access Denied"
           },
           "500": {
             "description": "Unexpected server error"
+          },
+          "403": {
+            "description": "unauthorized"
           }
         }
       }
@@ -203,7 +207,6 @@
       "post": {
         "tags": ["Transactions"],
         "summary": "make a transaction",
-        "description": "===================",
         "security": [
           { "bearerAuth": []}
         ],
@@ -229,7 +232,7 @@
         },
         "responses": {
           "201": {
-            "description": "User created successfully"
+            "description": "transaction created successfully"
           },
           "400": {
             "description": "data with error"
@@ -239,6 +242,9 @@
           },
           "500": {
             "description": "Unexpected server error"
+          },
+          "403": {
+            "description": "unauthorized"
           }
         }
       }
@@ -247,7 +253,6 @@
       "post": {
         "tags": ["Transactions"],
         "summary": "make a reverse transaction",
-        "description": "===================",
         "security": [
           { "bearerAuth": []}
         ],
@@ -270,7 +275,7 @@
         },
         "responses": {
           "201": {
-            "description": "User created successfully"
+            "description": "reversed transaction created successfully"
           },
           "400": {
             "description": "data with error"
