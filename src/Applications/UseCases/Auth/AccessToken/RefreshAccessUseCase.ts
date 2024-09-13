@@ -22,25 +22,31 @@ export class RefreshAccessUseCase {
   ){}
 
   async execute({refreshTokenCode, email }: RefreshAccessRequestDTO): Promise<ResponseDTO<ITokensResponseDTO>> {
-    if(!refreshTokenCode || !email)
-      throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
+    try {
+      if(!refreshTokenCode || !email)
+        throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
+  
+      const user = await this.usersRepository.getByEmail(email);
+      if(!user)
+        throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
+  
+      if(user.refreshTokenCode !== refreshTokenCode)
+        throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
+  
+      const mapperUser = this.mapperUser.mapperUserPermissionsToUser(user);
+  
+      this.validateFields(mapperUser);
+  
+      const token = await this.createAccessTokenUseCase.createAccessToken(mapperUser);
+      const refreshToken = await this.createAccessTokenUseCase.generateRefreshToken(mapperUser);
+      
+      return new ResponseDTO<ITokensResponseDTO>({token, refreshToken}); 
+    } catch (error) {
+      if(error instanceof AppError)
+        throw error
 
-    const user = await this.usersRepository.getByEmail(email);
-    if(!user)
-      throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
-
-    if(user.refreshTokenCode !== refreshTokenCode)
-      throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
-
-    const mapperUser = this.mapperUser.mapperUserPermissionsToUser(user);
-
-    this.validateFields(mapperUser);
-
-    const token = await this.createAccessTokenUseCase.createAccessToken(mapperUser);
-    const refreshToken = await this.createAccessTokenUseCase.generateRefreshToken(mapperUser);
-    
-    return new ResponseDTO<ITokensResponseDTO>({token, refreshToken});    
-    
+      throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.unexpectedRefreshAccess), 500);
+    }   
   }
 
   private validateFields(user: User): void {

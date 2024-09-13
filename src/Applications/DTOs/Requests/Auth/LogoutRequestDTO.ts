@@ -2,5 +2,6 @@
 
 export class LogoutRequestDTO {
   userId: string = '';
-  refreshToken: string = ''
+  refreshToken: string = '';
+  token: string = '';
 }

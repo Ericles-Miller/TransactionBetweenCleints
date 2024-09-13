@@ -11,6 +11,7 @@ import { ITransactionsRepository } from "@Domain/Interfaces/Repositories/Transac
 import { Transactions, TransactionsReversals, Users } from "@prisma/client";
 import { inject, injectable } from "inversify";
 import { UpdateBalanceUserUseCase } from "../Auth/Users/UpdateBalanceUserUseCase";
+import { AccessTokenErrorMessages } from "@Domain/Exceptions/Errors/Auth/AccessTokenErrorMessages";
 
 @injectable()
 export class CreateTransactionsReversalUseCase {
@@ -30,10 +31,16 @@ export class CreateTransactionsReversalUseCase {
     private updateBalanceUserUseCase: UpdateBalanceUserUseCase,
   ){}
 
-  async execute({code, reason}: TransactionReversalRequestDTO) : Promise<ResponseDTO<TransactionsReversals>> {
+  async execute({code, reason, sub}: TransactionReversalRequestDTO) : Promise<ResponseDTO<TransactionsReversals>> {
+    if(!sub) 
+      throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
+
     const transaction = await this.transactionsRepository.findTransactionByCode(code);
     if(!transaction)
       throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.invalidCode), 404);
+
+    if(sub !== transaction.senderId)
+      throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
     
     const sender = await this.validateReversalTransaction(transaction);
 

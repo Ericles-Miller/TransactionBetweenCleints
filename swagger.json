@@ -122,6 +122,82 @@
         }
       }
     },
+    "/auth/logout" : {
+      "post": {
+        "tags": ["auth"],
+        "summary": "logout user",
+        "description": "--------------",
+        "security": [
+          { "bearerAuth": []}
+        ],
+        "requestBody": {
+          "content" : {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string"
+                  },
+                  "refreshToken": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Logout with successfully"
+          },
+          "401": {
+            "description": "access Denied"
+          },
+          "404": {
+            "description": "error params"
+          },
+          "500": {
+            "description": "Unexpected server error"
+          }
+        }
+      }
+    },
+    "/auth/refresh-access" : {
+      "post": {
+        "tags": ["auth"],
+        "summary": "refresh access",
+        "description": "--------------",
+        "requestBody": {
+          "content" : {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "refreshTokenCode": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Logout with successfully"
+          },
+          "401": {
+            "description": "access Denied"
+          },
+          "500": {
+            "description": "Unexpected server error"
+          }
+        }
+      }
+    },
 
     "/transactions": {
       "post": {
@@ -163,6 +239,44 @@
           },
           "500": {
             "description": "Unexpected server error"
+          }
+        }
+      }
+    },
+    "/transactions/inverse" : {
+      "post": {
+        "tags": ["Transactions"],
+        "summary": "make a reverse transaction",
+        "description": "===================",
+        "security": [
+          { "bearerAuth": []}
+        ],
+        "requestBody" : {
+          "content" : {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully"
+          },
+          "400": {
+            "description": "data with error"
+          },
+          "404": {
+            "description": "error params"
           }
         }
       }

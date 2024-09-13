@@ -26,6 +26,8 @@ import { CreateTransactionsReversalUseCase } from '@Applications/UseCases/Transa
 import { TransactionReversalRepository } from '@Infra/Repositories/Transactions/TransactionReversalRepository';
 import { ITransactionReversalRepository } from '@Domain/Interfaces/Repositories/Transactions/ITransactionReversalRepository';
 import { CreateAccessTokensUseCase } from '@Applications/UseCases/Auth/AccessToken/CreateAccessTokensUseCase';
+import { RefreshAccessUseCase } from '@Applications/UseCases/Auth/AccessToken/RefreshAccessUseCase';
+import { LogoutUseCase } from '@Applications/UseCases/Auth/AccessToken/LogoutUseCase';
 
 export const container = new Container();
 
@@ -53,6 +55,8 @@ container.bind<LoginUserUseCase>(LoginUserUseCase).toSelf();
 container.bind<CreateAccessTokensUseCase>(CreateAccessTokensUseCase).toSelf();
 container.bind<CredentialsToken>(CredentialsToken).toSelf();
 container.bind<UpdateUserTokenUseCase>(UpdateUserTokenUseCase).toSelf();
+container.bind<RefreshAccessUseCase>(RefreshAccessUseCase).toSelf();
+container.bind<LogoutUseCase>(LogoutUseCase).toSelf();
 
 /// transactions
 container.bind<MapperTransactions>(MapperTransactions).toSelf();

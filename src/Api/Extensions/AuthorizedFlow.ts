@@ -2,8 +2,11 @@ import { Configuration } from "@Domain/Config";
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from "express";
 
+export let tokenBlacklist: string[] = [];
 
 export class AuthorizedFlow {
+
+
   authenticateToken(request: Request, response: Response, next: NextFunction) {
     const authToken = request.headers.authorization;
   
@@ -15,6 +18,10 @@ export class AuthorizedFlow {
   
     if (!token) {
       return response.status(401).json({ message: 'Acesso negado: Token não fornecido' });
+    }
+
+    if (tokenBlacklist.includes(token)) {
+      return response.status(401).json({ message: 'Access Denied'});
     }
   
     const secretToken = Configuration.authApiSecrets.secretKey;

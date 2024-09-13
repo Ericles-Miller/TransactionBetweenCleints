@@ -1,4 +1,5 @@
 export class TransactionReversalRequestDTO {
-  code!: string;
-  reason!: string;
+  code: string = '';
+  reason: string= '';
+  sub?: string
 }
