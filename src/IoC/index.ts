@@ -15,8 +15,7 @@ import { UpdateUserTokenUseCase } from '@Applications/UseCases/Auth/AccessToken/
 import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
 import { ReadAllUsersUseCase } from '@Applications/UseCases/Auth/Users/ReadAllUsersUseCase';
 import { ReadUserByIdUseCase } from '@Applications/UseCases/Auth/Users/ReadUserByIdUseCase';
-import { CreateAccessTokensUseCase } from '@Applications/UseCases/Auth/AccessToken/CreateAccessToken/CreateAccessTokensUseCase';
-import { LoginUserUseCase } from '@Applications/UseCases/Auth/AccessToken/CreateAccessToken/LoginUserUseCase';
+import { LoginUserUseCase } from '@Applications/UseCases/Auth/AccessToken/LoginUserUseCase';
 import { UpdateIsActiveUseCase } from '@Applications/UseCases/Auth/Users/UpdateIsActiveUseCase';
 import { ITransactionsRepository } from '@Domain/Interfaces/Repositories/Transactions/ITransactionsRepository';
 import { TransactionsRepository } from '@Infra/Repositories/Transactions/TransactionsRepository';
@@ -26,6 +25,7 @@ import { UpdateBalanceUserUseCase } from '@Applications/UseCases/Auth/Users/Upda
 import { CreateTransactionsReversalUseCase } from '@Applications/UseCases/Transactions/CreateTransactionsReversalUseCase';
 import { TransactionReversalRepository } from '@Infra/Repositories/Transactions/TransactionReversalRepository';
 import { ITransactionReversalRepository } from '@Domain/Interfaces/Repositories/Transactions/ITransactionReversalRepository';
+import { CreateAccessTokensUseCase } from '@Applications/UseCases/Auth/AccessToken/CreateAccessTokensUseCase';
 
 export const container = new Container();
 

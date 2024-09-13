@@ -10,7 +10,7 @@ export class User extends BaseIsActive {
   password!: string; 
   lastLogin: Date | null = null; 
   balance!: number;
-  userPermissions?: UserPermissions[];
+  userPermissions: UserPermissions[] | null = null;
   refreshTokenCode?: string;
  
   constructor(name: string, email: string, balance: number, id: string | null) {

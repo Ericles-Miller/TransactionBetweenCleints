@@ -3,7 +3,7 @@ import { Configuration } from "@Domain/Config";
 import { inject, injectable } from "inversify";
 import jwt from 'jsonwebtoken';
 import { User } from "@Domain/Entities/Auth/User";
-import { UpdateUserTokenUseCase } from "../UpdateUserTokenUseCase";
+import { UpdateUserTokenUseCase } from "./UpdateUserTokenUseCase";
 
 
 @injectable()
