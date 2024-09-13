@@ -3,7 +3,6 @@ import { Permissions, UserPermissions } from "@prisma/client";
 import { IPermissionRepository } from "@Domain/Interfaces/Repositories/Auth/IPermissionsRepository";
 import { prisma } from "@Infra/DataBase/database";
 import { ETypePermission } from "@Domain/Enums/Auth/ETypePermissions";
-import { UsersPermission } from "@Domain/Entities/Auth/UserPermissions";
 
 @injectable()
 export class PermissionRepository implements IPermissionRepository {
