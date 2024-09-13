@@ -19,7 +19,13 @@ export abstract class CreateAccessTokensUseCase {
     const token = jwt.sign(
       await this.credentialsTokens.generateCredentials(user),
       Configuration.authApiSecrets.secretKey!,
-      {expiresIn: Configuration.authApiSecrets.tokenExpiresIn, algorithm: 'HS256'}
+      { 
+        subject: user.id,
+        expiresIn: Configuration.authApiSecrets.tokenExpiresIn,
+        algorithm: 'HS256',
+        audience: Configuration.authApiSecrets.audience!,
+        issuer: Configuration.authApiSecrets.issuer!,
+      }
     );
     
     return token;
@@ -29,7 +35,13 @@ export abstract class CreateAccessTokensUseCase {
     const refreshToken = jwt.sign(
       await this.credentialsTokens.generateCredentials(user),
       Configuration.authApiSecrets.secretRefreshKey!,
-      {expiresIn: Configuration.authApiSecrets.refreshExpiresIn!, algorithm: 'HS256'}
+      {
+        subject: user.id,
+        expiresIn: Configuration.authApiSecrets.tokenExpiresIn,
+        algorithm: 'HS256',
+        audience: Configuration.authApiSecrets.audience!,
+        issuer: Configuration.authApiSecrets.issuer!,
+      }
     );
 
     await this.updateUserTokenUseCase.execute(user,refreshToken);

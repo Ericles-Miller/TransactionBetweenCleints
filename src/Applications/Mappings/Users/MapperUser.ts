@@ -28,14 +28,13 @@ export class MapperUser {
     mapperUser.refreshTokenCode = user.refreshTokenCode || undefined;
     mapperUser.lastLogin = user.lastLogin;
 
-    // Mapeando permissões, se houver
     mapperUser.userPermissions = user.userPermissions
-      ? user.userPermissions.map(perm => new UserPermissions(
-          perm.id,
-          perm.permissionId,
-          perm.userId,
-        ))
-      : null;
+  ? user.userPermissions.map(perm => new UserPermissions(
+      perm.id,
+      perm.permissionId,
+      perm.userId,
+    ))
+  : undefined;
 
     return mapperUser;
 }

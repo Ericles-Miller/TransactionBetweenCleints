@@ -7,12 +7,15 @@ import { router } from "./router";
 import { AppError } from "@Domain/Exceptions/Shared/AppError";
 import { checkDatabaseConnection } from "@Infra/DataBase/database";
 import { Configuration } from "@Domain/Config";
-
+import swaggerUi from 'swagger-ui-express';
+import swaggerFile from '../../../swagger.json'; // Certifique-se de que o caminho está correto
 
 export const app = express();
-
 app.use(express.json());
 app.use(router);
+
+// Configurar Swagger UI
+app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 new Configuration();
 
@@ -31,4 +34,3 @@ app.use(
     });
   },
 );
-

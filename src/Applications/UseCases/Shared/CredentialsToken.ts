@@ -24,8 +24,6 @@ export abstract class CredentialsToken {
       email: await this.generateEmailClaims(user.email),
       name: await this.generateNameClaim(user.email),
       permissions: await this.generatePermissionsClaims(user.userPermissions!),
-      audience: Configuration.authApiSecrets.audience!,
-      issuer: Configuration.authApiSecrets.issuer!,
     };
 
     return payload;

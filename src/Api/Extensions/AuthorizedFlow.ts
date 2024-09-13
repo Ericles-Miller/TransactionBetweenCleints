@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from "express";
 
 
-export class authorizedFlow {
+export class AuthorizedFlow {
   authenticateToken(request: Request, response: Response, next: NextFunction) {
     const authToken = request.headers.authorization;
   
@@ -19,8 +19,8 @@ export class authorizedFlow {
   
     const secretToken = Configuration.authApiSecrets.secretKey;
     const jwtOptions = {
-      issuer: 'http://localhost:3333',
-      audience: 'http://localhost:3333',
+      issuer: Configuration.authApiSecrets.issuer,
+      audience: Configuration.authApiSecrets.audience,
     };
   
     // Verificação do token JWT

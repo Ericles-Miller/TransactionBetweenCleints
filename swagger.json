@@ -1,0 +1,164 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Platform Transactions",
+    "description": "------------a definir -----------------------------",
+    "version": "1.0",
+    "contact": {
+      "email": "ericlesmiller15@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "/api/v1" 
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create User",
+        "description": "Create a new User to platform",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "balance": {
+                    "type": "number"
+                  },
+                  "permissions": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Array of user permissions"
+                  }
+                },
+                "required": ["name", "email", "password", "balance", "permissions"],
+                "example": {
+                  "name": "Your full name",
+                  "email": "yourEmail@email.com",
+                  "password": "your password",
+                  "balance": 0,
+                  "permissions": ["permission1", "permission2"]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully"
+          },
+          "400": {
+            "description": "Data with error"
+          },
+          "500": {
+            "description": "Unexpected server error"
+          }
+        }
+      }
+    },
+
+    "/auth/login" : {
+      "post": {
+        "tags": ["auth"],
+        "summary": "login user",
+        "description": "--------------",
+        "requestBody": {
+          "content" : {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully"
+          },
+          "400": {
+            "description": "data with error"
+          },
+          "500": {
+            "description": "Unexpected server error"
+          }
+        }
+      }
+    },
+
+    "/transactions": {
+      "post": {
+        "tags": ["Transactions"],
+        "summary": "make a transaction",
+        "description": "===================",
+        "security": [
+          { "bearerAuth": []}
+        ],
+        "requestBody" : {
+          "content" : {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "type": "number"
+                },
+                "senderId": {
+                  "type": "string"
+                },
+                "receivedId": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully"
+          },
+          "400": {
+            "description": "data with error"
+          },
+          "404": {
+            "description": "error params"
+          },
+          "500": {
+            "description": "Unexpected server error"
+          }
+        }
+      }
+    }
+  }
+}
