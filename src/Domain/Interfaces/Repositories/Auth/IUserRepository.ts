@@ -17,5 +17,6 @@ export interface IUserRepository {
   readAll(): Promise<Users[]>
   getById(id: string): Promise<Users| null>
   updateIsActive(id: string, isActive: boolean) : Promise<void>
+  invalidToken(id: string): Promise<void>
 
 }

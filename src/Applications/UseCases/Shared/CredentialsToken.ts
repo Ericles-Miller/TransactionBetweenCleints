@@ -2,7 +2,6 @@ import { AppError } from '@Domain/Exceptions/Shared/AppError';
 import { IPermissionRepository } from '@Domain/Interfaces/Repositories/Auth/IPermissionsRepository';
 import { inject, injectable } from 'inversify';
 import { UserPermissions } from '@Domain/Entities/Auth/UserPermissions';
-import { Configuration } from '@Domain/Config';
 import { ISubject } from '@Domain/Interfaces/Auth/ISubject';
 import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
 import { User } from '@Domain/Entities/Auth/User';

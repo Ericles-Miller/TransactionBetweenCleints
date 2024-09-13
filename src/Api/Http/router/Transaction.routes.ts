@@ -14,7 +14,7 @@ const createTransactionReversalController = new CreateTransactionReversalControl
 
 transactionRouters.post('/',
   authorizedFlow.authenticateToken,
-  authorizedFlow.authorizePermission,
+  authorizedFlow.authorizePermission('Client.Admin'),
   createTransactionController.handle
 );
 

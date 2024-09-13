@@ -20,7 +20,6 @@ export class MapperUser {
   mapperUserPermissionsToUser(user: UserWithPermissions): User {
     const mapperUser = new User(user.name, user.email, user.balance, user.id);
 
-    // Atribuindo propriedades comuns
     mapperUser.createdAt = user.createdAt;
     mapperUser.updatedAt = user.updatedAt;
     mapperUser.isActive = user.isActive;

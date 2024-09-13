@@ -77,6 +77,13 @@
             "description": "Unexpected server error"
           }
         }
+      },
+      "get" : {
+        "tags": ["Users"], 
+        "summary" : "read all users",
+        "responses": {
+          
+        }
       }
     },
 
