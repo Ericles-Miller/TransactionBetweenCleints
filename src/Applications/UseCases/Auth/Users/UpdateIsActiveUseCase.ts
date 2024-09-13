@@ -1,10 +1,10 @@
-import { UserIsActiveRequestDTO } from "@Applications/DTOs/Requests/Auth/users/UserIsActiveRequestDTO";
-import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
-import { MapperUser } from "@Applications/Mappings/Users/MapperUser";
-import { UserErrorMessages } from "@Domain/Exceptions/Errors/Auth/UserErrorMessages";
-import { AppError } from "@Domain/Exceptions/Shared/AppError";
-import { IUserRepository } from "@Domain/Interfaces/Repositories/Auth/IUserRepository";
-import { inject, injectable } from "inversify";
+import { UserIsActiveRequestDTO } from '@Applications/DTOs/Requests/Auth/users/UserIsActiveRequestDTO';
+import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
+import { MapperUser } from '@Applications/Mappings/Users/MapperUser';
+import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessages';
+import { AppError } from '@Domain/Exceptions/Shared/AppError';
+import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
+import { inject, injectable } from 'inversify';
 
 
 @injectable()
@@ -31,6 +31,5 @@ export class UpdateIsActiveUseCase {
 
       throw new AppError(new ResponseDTO<string>(UserErrorMessages.unexpectedUpdateIsActive), 500);
     }
-
   }
 }

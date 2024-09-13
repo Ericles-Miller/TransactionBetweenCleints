@@ -1,13 +1,11 @@
-
-
 export class TransactionResponseDTO {
-  id!: string;
-  sender!: string;
-  received!: string;
+  id: string = '';
+  sender: string = '';
+  received: string = '';
   amount!: number;
-  status!: string
+  status: string = '';
   createdAt!: Date;
   updatedAt: Date | null = null;
-  code!: string;
+  code: string = '';
 
 }

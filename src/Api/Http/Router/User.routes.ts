@@ -1,8 +1,8 @@
-import { CreateUserController } from "@Api/Controllers/users/CreateUserController";
-import { ReadAllUserController } from "@Api/Controllers/users/ReadAllUserController";
-import { ReadUserByIdController } from "@Api/Controllers/users/ReadUserByIdController";
-import { UpdateIsActiveController } from "@Api/Controllers/users/UpdateIsActiveController";
-import { Router } from "express";
+import { CreateUserController } from '@Api/Controllers/Users/CreateUserController';
+import { ReadAllUserController } from '@Api/Controllers/Users/ReadAllUserController';
+import { ReadUserByIdController } from '@Api/Controllers/Users/ReadUserByIdController';
+import { UpdateIsActiveController } from '@Api/Controllers/Users/UpdateIsActiveController';
+import { Router } from 'express';
 
 export const userRouters = Router();
 

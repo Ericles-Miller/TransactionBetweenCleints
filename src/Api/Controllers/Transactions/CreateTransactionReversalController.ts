@@ -1,7 +1,7 @@
-import { CreateTransactionsReversalUseCase } from "@Applications/UseCases/Transactions/CreateTransactionsReversalUseCase";
-import { GenericConstants } from "@Domain/Constants/Shared/GenericConstants";
-import { Request, Response } from "express";
-import { container } from "IoC";
+import { CreateTransactionsReversalUseCase } from '@Applications/UseCases/Transactions/CreateTransactionsReversalUseCase';
+import { GenericConstants } from '@Domain/Constants/Shared/GenericConstants';
+import { Request, Response } from 'express';
+import { container } from 'IoC';
 
 
 export class CreateTransactionReversalController {

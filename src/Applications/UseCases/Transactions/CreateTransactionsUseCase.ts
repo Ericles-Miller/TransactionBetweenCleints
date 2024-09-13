@@ -1,16 +1,16 @@
-import { TransactionRequestDTO } from "@Applications/DTOs/Requests/Transactions/TransactionRequestDTO";
-import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
-import { Transaction } from "@Domain/Entities/Transactions/Transaction";
-import { TransactionsErrorsMessages } from "@Domain/Exceptions/Errors/Transactions/TransactionsErrorsMessages";
-import { AppError } from "@Domain/Exceptions/Shared/AppError";
-import { IUserRepository } from "@Domain/Interfaces/Repositories/Auth/IUserRepository";
-import { ITransactionsRepository } from "@Domain/Interfaces/Repositories/Transactions/ITransactionsRepository";
-import { inject, injectable } from "inversify";
-import { UpdateBalanceUserUseCase } from "../Auth/Users/UpdateBalanceUserUseCase";
-import { UserErrorMessages } from "@Domain/Exceptions/Errors/Auth/UserErrorMessages";
-import { TransactionResponseDTO } from "@Applications/DTOs/Responses/Transactions/TransactionResponseDTO";
-import { MapperTransactions } from "@Applications/Mappings/Transactions/MapperTransactions";
-import { AccessTokenErrorMessages } from "@Domain/Exceptions/Errors/Auth/AccessTokenErrorMessages";
+import { TransactionRequestDTO } from '@Applications/DTOs/Requests/Transactions/TransactionRequestDTO';
+import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
+import { Transaction } from '@Domain/Entities/Transactions/Transaction';
+import { TransactionsErrorsMessages } from '@Domain/Exceptions/Errors/Transactions/TransactionsErrorsMessages';
+import { AppError } from '@Domain/Exceptions/Shared/AppError';
+import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
+import { ITransactionsRepository } from '@Domain/Interfaces/Repositories/Transactions/ITransactionsRepository';
+import { inject, injectable } from 'inversify';
+import { UpdateBalanceUserUseCase } from '../Auth/Users/UpdateBalanceUserUseCase';
+import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessages';
+import { TransactionResponseDTO } from '@Applications/DTOs/Responses/Transactions/TransactionResponseDTO';
+import { MapperTransactions } from '@Applications/Mappings/Transactions/MapperTransactions';
+import { AccessTokenErrorMessages } from '@Domain/Exceptions/Errors/Auth/AccessTokenErrorMessages';
 
 
 @injectable()

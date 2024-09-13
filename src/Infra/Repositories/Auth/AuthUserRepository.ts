@@ -1,8 +1,8 @@
-import { User } from "@Domain/Entities/Auth/User";
-import { IAuthUserRepository } from "@Domain/Interfaces/Repositories/Auth/IAuthUserRepository";
-import { prisma } from "@Infra/DataBase/database";
-import { Users } from "@prisma/client";
-import { injectable } from "inversify";
+import { User } from '@Domain/Entities/Auth/User';
+import { IAuthUserRepository } from '@Domain/Interfaces/Repositories/Auth/IAuthUserRepository';
+import { prisma } from '@Infra/DataBase/database';
+import { Users } from '@prisma/client';
+import { injectable } from 'inversify';
 
 
 @injectable()

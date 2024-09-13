@@ -1,9 +1,9 @@
-import { UpdateBalanceRequestDTO } from "@Applications/DTOs/Requests/Auth/users/UpdateBalanceRequestDTO";
-import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
-import { UserErrorMessages } from "@Domain/Exceptions/Errors/Auth/UserErrorMessages";
-import { AppError } from "@Domain/Exceptions/Shared/AppError";
-import { IUserRepository } from "@Domain/Interfaces/Repositories/Auth/IUserRepository";
-import { inject, injectable } from "inversify";
+import { UpdateBalanceRequestDTO } from '@Applications/DTOs/Requests/Auth/users/UpdateBalanceRequestDTO';
+import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
+import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessages';
+import { AppError } from '@Domain/Exceptions/Shared/AppError';
+import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
+import { inject, injectable } from 'inversify';
 
 @injectable()
 export class UpdateBalanceUserUseCase {

@@ -1,7 +1,7 @@
-import { CreateTransactionController } from "@Api/Controllers/Transactions/CreateTransactionController";
-import { CreateTransactionReversalController } from "@Api/Controllers/Transactions/CreateTransactionReversalController";
-import { AuthorizedFlow } from "@Api/Extensions/AuthorizedFlow";
-import { Router } from "express";
+import { CreateTransactionController } from '@Api/Controllers/Transactions/CreateTransactionController';
+import { CreateTransactionReversalController } from '@Api/Controllers/Transactions/CreateTransactionReversalController';
+import { AuthorizedFlow } from '@Api/Extensions/AuthorizedFlow';
+import { Router } from 'express';
 
 
 export const transactionRouters = Router();

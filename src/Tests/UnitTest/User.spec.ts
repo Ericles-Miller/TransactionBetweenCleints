@@ -1,7 +1,7 @@
-import "reflect-metadata";
-import "express-async-errors";
-import { User } from "@Domain/Entities/Auth/User";
-import { AppError } from "@Domain/Exceptions/Shared/AppError";
+import 'reflect-metadata';
+import 'express-async-errors';
+import { User } from '@Domain/Entities/Auth/User';
+import { AppError } from '@Domain/Exceptions/Shared/AppError';
 
 describe('User Class', () => {
   let user: User;

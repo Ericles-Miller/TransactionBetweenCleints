@@ -1,11 +1,11 @@
-import { IUserRepository } from "@Domain/Interfaces/Repositories/Auth/IUserRepository";
-import { inject, injectable } from "inversify";
-import { AppError } from "@Domain/Exceptions/Shared/AppError";
-import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
-import { UserErrorMessages } from "@Domain/Exceptions/Errors/Auth/UserErrorMessages";
-import { AccessTokenErrorMessages } from "@Domain/Exceptions/Errors/Auth/AccessTokenErrorMessages";
-import { LogoutRequestDTO } from "@Applications/DTOs/Requests/Auth/LogoutRequestDTO";
-import { tokenBlacklist } from "@Api/Extensions/AuthorizedFlow";
+import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
+import { inject, injectable } from 'inversify';
+import { AppError } from '@Domain/Exceptions/Shared/AppError';
+import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
+import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessages';
+import { AccessTokenErrorMessages } from '@Domain/Exceptions/Errors/Auth/AccessTokenErrorMessages';
+import { LogoutRequestDTO } from '@Applications/DTOs/Requests/Auth/LogoutRequestDTO';
+import { tokenBlacklist } from '@Api/Extensions/AuthorizedFlow';
 
 @injectable()
 export class LogoutUseCase {

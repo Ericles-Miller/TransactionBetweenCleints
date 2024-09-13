@@ -1,9 +1,9 @@
-import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
-import { User } from "@Domain/Entities/Auth/User";
-import { AccessTokenErrorMessages } from "@Domain/Exceptions/Errors/Auth/AccessTokenErrorMessages";
-import { AppError } from "@Domain/Exceptions/Shared/AppError";
-import { AuthUserRepository } from "@Infra/Repositories/Auth/AuthUserRepository";
-import { inject, injectable } from "inversify";
+import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
+import { User } from '@Domain/Entities/Auth/User';
+import { AccessTokenErrorMessages } from '@Domain/Exceptions/Errors/Auth/AccessTokenErrorMessages';
+import { AppError } from '@Domain/Exceptions/Shared/AppError';
+import { AuthUserRepository } from '@Infra/Repositories/Auth/AuthUserRepository';
+import { inject, injectable } from 'inversify';
 
 @injectable()
 export class UpdateUserTokenUseCase {

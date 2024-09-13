@@ -78,6 +78,11 @@ yarn seed
 yarn dev
 ```
 
+6. To run unit tests and integration tests execute this command:
+```
+yarn test
+```
+
 # Build and Test
 1- It is necessary to generate an javascript build, run the command below without the application running in another terminal:
 

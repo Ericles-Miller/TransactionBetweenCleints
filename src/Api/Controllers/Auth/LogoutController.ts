@@ -1,7 +1,6 @@
-import { LogoutUseCase } from "@Applications/UseCases/Auth/AccessToken/LogoutUseCase";
-import { Request, Response } from "express";
-import { container } from "IoC";
-
+import { LogoutUseCase } from '@Applications/UseCases/Auth/AccessToken/LogoutUseCase';
+import { Request, Response } from 'express';
+import { container } from 'IoC';
 
 export class LogoutController {
   async handle(request: Request, response: Response): Promise<Response> {

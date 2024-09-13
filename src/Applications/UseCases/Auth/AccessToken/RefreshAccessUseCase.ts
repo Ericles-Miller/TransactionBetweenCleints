@@ -1,14 +1,14 @@
-import { ITokensResponseDTO } from "@Applications/DTOs/Responses/Auth/ITokensResponseDTO";
-import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
-import { AccessTokenErrorMessages } from "@Domain/Exceptions/Errors/Auth/AccessTokenErrorMessages";
-import { AppError } from "@Domain/Exceptions/Shared/AppError";
-import { IUserRepository } from "@Domain/Interfaces/Repositories/Auth/IUserRepository";
-import { inject, injectable } from "inversify";
-import { CreateAccessTokensUseCase } from "./CreateAccessTokensUseCase";
-import { MapperUser } from "@Applications/Mappings/Users/MapperUser";
-import { User } from "@Domain/Entities/Auth/User";
-import { RefreshAccessRequestDTO } from "@Applications/DTOs/Requests/Auth/RefreshAccessRequestDTO";
-import { tokenBlacklist } from "@Api/Extensions/AuthorizedFlow";
+import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
+import { AccessTokenErrorMessages } from '@Domain/Exceptions/Errors/Auth/AccessTokenErrorMessages';
+import { AppError } from '@Domain/Exceptions/Shared/AppError';
+import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
+import { inject, injectable } from 'inversify';
+import { CreateAccessTokensUseCase } from './CreateAccessTokensUseCase';
+import { MapperUser } from '@Applications/Mappings/Users/MapperUser';
+import { User } from '@Domain/Entities/Auth/User';
+import { RefreshAccessRequestDTO } from '@Applications/DTOs/Requests/Auth/RefreshAccessRequestDTO';
+import { tokenBlacklist } from '@Api/Extensions/AuthorizedFlow';
+import { TokensResponseDTO } from '@Applications/DTOs/Responses/Auth/TokensResponseDTO';
 
 @injectable()
 export class RefreshAccessUseCase {
@@ -22,7 +22,7 @@ export class RefreshAccessUseCase {
 
   ){}
 
-  async execute({refreshTokenCode, email, token }: RefreshAccessRequestDTO): Promise<ResponseDTO<ITokensResponseDTO>> {
+  async execute({refreshTokenCode, email, token }: RefreshAccessRequestDTO): Promise<ResponseDTO<TokensResponseDTO>> {
     try {
       if(!refreshTokenCode || !email)
         throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
@@ -42,7 +42,7 @@ export class RefreshAccessUseCase {
       const refreshToken = await this.createAccessTokenUseCase.generateRefreshToken(mapperUser);
       tokenBlacklist.push(token);
       
-      return new ResponseDTO<ITokensResponseDTO>({token, refreshToken}); 
+      return new ResponseDTO<TokensResponseDTO>({token, refreshToken}); 
     } catch (error) {
       if(error instanceof AppError)
         throw error
