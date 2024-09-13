@@ -5,6 +5,8 @@ import { GenericErrorMessages } from "@Domain/Exceptions/Shared/GenericErrorMess
 export class UserErrorMessages extends GenericErrorMessages {
   static invalidCharsEmail = "The email contains characters invalids";
   static emailExists = 'The email already exists';
+
+  static invalidUser = 'user Not Found';
   static invalidLengthName = `The username must be between ${GenericEntityConstants.minLengthName} and 
     ${GenericEntityConstants.maxLengthName} characters.`;
   

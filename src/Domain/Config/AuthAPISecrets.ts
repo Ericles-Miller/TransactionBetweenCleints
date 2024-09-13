@@ -1,4 +1,6 @@
+import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
 import { AppError } from "@Domain/Exceptions/Shared/AppError";
+import { GenericErrorMessages } from "@Domain/Exceptions/Shared/GenericErrorMessages";
 
 export class AuthAPISecrets {
   secretKey: string;
@@ -21,7 +23,7 @@ export class AuthAPISecrets {
 
   validateEnvVariables() {
     if (!this.secretKey || !this.secretRefreshKey || !this.tokenExpiresIn || !this.refreshExpiresIn || !this.issuer || !this.audience) {
-      throw new AppError('One or more environment variables are missing.', 404);
+      throw new AppError(new ResponseDTO<string>(GenericErrorMessages.environmentNull), 404);
     }
   }
 }

@@ -9,11 +9,11 @@ export type UserWithPermissions = {
   password: string;
   lastLogin: Date | null;
   refreshTokenCode?: string;
-  userPermissions?: Array<{
+  userPermissions: Array<{
     id: string;
     createdAt: Date;
     updatedAt: Date | null;
     permissionId: string;
     userId: string;
-  }>;
+  }> | null;
 };
