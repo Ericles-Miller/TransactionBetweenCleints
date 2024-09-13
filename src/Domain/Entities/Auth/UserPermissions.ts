@@ -16,7 +16,6 @@ export class UserPermissions extends BaseEntity {
   }
 
   setUserId(userId: string) : void {
-    //validate se e um uuid
     this.userId = userId;
   }
 

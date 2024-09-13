@@ -11,7 +11,6 @@ export class Permission extends BaseEntity {
   }
 
   setDescription(description: string) : void {
-    // validar a descricao
     this.description = description;
   }
 

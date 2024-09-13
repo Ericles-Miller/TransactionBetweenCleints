@@ -43,7 +43,7 @@ export class UserValidator extends GenericValidator{
   }
 
   validateBalance(balance: number) : void {
-    if(balance < 0 || null) 
+    if(balance < 0 || NaN) 
       throw new AppError(new ResponseDTO<string>(UserErrorMessages.balanceInvalid), 400);
 
     const regex = UserConstants.regexBalance;
