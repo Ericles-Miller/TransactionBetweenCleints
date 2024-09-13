@@ -3,7 +3,7 @@ import { Configuration } from "@Domain/Config";
 import { inject, injectable } from "inversify";
 import jwt from 'jsonwebtoken';
 import { User } from "@Domain/Entities/Auth/User";
-import { UpdateUserTokenUseCase } from "../UpdateUserTokenUseCase";
+import { UpdateUserTokenUseCase } from "./UpdateUserTokenUseCase";
 
 
 @injectable()
@@ -16,20 +16,36 @@ export abstract class CreateAccessTokensUseCase {
     private updateUserTokenUseCase : UpdateUserTokenUseCase
   ) {}
   async createAccessToken(user: User) : Promise<string> {
-    const token = jwt.sign(
-      await this.credentialsTokens.generateCredentials(user),
-      Configuration.authApiSecrets.secretKey!,
-      {expiresIn: Configuration.authApiSecrets.tokenExpiresIn, algorithm: 'HS256'}
-    );
-    
-    return token;
+    try {
+      const token = jwt.sign(
+        await this.credentialsTokens.generateCredentials(user),
+        Configuration.authApiSecrets.secretKey!,
+        { 
+          subject: user.id,
+          expiresIn: Configuration.authApiSecrets.tokenExpiresIn,
+          algorithm: 'HS256',
+          audience: Configuration.authApiSecrets.audience!,
+          issuer: Configuration.authApiSecrets.issuer!,
+        }
+      );
+      
+      return token;
+    } catch (error) {
+      throw new Error(`Error creating access token: ${(error as Error).message}`);
+    } 
   }
 
   async generateRefreshToken(user: User): Promise<string> {
     const refreshToken = jwt.sign(
       await this.credentialsTokens.generateCredentials(user),
       Configuration.authApiSecrets.secretRefreshKey!,
-      {expiresIn: Configuration.authApiSecrets.refreshExpiresIn!, algorithm: 'HS256'}
+      {
+        subject: user.id,
+        expiresIn: Configuration.authApiSecrets.tokenExpiresIn,
+        algorithm: 'HS256',
+        audience: Configuration.authApiSecrets.audience!,
+        issuer: Configuration.authApiSecrets.issuer!,
+      }
     );
 
     await this.updateUserTokenUseCase.execute(user,refreshToken);

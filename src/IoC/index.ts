@@ -15,15 +15,19 @@ import { UpdateUserTokenUseCase } from '@Applications/UseCases/Auth/AccessToken/
 import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
 import { ReadAllUsersUseCase } from '@Applications/UseCases/Auth/Users/ReadAllUsersUseCase';
 import { ReadUserByIdUseCase } from '@Applications/UseCases/Auth/Users/ReadUserByIdUseCase';
-import { CreateAccessTokensUseCase } from '@Applications/UseCases/Auth/AccessToken/CreateAccessToken/CreateAccessTokensUseCase';
-import { LoginUserUseCase } from '@Applications/UseCases/Auth/AccessToken/CreateAccessToken/LoginUserUseCase';
+import { LoginUserUseCase } from '@Applications/UseCases/Auth/AccessToken/LoginUserUseCase';
 import { UpdateIsActiveUseCase } from '@Applications/UseCases/Auth/Users/UpdateIsActiveUseCase';
-import { MapperUser } from '@Applications/Mappings/Users/MapperUser';
 import { ITransactionsRepository } from '@Domain/Interfaces/Repositories/Transactions/ITransactionsRepository';
 import { TransactionsRepository } from '@Infra/Repositories/Transactions/TransactionsRepository';
 import { MapperTransactions } from '@Applications/Mappings/Transactions/MapperTransactions';
 import { CreateTransactionsUseCase } from '@Applications/UseCases/Transactions/CreateTransactionsUseCase';
 import { UpdateBalanceUserUseCase } from '@Applications/UseCases/Auth/Users/UpdateBalanceUserUseCase';
+import { CreateTransactionsReversalUseCase } from '@Applications/UseCases/Transactions/CreateTransactionsReversalUseCase';
+import { TransactionReversalRepository } from '@Infra/Repositories/Transactions/TransactionReversalRepository';
+import { ITransactionReversalRepository } from '@Domain/Interfaces/Repositories/Transactions/ITransactionReversalRepository';
+import { CreateAccessTokensUseCase } from '@Applications/UseCases/Auth/AccessToken/CreateAccessTokensUseCase';
+import { RefreshAccessUseCase } from '@Applications/UseCases/Auth/AccessToken/RefreshAccessUseCase';
+import { LogoutUseCase } from '@Applications/UseCases/Auth/AccessToken/LogoutUseCase';
 
 export const container = new Container();
 
@@ -36,7 +40,7 @@ container.bind<IUserRepository>('UsersRepository').to(UsersRepository).inSinglet
 container.bind<IPermissionRepository>('PermissionRepository').to(PermissionRepository).inSingletonScope();
 container.bind<IUserPermissionsRepository>('UserPermissionsRepository').to(UserPermissionsRepository);
 container.bind<IAuthUserRepository>('AuthUserRepository').to(AuthUserRepository);
-
+container.bind<ITransactionReversalRepository>('TransactionReversalRepository').to(TransactionReversalRepository);
 
 /// useCases
 ///users
@@ -51,7 +55,10 @@ container.bind<LoginUserUseCase>(LoginUserUseCase).toSelf();
 container.bind<CreateAccessTokensUseCase>(CreateAccessTokensUseCase).toSelf();
 container.bind<CredentialsToken>(CredentialsToken).toSelf();
 container.bind<UpdateUserTokenUseCase>(UpdateUserTokenUseCase).toSelf();
+container.bind<RefreshAccessUseCase>(RefreshAccessUseCase).toSelf();
+container.bind<LogoutUseCase>(LogoutUseCase).toSelf();
 
 /// transactions
 container.bind<MapperTransactions>(MapperTransactions).toSelf();
 container.bind<CreateTransactionsUseCase>(CreateTransactionsUseCase).toSelf();
+container.bind<CreateTransactionsReversalUseCase>(CreateTransactionsReversalUseCase).toSelf();

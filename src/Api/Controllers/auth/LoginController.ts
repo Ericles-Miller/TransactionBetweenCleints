@@ -1,4 +1,4 @@
-import { LoginUserUseCase } from "@Applications/UseCases/Auth/AccessToken/CreateAccessToken/LoginUserUseCase";
+import { LoginUserUseCase } from "@Applications/UseCases/Auth/AccessToken/LoginUserUseCase";
 import { Request, Response } from "express";
 import { container } from "IoC";
 

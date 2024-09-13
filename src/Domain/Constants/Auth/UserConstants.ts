@@ -5,7 +5,7 @@ export class UserConstants
 
   static lengthRefreshTokenCode = 36;
 
-  static maxLengthRefreshTokenCode = 50;
+  static maxLengthRefreshTokenCode = 500;
 
   static minLengthPassword = 8;
   

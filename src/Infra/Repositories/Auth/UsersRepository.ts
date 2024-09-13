@@ -73,5 +73,10 @@ export class UsersRepository implements IUserRepository {
   async updateUpdateAt(id: string, updatedAt: null|Date) :Promise<Users> {
     return await this.repository.update({where: {id}, data: {updatedAt}});
   }
+
+  async invalidToken(id: string): Promise<void> {
+    await this.repository.update({where: {id}, data: {refreshTokenCode: null}});
+  }
+
 }
   
