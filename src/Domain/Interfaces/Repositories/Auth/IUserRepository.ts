@@ -8,6 +8,7 @@ export interface IUserRepository {
   findNameByEmail(email: string) : Promise<string|null>;
   readAll(): Promise<Users[]>;
   getById(id: string): Promise<Users| null>;
+  getByIdWithPermissions(id: string): Promise<UserWithPermissions| null>;
   updateBalance(id: string, balance: number): Promise<void>;
   checkIdExists(id:string):Promise<boolean>;
   getNameById(id: string): Promise<string>;

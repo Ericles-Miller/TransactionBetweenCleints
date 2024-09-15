@@ -4,7 +4,7 @@ import { container } from '@IoC/index';
 
 export class RefreshAccessController {
   async handle(request: Request, response: Response) : Promise<Response> {
-    const { refreshTokenCode, email } = request.body;
+    const { refreshTokenCode, userId } = request.body;
     const authToken = request.headers.authorization;
 
     if (!authToken) {
@@ -14,8 +14,7 @@ export class RefreshAccessController {
     const [, token] = authToken?.split(' ');
 
     const refreshAccessUseCase = container.get(RefreshAccessUseCase);
-
-    const responseData = await refreshAccessUseCase.execute({refreshTokenCode, email, token});
+    const responseData = await refreshAccessUseCase.execute({refreshTokenCode, userId, token});
 
     return response.status(201).json(responseData);
   }

@@ -70,6 +70,17 @@ export class UsersRepository implements IUserRepository {
     return context?.name ? context.name : '';
   }
 
+  async getByIdWithPermissions(id: string): Promise<UserWithPermissions | null> {
+    const user = await this.repository.findFirst({
+      where: { id },
+      include: {
+        userPermissions: true
+      }
+    });
+
+    return user as UserWithPermissions | null;
+  }
+
   async updateUpdateAt(id: string, updatedAt: null|Date) :Promise<Users> {
     return await this.repository.update({where: {id}, data: {updatedAt}});
   }

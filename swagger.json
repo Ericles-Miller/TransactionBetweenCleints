@@ -169,13 +169,16 @@
         "tags": ["auth"],
         "summary": "refresh access",
         "description": "generate a new token and refresh token to user",
+        "security": [
+          { "bearerAuth": []}
+        ],
         "requestBody": {
           "content" : {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "email": {
+                  "userId": {
                     "type": "string"
                   },
                   "refreshTokenCode": {

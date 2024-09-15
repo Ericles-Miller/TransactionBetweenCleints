@@ -53,7 +53,7 @@ export class CreateTransactionsReversalUseCase {
 
     try {
       if(error) {
-        throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.TransactInverseFailed), 400);
+        throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.transactInverseFailed), 400);
       } else {
         transaction.status = 'REVERSED';
         transaction.updatedAt = new Date();
@@ -101,7 +101,7 @@ export class CreateTransactionsReversalUseCase {
       throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.insufficientBalance), 400);
 
     if(transaction.status === 'REVERSED')
-      throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.InverseTransaction), 400);
+      throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.inverseTransaction), 400);
 
     return received;
   }
