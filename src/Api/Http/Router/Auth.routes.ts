@@ -13,6 +13,7 @@ const refreshAccessController = new RefreshAccessController();
 const logoutController = new LogoutController();
 
 authRoutes.post('/login', loginUserController.handle);
+
 authRoutes.post('/logout',
   authorizedFlow.authenticateToken,
   authorizedFlow.authorizePermission('Client.Admin'),

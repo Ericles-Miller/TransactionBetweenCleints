@@ -17,25 +17,18 @@ export class UpdateBalanceUserUseCase {
       const user = await this.usersRepository.getById(receivedId);
       if(!user)
         throw new AppError(new ResponseDTO<string>(UserErrorMessages.invalidId), 404);
-
+  
       if(!user.isActive)
         throw new AppError(new ResponseDTO<string>(UserErrorMessages.userInactive), 404);
-
-      try {
-        await this.usersRepository.updateBalance(receivedId, user.balance + amount);
-        await this.usersRepository.updateBalance(sender.id, sender.balance - amount);
-        return false;
-      } catch {
-        await this.usersRepository.updateBalance(receivedId, user.balance - amount);
-        await this.usersRepository.updateBalance(sender.id, sender.balance + amount);
-        return true;
-      }
-    
+  
+      await this.usersRepository.updateBalance('receivedId', user.balance + amount);
+      await this.usersRepository.updateBalance(sender.id, sender.balance - amount);
+      return false;
     } catch (error) {
       if(error instanceof AppError)
-        throw error
+        throw error;
 
-      throw new AppError(new ResponseDTO<string>(UserErrorMessages.unexpectedUpdateBalance), 500);
+      return true;
     }
   }
 }

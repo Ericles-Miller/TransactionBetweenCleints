@@ -22,12 +22,15 @@ export class RefreshAccessUseCase {
 
   ){}
 
-  async execute({refreshTokenCode, email, token }: RefreshAccessRequestDTO): Promise<ResponseDTO<TokensResponseDTO>> {
+  async execute({refreshTokenCode, userId, token }: RefreshAccessRequestDTO): Promise<ResponseDTO<TokensResponseDTO>> {
     try {
-      if(!refreshTokenCode || !email)
+      if(!refreshTokenCode || !userId)
         throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
-  
-      const user = await this.usersRepository.getByEmail(email);
+
+      if(!token)
+        throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401)
+
+      const user = await this.usersRepository.getByIdWithPermissions(userId);
       if(!user)
         throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
   
@@ -38,11 +41,11 @@ export class RefreshAccessUseCase {
   
       this.validateFields(mapperUser);
   
-      const token = await this.createAccessTokenUseCase.createAccessToken(mapperUser);
+      const newToken = await this.createAccessTokenUseCase.createAccessToken(mapperUser);
       const refreshToken = await this.createAccessTokenUseCase.generateRefreshToken(mapperUser);
-      tokenBlacklist.push(token);
       
-      return new ResponseDTO<TokensResponseDTO>({token, refreshToken}); 
+      tokenBlacklist.push(token);
+      return new ResponseDTO<TokensResponseDTO>({token: newToken, refreshToken}); 
     } catch (error) {
       if(error instanceof AppError)
         throw error
@@ -52,7 +55,7 @@ export class RefreshAccessUseCase {
   }
 
   private validateFields(user: User): void {
-    if(user.isActive === false || user.userPermissions?.length == 0)
+    if(user.isActive === false || user.userPermissions?.length === 0)
       throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
   }
 }

@@ -36,7 +36,5 @@ export class MapperUser {
   : undefined;
 
     return mapperUser;
-}
-
-
+  }
 }
