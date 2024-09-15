@@ -11,6 +11,7 @@ import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessa
 import { TransactionResponseDTO } from '@Applications/DTOs/Responses/Transactions/TransactionResponseDTO';
 import { MapperTransactions } from '@Applications/Mappings/Transactions/MapperTransactions';
 import { AccessTokenErrorMessages } from '@Domain/Exceptions/Errors/Auth/AccessTokenErrorMessages';
+import { prisma } from '@Infra/DataBase/database';
 
 
 @injectable()
@@ -29,42 +30,53 @@ export class CreateTransactionsUseCase {
   ) {}
 
   async execute({ amount, receivedId, senderId, sub }: TransactionRequestDTO) : Promise<ResponseDTO<TransactionResponseDTO>> {
-    const sender = await this.usersRepository.getById(senderId);
-    if(!sub) 
-      throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
+    try {
+      const sender = await this.usersRepository.getById(senderId);
+      if(!sub) 
+        throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
+  
+      if(sub !== senderId)
+        throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
+  
+      if(!sender)
+        throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.invalidSender), 404);
+  
+      if(!sender.isActive)
+        throw new AppError(new ResponseDTO<string>(UserErrorMessages.userInactive), 404);
+  
+      if(receivedId === senderId)
+        throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.sameUser), 400);
+  
+      if(amount > sender.balance)
+        throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.insufficientBalance), 400)
+  
+      const transaction = await prisma.$transaction(async(prisma) => {
+        const transaction = new Transaction(senderId, receivedId, amount, null);
+        let prismaTransaction = this.mapperTransactions.mapperTransactionToPrisma(transaction);
+        
+        const newTransaction = await this.transactionsRepository.created(prismaTransaction);
+        const error = await this.updateBalanceUserUseCase.execute({receivedId, amount, sender});
+        if(error)
+          throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.transactionError), 400);
 
-    if(sub !== senderId)
-      throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
+        
+        transaction.setStatus('COMPLETED');
+        transaction.setUpdatedAt(); 
+        
+        prismaTransaction = this.mapperTransactions.mapperTransactionToPrisma(transaction);
+        await this.transactionsRepository.updateStatus(newTransaction.id, prismaTransaction);
+        
+        return prismaTransaction; 
+      });
 
-    if(!sender)
-      throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.invalidSender), 404);
-
-    if(!sender.isActive)
-      throw new AppError(new ResponseDTO<string>(UserErrorMessages.userInactive), 404);
-
-    if(receivedId === senderId)
-      throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.sameUser), 400);
-
-    if(amount > sender.balance)
-      throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.insufficientBalance), 400)
-
-    const transaction = new Transaction(senderId, receivedId, amount, null);
-    let prismaTransaction = this.mapperTransactions.mapperTransactionToPrisma(transaction);
-
-    const newTransaction = await this.transactionsRepository.created(prismaTransaction);
-    const error = await this.updateBalanceUserUseCase.execute({receivedId, amount, sender});
-    if(error) {
-      transaction.setStatus('FAILED');
-      transaction.setUpdatedAt();      
-    } else {
-      transaction.setStatus('COMPLETED');
-      transaction.setUpdatedAt();
+      const response = await this.mapperTransactions.mapperTransactionResponse(transaction);
+      return new ResponseDTO<TransactionResponseDTO>(response);
     } 
+    catch (error) {
+      if(error instanceof AppError)
+        throw error;
 
-    prismaTransaction = this.mapperTransactions.mapperTransactionToPrisma(transaction);
-    await this.transactionsRepository.updateStatus(newTransaction.id, prismaTransaction);
-      
-    const response = await this.mapperTransactions.mapperTransactionResponse(prismaTransaction);
-    return new ResponseDTO<TransactionResponseDTO>(response);
+      throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.unexpectedCreateTransaction), 500);
+    }
   }
 }

@@ -51,35 +51,16 @@ export class CreateTransactionsReversalUseCase {
       receivedId: transaction.senderId, amount: transaction.amount, sender,
     });
 
-    try {
-      if(error) {
-        throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.TransactInverseFailed), 400);
-      } else {
-        transaction.status = 'REVERSED';
-        transaction.updatedAt = new Date();
-        await this.transactionsRepository.updateStatus(transaction.id, transaction);
-      } 
-      const response = await this.transactionReversalRepository.create(mapperTransactionReversal);
-      return new ResponseDTO<TransactionsReversals>(response);
-    } catch {
-      
-      const newSender = await this.usersRepository.getById(transaction.senderId);
-      if(!newSender)
-        throw new AppError(new ResponseDTO<string>(UserErrorMessages.invalidId), 400);
-
-      const error = await this.updateBalanceUserUseCase.execute({
-        receivedId: transaction.receiverId, amount: transaction.amount, sender: newSender,
-      });
-
-      if(error)
-        throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.unexpectedReverse), 400);
-
-      transaction.status = 'FAILED';
-      transaction.updatedAt = new Date;
-      await this.transactionsRepository.updateStatus(transaction.id, transaction);
-
-      throw new AppError(new ResponseDTO<string>('Reverse transact error. the amount value account was returned'), 400);
-    }
+    if(error) 
+      throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.transactInverseFailed), 400);
+    
+    transaction.status = 'REVERSED';
+    transaction.updatedAt = new Date();
+    await this.transactionsRepository.updateStatus(transaction.id, transaction);
+    
+    const response = await this.transactionReversalRepository.create(mapperTransactionReversal);
+    return new ResponseDTO<TransactionsReversals>(response);
+    
   }
 
   private async validateReversalTransaction(transaction: Transactions) : Promise<Users> {
@@ -101,7 +82,7 @@ export class CreateTransactionsReversalUseCase {
       throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.insufficientBalance), 400);
 
     if(transaction.status === 'REVERSED')
-      throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.InverseTransaction), 400);
+      throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.inverseTransaction), 400);
 
     return received;
   }
