@@ -21,7 +21,7 @@ export class UpdateBalanceUserUseCase {
       if(!user.isActive)
         throw new AppError(new ResponseDTO<string>(UserErrorMessages.userInactive), 404);
   
-      await this.usersRepository.updateBalance('receivedId', user.balance + amount);
+      await this.usersRepository.updateBalance(receivedId, user.balance + amount);
       await this.usersRepository.updateBalance(sender.id, sender.balance - amount);
       return false;
     } catch (error) {
