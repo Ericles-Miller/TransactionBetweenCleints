@@ -1,6 +1,6 @@
-import "reflect-metadata";
-import { prisma } from "../database";
-import { SeedsPermissions } from "./SeedsPermissions";
+import 'reflect-metadata';
+import { prisma } from '../database';
+import { SeedsPermissions } from './SeedsPermissions';
 
 async function main() {
   try {

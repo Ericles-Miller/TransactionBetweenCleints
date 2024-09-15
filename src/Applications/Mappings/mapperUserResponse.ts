@@ -1,5 +1,5 @@
-import { UserResponseDTO } from "@Applications/DTOs/Responses/Auth/Users/UserResponseDTO";
-import { Users } from "@prisma/client";
+import { UserResponseDTO } from '@Applications/DTOs/Responses/Auth/Users/UserResponseDTO';
+import { Users } from '@prisma/client';
 
 
 export function mapperUserResponse(user: Users) : UserResponseDTO {

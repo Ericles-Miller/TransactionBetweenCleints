@@ -1,8 +1,8 @@
-import { LoginUserController } from "@Api/Controllers/auth/LoginController";
-import { LogoutController } from "@Api/Controllers/auth/LogoutController";
-import { RefreshAccessController } from "@Api/Controllers/auth/RefreshAccessController";
-import { AuthorizedFlow } from "@Api/Extensions/AuthorizedFlow";
-import { Router } from "express";
+import { LoginUserController } from '@Api/Controllers/Auth/LoginController';
+import { LogoutController } from '@Api/Controllers/Auth/LogoutController';
+import { RefreshAccessController } from '@Api/Controllers/Auth/RefreshAccessController';
+import { AuthorizedFlow } from '@Api/Extensions/AuthorizedFlow';
+import { Router } from 'express';
 
 const authorizedFlow = new AuthorizedFlow();
 

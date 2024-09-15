@@ -1,7 +1,7 @@
-import { ITransactionReversalRepository } from "@Domain/Interfaces/Repositories/Transactions/ITransactionReversalRepository";
-import { prisma } from "@Infra/DataBase/database";
-import { TransactionsReversals } from "@prisma/client";
-import { injectable } from "inversify";
+import { ITransactionReversalRepository } from '@Domain/Interfaces/Repositories/Transactions/ITransactionReversalRepository';
+import { prisma } from '@Infra/DataBase/database';
+import { TransactionsReversals } from '@prisma/client';
+import { injectable } from 'inversify';
 
 
 @injectable()

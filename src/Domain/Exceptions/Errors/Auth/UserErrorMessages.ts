@@ -1,9 +1,9 @@
-import { UserConstants } from "@Domain/Constants/Auth/UserConstants";
-import { GenericEntityConstants } from "@Domain/Constants/Shared/GenericEntityConstant";
-import { GenericErrorMessages } from "@Domain/Exceptions/Shared/GenericErrorMessages";
+import { UserConstants } from '@Domain/Constants/Auth/UserConstants';
+import { GenericEntityConstants } from '@Domain/Constants/Shared/GenericEntityConstant';
+import { GenericErrorMessages } from '@Domain/Exceptions/Shared/GenericErrorMessages';
 
 export class UserErrorMessages extends GenericErrorMessages {
-  static invalidCharsEmail = "The email contains characters invalids";
+  static invalidCharsEmail = 'The email contains characters invalids';
   static emailExists = 'The email already exists';
 
   static invalidUser = 'user Not Found';
@@ -13,10 +13,10 @@ export class UserErrorMessages extends GenericErrorMessages {
   static UsersEmpty = `Don't exists users add`;
   static invalidCharsName = 'The name contains characters invalids.';
 
-  static invalidLengthRefreshTokenCode = "The refresh token code size is invalid."; 
+  static invalidLengthRefreshTokenCode = 'The refresh token code size is invalid.'; 
 
   static invalidLengthPassword = `The password must be between ${UserConstants.minLengthPassword} and 
-    ${UserConstants.maxLengthPassword} characters.`
+    ${UserConstants.maxLengthPassword} characters.`;
   
   static balanceInvalid = 'The balance value should be than biggest 0, or contains just numbers.';
 

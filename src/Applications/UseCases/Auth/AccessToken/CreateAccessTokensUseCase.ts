@@ -1,9 +1,9 @@
-import { CredentialsToken } from "@Applications/UseCases/Shared/CredentialsToken";
-import { Configuration } from "@Domain/Config";
-import { inject, injectable } from "inversify";
+import { CredentialsToken } from '@Applications/UseCases/Shared/CredentialsToken';
+import { Configuration } from '@Domain/Config';
+import { inject, injectable } from 'inversify';
 import jwt from 'jsonwebtoken';
-import { User } from "@Domain/Entities/Auth/User";
-import { UpdateUserTokenUseCase } from "./UpdateUserTokenUseCase";
+import { User } from '@Domain/Entities/Auth/User';
+import { UpdateUserTokenUseCase } from './UpdateUserTokenUseCase';
 
 
 @injectable()
@@ -49,7 +49,6 @@ export abstract class CreateAccessTokensUseCase {
     );
 
     await this.updateUserTokenUseCase.execute(user,refreshToken);
-
     return refreshToken;
   }
 }

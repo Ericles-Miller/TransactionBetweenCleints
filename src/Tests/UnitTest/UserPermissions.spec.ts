@@ -1,6 +1,6 @@
-import "reflect-metadata";
-import "express-async-errors";
-import { UserPermissions } from "@Domain/Entities/Auth/UserPermissions";
+import 'reflect-metadata';
+import 'express-async-errors';
+import { UserPermissions } from '@Domain/Entities/Auth/UserPermissions';
 import {v4 as uuid} from 'uuid';
 
 

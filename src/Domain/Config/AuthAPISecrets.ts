@@ -1,6 +1,6 @@
-import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
-import { AppError } from "@Domain/Exceptions/Shared/AppError";
-import { GenericErrorMessages } from "@Domain/Exceptions/Shared/GenericErrorMessages";
+import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
+import { AppError } from '@Domain/Exceptions/Shared/AppError';
+import { GenericErrorMessages } from '@Domain/Exceptions/Shared/GenericErrorMessages';
 
 export class AuthAPISecrets {
   secretKey: string;

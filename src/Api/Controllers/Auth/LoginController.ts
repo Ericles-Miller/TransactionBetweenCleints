@@ -1,6 +1,6 @@
-import { LoginUserUseCase } from "@Applications/UseCases/Auth/AccessToken/LoginUserUseCase";
-import { Request, Response } from "express";
-import { container } from "IoC";
+import { LoginUserUseCase } from '@Applications/UseCases/Auth/AccessToken/LoginUserUseCase';
+import { Request, Response } from 'express';
+import { container } from '@IoC/index';
 
 export class LoginUserController {
   async handle(request: Request, response: Response): Promise<Response> {

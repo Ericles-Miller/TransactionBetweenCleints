@@ -1,6 +1,6 @@
-import { UserPermissions } from "@Domain/Entities/Auth/UserPermissions";
-import { IUserPermissionsRepository } from "@Domain/Interfaces/Repositories/Auth/IUserPermissionsRepository";
-import { inject, injectable } from "inversify";
+import { UserPermissions } from '@Domain/Entities/Auth/UserPermissions';
+import { IUserPermissionsRepository } from '@Domain/Interfaces/Repositories/Auth/IUserPermissionsRepository';
+import { inject, injectable } from 'inversify';
 
 @injectable()
 export class AddPermissions {

@@ -1,7 +1,7 @@
-import { hash } from "bcryptjs";
-import { UserValidator } from "@Domain/Validator/Auth/UserValidator";
-import { BaseIsActive } from "../Shared/BaseIsActive";
-import { UserPermissions } from "./UserPermissions";
+import { hash } from 'bcryptjs';
+import { UserValidator } from '@Domain/Validator/Auth/UserValidator';
+import { BaseIsActive } from '../Shared/BaseIsActive';
+import { UserPermissions } from './UserPermissions';
 
 const validator = new UserValidator();
 export class User extends BaseIsActive {  

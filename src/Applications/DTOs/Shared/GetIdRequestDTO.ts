@@ -1,3 +1,3 @@
 export class GetIdRequestDTO {
-  id!: string;
+  id: string = '';
 }

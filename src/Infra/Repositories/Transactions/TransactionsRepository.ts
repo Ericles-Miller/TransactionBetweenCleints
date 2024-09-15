@@ -1,7 +1,7 @@
-import { ITransactionsRepository } from "@Domain/Interfaces/Repositories/Transactions/ITransactionsRepository";
-import { prisma } from "@Infra/DataBase/database";
-import { Transactions } from "@prisma/client";
-import { injectable } from "inversify";
+import { ITransactionsRepository } from '@Domain/Interfaces/Repositories/Transactions/ITransactionsRepository';
+import { prisma } from '@Infra/DataBase/database';
+import { Transactions } from '@prisma/client';
+import { injectable } from 'inversify';
 
 @injectable()
 export class TransactionsRepository implements ITransactionsRepository {

@@ -1,7 +1,7 @@
-import { User } from "@Domain/Entities/Auth/User";
-import { UserPermissions } from "@Domain/Entities/Auth/UserPermissions";
-import { IMapper } from "@Domain/Interfaces/Shared/IMapper";
-import { UserWithPermissions } from "@Domain/Types/DataTypes/UserWithPermissions";
+import { User } from '@Domain/Entities/Auth/User';
+import { UserPermissions } from '@Domain/Entities/Auth/UserPermissions';
+import { IMapper } from '@Domain/Interfaces/Shared/IMapper';
+import { UserWithPermissions } from '@Domain/Types/DataTypes/UserWithPermissions';
 
 export class PrismaMapper<TSource, TDestination> implements IMapper<TSource, TDestination> {
   constructor() {}
@@ -15,7 +15,6 @@ export class PrismaMapper<TSource, TDestination> implements IMapper<TSource, TDe
   private mapProperties(source: any, destination: any) {
     let currentSource = source;
 
-    // Percorre a cadeia de protótipos para mapear todas as propriedades
     while (currentSource && currentSource !== Object.prototype) {
       Object.keys(currentSource).forEach((key) => {
         if (source[key] !== undefined) {
@@ -23,7 +22,6 @@ export class PrismaMapper<TSource, TDestination> implements IMapper<TSource, TDe
         }
       });
 
-      // Passa para a próxima classe pai
       currentSource = Object.getPrototypeOf(currentSource);
     }
   }
