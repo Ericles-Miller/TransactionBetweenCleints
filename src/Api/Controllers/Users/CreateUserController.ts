@@ -1,6 +1,6 @@
 import { CreateUserUseCase } from '@Applications/UseCases/Auth/Users/CreateUserUseCase';
+import { container } from '@IoC/index';
 import { Request, Response } from 'express';
-import { container } from 'IoC';
 
 
 export class CreateUserController {

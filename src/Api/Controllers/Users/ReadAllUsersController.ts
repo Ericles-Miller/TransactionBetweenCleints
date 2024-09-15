@@ -1,8 +1,8 @@
 import { ReadAllUsersUseCase } from '@Applications/UseCases/Auth/Users/ReadAllUsersUseCase';
+import { container } from '@IoC/index';
 import { Request, Response } from 'express';
-import { container } from 'IoC';
 
-export class ReadAllUserController {
+export class ReadAllUsersController {
   async handle(request: Request, response: Response) : Promise<Response> {
     const readAllUsersUseCase = container.get(ReadAllUsersUseCase);
 

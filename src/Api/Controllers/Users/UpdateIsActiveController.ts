@@ -2,7 +2,7 @@ import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
 import { UpdateIsActiveUseCase } from '@Applications/UseCases/Auth/Users/UpdateIsActiveUseCase';
 import { GenericConstants } from '@Domain/Constants/Shared/GenericConstants';
 import { Request, Response } from 'express';
-import { container } from 'IoC';
+import { container } from '@IoC/index';
 
 export class UpdateIsActiveController {
   async handle(request: Request, response: Response) : Promise<Response> {

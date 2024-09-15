@@ -1,6 +1,6 @@
 import { RefreshAccessUseCase } from '@Applications/UseCases/Auth/AccessToken/RefreshAccessUseCase';
 import { Request, Response } from 'express';
-import { container } from 'IoC';
+import { container } from '@IoC/index';
 
 export class RefreshAccessController {
   async handle(request: Request, response: Response) : Promise<Response> {
