@@ -1,4 +1,4 @@
-import { GenericErrorMessages } from "@Domain/Exceptions/Shared/GenericErrorMessages";
+import { GenericErrorMessages } from '@Domain/Exceptions/Shared/GenericErrorMessages';
 
 
 export class AccessTokenErrorMessages {

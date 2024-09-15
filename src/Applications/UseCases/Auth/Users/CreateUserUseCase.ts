@@ -1,4 +1,4 @@
-import { ICreateUserRequestDTO } from '@Applications/DTOs/Requests/Auth/users/ICreateUserRequestDTO';
+import { CreateUserRequestDTO } from '@Applications/DTOs/Requests/Auth/users/ICreateUserRequestDTO';
 import { PrismaMapper } from '@Applications/Mappings/AutoMapping.Profile';
 import { AppError } from '@Domain/Exceptions/Shared/AppError';
 import { Users } from '@prisma/client';
@@ -24,7 +24,7 @@ export class CreateUserUseCase {
     private addPermission: AddPermissions
   ) {}
 
-  async execute({ email, name, password, permissions, balance }: ICreateUserRequestDTO) : Promise<ResponseDTO<UserResponseDTO>> {
+  async execute({ email, name, password, permissions, balance }: CreateUserRequestDTO) : Promise<ResponseDTO<UserResponseDTO>> {
     try {
       await this.validateUser(email, permissions);
 

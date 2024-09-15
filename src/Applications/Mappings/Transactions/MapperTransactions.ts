@@ -1,9 +1,9 @@
-import { TransactionResponseDTO } from "@Applications/DTOs/Responses/Transactions/TransactionResponseDTO";
-import { Transaction } from "@Domain/Entities/Transactions/Transaction";
-import { TransactionReversal } from "@Domain/Entities/Transactions/TransactionReversal";
-import { IUserRepository } from "@Domain/Interfaces/Repositories/Auth/IUserRepository";
-import { Transactions, TransactionsReversals } from "@prisma/client";
-import { inject, injectable } from "inversify";
+import { TransactionResponseDTO } from '@Applications/DTOs/Responses/Transactions/TransactionResponseDTO';
+import { Transaction } from '@Domain/Entities/Transactions/Transaction';
+import { TransactionReversal } from '@Domain/Entities/Transactions/TransactionReversal';
+import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
+import { Transactions, TransactionsReversals } from '@prisma/client';
+import { inject, injectable } from 'inversify';
 
 @injectable()
 export class MapperTransactions {

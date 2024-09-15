@@ -1,6 +1,6 @@
-import { GenericConstants } from "@Domain/Constants/Shared/GenericConstants";
-import { BaseEntity } from "../Shared/Base";
-import { TransactionValidator } from "@Domain/Validator/Transactions/TransactionsValidator";
+import { GenericConstants } from '@Domain/Constants/Shared/GenericConstants';
+import { BaseEntity } from '../Shared/Base';
+import { TransactionValidator } from '@Domain/Validator/Transactions/TransactionsValidator';
 
 
 export class Transaction extends BaseEntity {

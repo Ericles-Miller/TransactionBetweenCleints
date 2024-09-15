@@ -1,8 +1,8 @@
-import { IUserRepository } from "@Domain/Interfaces/Repositories/Auth/IUserRepository";
-import { UserWithPermissions } from "@Domain/Types/DataTypes/UserWithPermissions";
-import { prisma } from "@Infra/DataBase/database";
-import { Users } from "@prisma/client";
-import { injectable } from "inversify";
+import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
+import { UserWithPermissions } from '@Domain/Types/DataTypes/UserWithPermissions';
+import { prisma } from '@Infra/DataBase/database';
+import { Users } from '@prisma/client';
+import { injectable } from 'inversify';
 
 @injectable()
 export class UsersRepository implements IUserRepository {

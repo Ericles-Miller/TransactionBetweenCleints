@@ -1,5 +1,5 @@
-import { UserWithPermissions } from "@Domain/Types/DataTypes/UserWithPermissions";
-import { Users } from "@prisma/client";
+import { UserWithPermissions } from '@Domain/Types/DataTypes/UserWithPermissions';
+import { Users } from '@prisma/client';
 
 export interface IUserRepository {
   create(user: Users): Promise<Users>;

@@ -1,12 +1,11 @@
-import { UserResponseDTO } from "@Applications/DTOs/Responses/Auth/Users/UserResponseDTO";
-import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
-import { GetIdRequestDTO } from "@Applications/DTOs/Shared/GetIdRequestDTO";
-import { mapperUserResponse } from "@Applications/Mappings/mapperUserResponse";
-import { UserErrorMessages } from "@Domain/Exceptions/Errors/Auth/UserErrorMessages";
-import { AppError } from "@Domain/Exceptions/Shared/AppError";
-import { IUserRepository } from "@Domain/Interfaces/Repositories/Auth/IUserRepository";
-import { UsersRepository } from "@Infra/Repositories/Auth/UsersRepository";
-import { inject, injectable } from "inversify";
+import { UserResponseDTO } from '@Applications/DTOs/Responses/Auth/Users/UserResponseDTO';
+import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
+import { GetIdRequestDTO } from '@Applications/DTOs/Shared/GetIdRequestDTO';
+import { mapperUserResponse } from '@Applications/Mappings/mapperUserResponse';
+import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessages';
+import { AppError } from '@Domain/Exceptions/Shared/AppError';
+import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
+import { inject, injectable } from 'inversify';
 
 @injectable()
 export class ReadUserByIdUseCase {

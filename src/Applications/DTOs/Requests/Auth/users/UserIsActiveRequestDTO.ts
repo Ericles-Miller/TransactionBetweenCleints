@@ -1,6 +1,4 @@
-
-
 export class UserIsActiveRequestDTO {
-  id!: string;
+  id: string = '';
   isActive!: boolean;
 }

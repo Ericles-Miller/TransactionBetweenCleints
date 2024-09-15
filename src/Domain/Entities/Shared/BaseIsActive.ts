@@ -1,7 +1,7 @@
-import { AppError } from "@Domain/Exceptions/Shared/AppError";
-import { BaseEntity } from "./Base";
-import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
-import { GenericErrorMessages } from "@Domain/Exceptions/Shared/GenericErrorMessages";
+import { AppError } from '@Domain/Exceptions/Shared/AppError';
+import { BaseEntity } from './Base';
+import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
+import { GenericErrorMessages } from '@Domain/Exceptions/Shared/GenericErrorMessages';
 
 export abstract class BaseIsActive extends BaseEntity {
   isActive!: boolean; 

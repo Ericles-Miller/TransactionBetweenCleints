@@ -1,6 +1,6 @@
-import { Permission } from "./Permissions";
-import { BaseEntity } from "../Shared/Base";
-import { User } from "./User";
+import { Permission } from './Permissions';
+import { BaseEntity } from '../Shared/Base';
+import { User } from './User';
 
 export class UserPermissions extends BaseEntity {
   userId!: string;

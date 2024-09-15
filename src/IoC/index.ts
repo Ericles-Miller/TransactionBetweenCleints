@@ -13,7 +13,6 @@ import { IAuthUserRepository } from '@Domain/Interfaces/Repositories/Auth/IAuthU
 import { CreateUserUseCase } from '@Applications/UseCases/Auth/Users/CreateUserUseCase';
 import { UpdateUserTokenUseCase } from '@Applications/UseCases/Auth/AccessToken/UpdateUserTokenUseCase';
 import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
-import { ReadAllUsersUseCase } from '@Applications/UseCases/Auth/Users/ReadAllUsersUseCase';
 import { ReadUserByIdUseCase } from '@Applications/UseCases/Auth/Users/ReadUserByIdUseCase';
 import { LoginUserUseCase } from '@Applications/UseCases/Auth/AccessToken/LoginUserUseCase';
 import { UpdateIsActiveUseCase } from '@Applications/UseCases/Auth/Users/UpdateIsActiveUseCase';
@@ -28,6 +27,7 @@ import { ITransactionReversalRepository } from '@Domain/Interfaces/Repositories/
 import { CreateAccessTokensUseCase } from '@Applications/UseCases/Auth/AccessToken/CreateAccessTokensUseCase';
 import { RefreshAccessUseCase } from '@Applications/UseCases/Auth/AccessToken/RefreshAccessUseCase';
 import { LogoutUseCase } from '@Applications/UseCases/Auth/AccessToken/LogoutUseCase';
+import { ReadAllUsersUseCase } from '@Applications/UseCases/Auth/Users/ReadAllUsersUseCase';
 
 export const container = new Container();
 

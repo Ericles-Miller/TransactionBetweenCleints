@@ -1,5 +1,5 @@
-import { User } from "@Domain/Entities/User";
-import { Users } from "@prisma/client";
+import { User } from '@Domain/Entities/Auth/User';
+import { Users } from '@prisma/client';
 
 export interface IAuthUserRepository {
   authGetByEmail(email: string) : Promise<Users | null>;
