@@ -1,13 +1,18 @@
 import { UserResponseDTO } from '@Applications/DTOs/Responses/Auth/Users/UserResponseDTO';
 import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
 import { mapperUserResponse } from '@Applications/Mappings/mapperUserResponse';
+import { LoggerConstants } from '@Domain/Constants/LoggerConstants';
 import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessages';
 import { AppError } from '@Domain/Exceptions/Shared/AppError';
+import { GenericErrorMessages } from '@Domain/Exceptions/Shared/GenericErrorMessages';
 import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
+import LoggerComponent from '@Infra/Logging/LoggerComponent';
 import { inject, injectable } from 'inversify';
 
 @injectable()
 export class ReadAllUsersUseCase {
+  private readonly logger = new LoggerComponent(ReadAllUsersUseCase.name);
+
   constructor(
     @inject('UsersRepository')
     private readonly usersRepository: IUserRepository
@@ -15,6 +20,8 @@ export class ReadAllUsersUseCase {
 
   async execute(): Promise<ResponseDTO<UserResponseDTO[]>> {
     try {
+      this.logger.info(LoggerConstants.readAllLogger);
+
       const users = await this.usersRepository.readAll();
       if(users.length === 0)
         throw new AppError(new ResponseDTO<string>(UserErrorMessages.UsersEmpty), 404);
@@ -25,9 +32,11 @@ export class ReadAllUsersUseCase {
 
       return new ResponseDTO<UserResponseDTO[]>(responses);
     } catch (error) {
-      if(error instanceof AppError)
+      if(error instanceof AppError) {
+        this.logger.warn(GenericErrorMessages.invalidAction, error);
         throw error;
-      
+      }
+      this.logger.error(UserErrorMessages.unexpectedReadAll, error);
       throw new AppError(new ResponseDTO<string>(UserErrorMessages.unexpectedReadAll), 500);
     }
   }

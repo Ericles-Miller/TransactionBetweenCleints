@@ -6,9 +6,13 @@ import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessa
 import { AccessTokenErrorMessages } from '@Domain/Exceptions/Errors/Auth/AccessTokenErrorMessages';
 import { LogoutRequestDTO } from '@Applications/DTOs/Requests/Auth/LogoutRequestDTO';
 import { tokenBlacklist } from '@Api/Extensions/AuthorizedFlow';
+import LoggerComponent from '@Infra/Logging/LoggerComponent';
+import { LoggerConstants } from '@Domain/Constants/LoggerConstants';
 
 @injectable()
 export class LogoutUseCase {
+  private readonly logger = new LoggerComponent(LogoutUseCase.name);
+
   constructor (
     @inject('UsersRepository')
     private usersRepository: IUserRepository,
@@ -16,10 +20,13 @@ export class LogoutUseCase {
 
   async execute({refreshToken, userId, token}: LogoutRequestDTO) : Promise<void> {
     try {
+      this.logger.info(LoggerConstants.logoutLogger);
 
       const user = await this.usersRepository.getById(userId);
-      if(!user)
+      if(!user) {
+        this.logger.warn(UserErrorMessages.invalidId);
         throw new AppError(new ResponseDTO<string>(UserErrorMessages.invalidId), 404);
+      }
       
       if(user.refreshTokenCode !== refreshToken)
         throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.invalidToken), 401);
@@ -28,9 +35,10 @@ export class LogoutUseCase {
 
       tokenBlacklist.push(token);
     } catch (error) {
-      if(error instanceof AppError)
+      if(error instanceof AppError){
         throw error;
-      
+      }
+      this.logger.error(AccessTokenErrorMessages.unexpectedLogout, error);
       throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.unexpectedLogout), 500);
     }
   }

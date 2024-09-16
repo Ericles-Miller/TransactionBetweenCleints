@@ -12,9 +12,13 @@ import { Transactions, TransactionsReversals, Users } from '@prisma/client';
 import { inject, injectable } from 'inversify';
 import { UpdateBalanceUserUseCase } from '../Auth/Users/UpdateBalanceUserUseCase';
 import { AccessTokenErrorMessages } from '@Domain/Exceptions/Errors/Auth/AccessTokenErrorMessages';
+import LoggerComponent from '@Infra/Logging/LoggerComponent';
+import { LoggerConstants } from '@Domain/Constants/LoggerConstants';
 
 @injectable()
 export class CreateTransactionsReversalUseCase {
+  private readonly logger = new LoggerComponent(CreateTransactionsReversalUseCase.name);
+
   constructor(
     @inject('TransactionsRepository')
     private readonly transactionsRepository : ITransactionsRepository,
@@ -32,6 +36,8 @@ export class CreateTransactionsReversalUseCase {
   ){}
 
   async execute({code, reason, sub}: TransactionReversalRequestDTO) : Promise<ResponseDTO<TransactionsReversals>> {
+    this.logger.info(LoggerConstants.transactionReversal);
+
     if(!sub) 
       throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
 
@@ -51,16 +57,17 @@ export class CreateTransactionsReversalUseCase {
       receivedId: transaction.senderId, amount: transaction.amount, sender,
     });
 
-    if(error) 
+    if(error) {
+      this.logger.warn(TransactionsErrorsMessages.transactInverseFailed);
       throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.transactInverseFailed), 400);
-    
+    }
+
     transaction.status = 'REVERSED';
     transaction.updatedAt = new Date();
     await this.transactionsRepository.updateStatus(transaction.id, transaction);
     
     const response = await this.transactionReversalRepository.create(mapperTransactionReversal);
     return new ResponseDTO<TransactionsReversals>(response);
-    
   }
 
   private async validateReversalTransaction(transaction: Transactions) : Promise<Users> {

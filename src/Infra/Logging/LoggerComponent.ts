@@ -26,7 +26,7 @@ export default class LoggerComponent {
     this.logger.error(object);
   }
 
-  public warm(message: string, context?: object): void {
+  public warn(message: string, context?: object): void {
     const object = LoggerBuild.buildObjectLogger(message, context);
     this.logger.warn(object);
   }

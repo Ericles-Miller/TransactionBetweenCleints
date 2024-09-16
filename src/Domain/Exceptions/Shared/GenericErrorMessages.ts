@@ -5,5 +5,5 @@ export class GenericErrorMessages {
   static isActive = 'Is already active.';
   static isInactive = 'Is already inactive.';
   static environmentNull = 'One or more environment variables are missing.';
-
+  static invalidAction = 'invalid action filtered';
 }
