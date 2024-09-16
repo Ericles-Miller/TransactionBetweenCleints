@@ -1,5 +1,8 @@
 # Introduction 
-TODO: Back-End desktop project to Haus Training
+TODO: Back-End project to Transactions Beteween Clients
+
+OBS: I improved the project after Friday. I thought it was fair to compare Friday's part to what I did after the deadline. If you want to evaluate the sixth part,
+visit the release01 branch. If you want to evaluate the improvements, access the main branch
 
 # Getting Started
 
@@ -83,7 +86,7 @@ yarn dev
 yarn test
 ```
 
-# Build and Test
+# Build
 1- It is necessary to generate an javascript build, run the command below without the application running in another terminal:
 
   ```
