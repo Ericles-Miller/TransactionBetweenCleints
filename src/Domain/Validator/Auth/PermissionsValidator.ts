@@ -3,6 +3,7 @@ import { PermissionErrorMessages } from "@Domain/Exceptions/Errors/Auth/Permissi
 import { GenericValidator } from "../Shared/GenericValidator";
 import { GenericEntityConstants } from "@Domain/Constants/Shared/GenericEntityConstant";
 import { PermissionConstants } from "@Domain/Constants/Auth/PermissionsConstants";
+import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
 
 export class PermissionsValidator extends GenericValidator{
 
@@ -16,10 +17,10 @@ export class PermissionsValidator extends GenericValidator{
 
     if(description.length > PermissionConstants.minLength ||
         description.length > PermissionConstants.maxLength)
-      throw new AppError(PermissionErrorMessages.errorLength, 400);
+      throw new AppError(new ResponseDTO<string>(PermissionErrorMessages.errorLength), 400);
 
     const regex = GenericEntityConstants.validCharsDescription;
     if (!regex.test(description)) 
-      throw new AppError(PermissionErrorMessages.invalidCharsDescription, 404);
+      throw new AppError(new ResponseDTO<string>(PermissionErrorMessages.invalidCharsDescription), 404);
   }
 }

@@ -1,26 +1,23 @@
 export class ResponseDTO<T> {
   data?: T;
   errors: string[] = [];
-  success!: boolean;
+  success: boolean = false;
 
-  constructor(data: T, errors: string[], success: boolean)
-  constructor(data: T)
-  constructor(errors: string[])
-  constructor(error : string)
-  constructor(data?: T, errors?: string[], success?: boolean) {
-    if (data) {
-      this.data = data;
-      this.success = success ?? true;
-    } else if (errors) {
-      this.errors = errors;
-      this.success = success ?? false;
-    } else {
-      this.success = false;
+  constructor(data: T);
+  constructor(errors: string[]);
+  constructor(error: string);
+  constructor(dataOrErrors?: T | string | string[]) {
+    if (typeof dataOrErrors !== 'undefined') {
+      if (typeof dataOrErrors === 'object' && !Array.isArray(dataOrErrors)) {
+        this.data = dataOrErrors;
+        this.success = true;
+      } else if (typeof dataOrErrors === 'string') {
+        this.errors.push(dataOrErrors);
+        this.success = false;
+      } else if (Array.isArray(dataOrErrors)) {
+        this.errors = dataOrErrors;
+        this.success = false;
+      }
     }
-  }
-
-  addError(error: string): void {
-    this.errors.push(error);
-    this.success = false;
   }
 }

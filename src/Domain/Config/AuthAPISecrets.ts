@@ -10,6 +10,7 @@ export class AuthAPISecrets {
   issuer: string;
   audience: string;
 
+
   constructor() {
     this.secretKey = process.env.JWT_SECRET || '';
     this.secretRefreshKey = process.env.JWT_REFRESH_SECRET || '';

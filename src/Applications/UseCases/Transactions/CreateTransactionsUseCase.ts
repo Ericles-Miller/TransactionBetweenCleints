@@ -12,10 +12,15 @@ import { TransactionResponseDTO } from '@Applications/DTOs/Responses/Transaction
 import { MapperTransactions } from '@Applications/Mappings/Transactions/MapperTransactions';
 import { AccessTokenErrorMessages } from '@Domain/Exceptions/Errors/Auth/AccessTokenErrorMessages';
 import { prisma } from '@Infra/DataBase/database';
+import LoggerComponent from '@Infra/Logging/LoggerComponent';
+import { GenericErrorMessages } from '@Domain/Exceptions/Shared/GenericErrorMessages';
+import { LoggerConstants } from '@Domain/Constants/LoggerConstants';
 
 
 @injectable()
 export class CreateTransactionsUseCase {
+  private readonly logger = new LoggerComponent(CreateTransactionsUseCase.name);
+
   constructor(
     @inject('TransactionsRepository')
     private readonly transactionsRepository : ITransactionsRepository,
@@ -31,6 +36,7 @@ export class CreateTransactionsUseCase {
 
   async execute({ amount, receivedId, senderId, sub }: TransactionRequestDTO) : Promise<ResponseDTO<TransactionResponseDTO>> {
     try {
+      this.logger.info(LoggerConstants.createTransaction);
       const sender = await this.usersRepository.getById(senderId);
       if(!sub) 
         throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
@@ -73,9 +79,11 @@ export class CreateTransactionsUseCase {
       return new ResponseDTO<TransactionResponseDTO>(response);
     } 
     catch (error) {
-      if(error instanceof AppError)
+      if(error instanceof AppError) {
+        this.logger.warn(GenericErrorMessages.invalidAction, error);
         throw error;
-
+      }
+      this.logger.error(TransactionsErrorsMessages.unexpectedCreateTransaction, error);
       throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.unexpectedCreateTransaction), 500);
     }
   }

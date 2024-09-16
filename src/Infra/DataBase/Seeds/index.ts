@@ -1,18 +1,21 @@
 import 'reflect-metadata';
 import { prisma } from '../database';
 import { SeedsPermissions } from './SeedsPermissions';
+import LoggerComponent from '@Infra/Logging/LoggerComponent';
 
 async function main() {
+  const logger = new LoggerComponent(main.name);
   try {
-    console.log('Connecting to database...');
+    logger.info('Connecting to database...');
     
     const seeds = new SeedsPermissions();
     await seeds.createPermissions();
     
-    console.log('Permissions created');
+    logger.info('Permissions created');
   } catch (error) {
-    console.error('Error creating permissions:', error);
+    logger.error('Error creating permissions:', error);
   } finally {
+    logger.info("Database disconnect successfully");
     await prisma.$disconnect();
   }
 }

@@ -5,10 +5,11 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 import { router } from './Router';
 import { AppError } from '@Domain/Exceptions/Shared/AppError';
-import { checkDatabaseConnection } from '@Infra/DataBase/database';
+import { DatabaseConnection } from '@Infra/DataBase/database';
 import { Configuration } from '@Domain/Config';
 import swaggerUi from 'swagger-ui-express';
 import swaggerFile from '../../../swagger.json';
+
 
 export const app = express();
 app.use(express.json());
@@ -17,8 +18,7 @@ app.use(router);
 app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 new Configuration();
-
-checkDatabaseConnection();
+new DatabaseConnection().checkConnection();
 
 app.use(
   (err: Error, request: Request, response: Response, next: NextFunction) => {

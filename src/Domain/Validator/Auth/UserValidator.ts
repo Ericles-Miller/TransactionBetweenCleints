@@ -36,10 +36,7 @@ export class UserValidator extends GenericValidator{
 
   validatePassword(password: string): void {
     if(password.length < UserConstants.minLengthPassword || password.length > UserConstants.maxLengthPassword)
-      throw new AppError(new ResponseDTO<string>(UserErrorMessages.invalidLengthPassword), 400);
-
-    // verificar para fortalecer a senha 
-    
+      throw new AppError(new ResponseDTO<string>(UserErrorMessages.invalidLengthPassword), 400);   
   }
 
   validateBalance(balance: number) : void {

@@ -82,11 +82,180 @@
         "tags": ["Users"], 
         "summary" : "read all users",
         "responses": {
-          
+          "201": {
+            "description": "User logged in user with successfully"
+          },
+          "500": {
+            "description": "Unexpected server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "summary": "delete User",
+        "description": "delete an User to platform",
+        "security": [
+          { "bearerAuth": []}
+        ],
+        "responses": {
+          "201": {
+            "description": "User deleted successfully"
+          },
+          "404": {
+            "description": "Data with error"
+          },
+          "500": {
+            "description": "Unexpected server error"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Update User",
+        "description": "update an User to platform",
+        "security": [
+          {"bearerAuth" : []}
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "balance": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User updated successfully"
+          },
+          "400": {
+            "description": "Data with error"
+          },
+          "500": {
+            "description": "Unexpected server error"
+          }
         }
       }
     },
-
+    "/users/{id}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get user by ID",
+        "description": "Retrieve a user by their ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the user to retrieve",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "userId123"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "John Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "johndoe@example.com"
+                    },
+                    "isActive": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "lastLogin": {
+                      "type": "Date"
+                    },
+                    "updatedAt": {
+                      "type": "Date"
+                    },
+                    "createdAt": {
+                      "type": "Date"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Unexpected server error"
+          }
+        }
+      }
+    },
+    "/users/{id}/updateIsActive": {
+    "patch": {
+      "tags": ["Users"],
+      "summary": "Update user's isActive status",
+      "description": "Update the isActive status of a user by their ID",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the user to update",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "isActive": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "isActive status updated"
+        },
+        "404": {
+          "description": "User not found"
+        },
+        "500": {
+          "description": "Unexpected server error"
+        }
+      }
+    }
+  },
     "/auth/login" : {
       "post": {
         "tags": ["auth"],

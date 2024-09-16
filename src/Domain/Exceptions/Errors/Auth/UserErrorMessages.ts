@@ -15,6 +15,7 @@ export class UserErrorMessages extends GenericErrorMessages {
 
   static invalidLengthRefreshTokenCode = 'The refresh token code size is invalid.'; 
 
+  static userWithoutPermissionsOrInactive = 'The user does not have permissions or is inactive.';
   static invalidLengthPassword = `The password must be between ${UserConstants.minLengthPassword} and 
     ${UserConstants.maxLengthPassword} characters.`;
   
@@ -27,5 +28,7 @@ export class UserErrorMessages extends GenericErrorMessages {
   static unexpectedUpdateBalance = `${GenericErrorMessages.unexpectedServerError} to update balance.`;
   static userInactive = 'The user is inactive.';
   static unexpectedUpdateIsActive = `${GenericErrorMessages.unexpectedServerError} to updated is active`;
+  static unexpectedDeleteUser = `${GenericErrorMessages.unexpectedServerError} to delete user.`;
+  static unexpectedUpdate = `${GenericErrorMessages.unexpectedServerError} to update user`;
 
 }
