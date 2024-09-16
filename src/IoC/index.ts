@@ -29,6 +29,7 @@ import { RefreshAccessUseCase } from '@Applications/UseCases/Auth/AccessToken/Re
 import { LogoutUseCase } from '@Applications/UseCases/Auth/AccessToken/LogoutUseCase';
 import { ReadAllUsersUseCase } from '@Applications/UseCases/Auth/Users/ReadAllUsersUseCase';
 import { DeleteUserUseCase } from '@Applications/UseCases/Auth/Users/DeleteUserUseCase';
+import { UpdateUserUseCase } from '@Applications/UseCases/Auth/Users/UpdateUserUseCase';
 
 export const container = new Container();
 
@@ -51,6 +52,7 @@ container.bind<ReadUserByIdUseCase>(ReadUserByIdUseCase).toSelf();
 container.bind<UpdateBalanceUserUseCase>(UpdateBalanceUserUseCase).toSelf();
 container.bind<UpdateIsActiveUseCase>(UpdateIsActiveUseCase).toSelf();
 container.bind<DeleteUserUseCase>(DeleteUserUseCase).toSelf();
+container.bind<UpdateUserUseCase>(UpdateUserUseCase).toSelf();
 
 //auth
 container.bind<LoginUserUseCase>(LoginUserUseCase).toSelf();

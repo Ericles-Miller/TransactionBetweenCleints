@@ -108,6 +108,45 @@
             "description": "Unexpected server error"
           }
         }
+      },
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Update User",
+        "description": "update an User to platform",
+        "security": [
+          {"bearerAuth" : []}
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "balance": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User updated successfully"
+          },
+          "400": {
+            "description": "Data with error"
+          },
+          "500": {
+            "description": "Unexpected server error"
+          }
+        }
       }
     },
     "/users/{id}": {

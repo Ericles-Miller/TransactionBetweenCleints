@@ -92,5 +92,12 @@ export class UsersRepository implements IUserRepository {
   async delete(id:string): Promise<void> {
     await this.repository.delete({where: {id}});
   }
+
+  async update(user:Users): Promise<void> {
+    await this.repository.update({
+      where: {id: user.id},
+      data: user
+    })
+  }
 }
   
