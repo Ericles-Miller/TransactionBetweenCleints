@@ -1,8 +1,8 @@
 # Introduction 
 TODO: Back-End project to Transactions Beteween Clients
 
-OBS: I improved the project after Friday. I thought it was fair to compare Friday's part to what I did after the deadline. If you want to evaluate the sixth part,
-visit the release01 branch. If you want to evaluate the improvements, access the main branch
+OBS: I improved the project after Friday. I didn't think it was fair to add the improvements along with the part I did by the deadline.
+To review Friday's part, visit the release01 branch. If you want to evaluate the improvements, access the main branch.
 
 # Getting Started
 
