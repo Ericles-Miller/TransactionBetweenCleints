@@ -28,5 +28,6 @@ export class UserErrorMessages extends GenericErrorMessages {
   static unexpectedUpdateBalance = `${GenericErrorMessages.unexpectedServerError} to update balance.`;
   static userInactive = 'The user is inactive.';
   static unexpectedUpdateIsActive = `${GenericErrorMessages.unexpectedServerError} to updated is active`;
+  static unexpectedDeleteUser = `${GenericErrorMessages.unexpectedServerError} to delete user.`;
 
 }

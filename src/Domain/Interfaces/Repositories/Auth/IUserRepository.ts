@@ -3,6 +3,7 @@ import { Users } from '@prisma/client';
 
 export interface IUserRepository {
   create(user: Users): Promise<Users>;
+  delete(id:string): Promise<void>;
   getByEmail(email: string): Promise<UserWithPermissions| null>;
   checkEmailAlreadyExist(email: string) : Promise<boolean>;
   findNameByEmail(email: string) : Promise<string|null>;

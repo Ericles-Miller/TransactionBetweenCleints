@@ -89,5 +89,8 @@ export class UsersRepository implements IUserRepository {
     await this.repository.update({where: {id}, data: {refreshTokenCode: null}});
   }
 
+  async delete(id:string): Promise<void> {
+    await this.repository.delete({where: {id}});
+  }
 }
   
