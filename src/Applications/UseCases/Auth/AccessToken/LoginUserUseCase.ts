@@ -9,10 +9,14 @@ import { AccessTokenErrorMessages } from '@Domain/Exceptions/Errors/Auth/AccessT
 import { MapperUser } from '@Applications/Mappings/Users/MapperUser';
 import { LoginRequestDTO } from '@Applications/DTOs/Requests/Auth/LoginRequestDTO';
 import { TokensResponseDTO } from '@Applications/DTOs/Responses/Auth/TokensResponseDTO';
+import LoggerComponent from '@Infra/Logging/LoggerComponent';
+import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessages';
+import { LoggerConstants } from '@Domain/Constants/LoggerConstants';
 
 @injectable()
 export class LoginUserUseCase {
   private readonly mapperUser = new MapperUser();
+  private readonly logger = new LoggerComponent(LoginUserUseCase.name);
   constructor(
     @inject('UsersRepository')
     private readonly usersRepository: IUserRepository,
@@ -20,7 +24,9 @@ export class LoginUserUseCase {
     private readonly createAccessTokenUseCase: CreateAccessTokensUseCase
   ) {}
 
-  async execute({email, password}: LoginRequestDTO) : Promise<ResponseDTO<TokensResponseDTO>> {
+  async execute({ email, password }: LoginRequestDTO) : Promise<ResponseDTO<TokensResponseDTO>> {
+    this.logger.info(LoggerConstants.loginLogger);
+
     let findUser = await this.usersRepository.getByEmail(email);
     if(!findUser) 
       throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.emailOrPasswordInvalid), 404);
@@ -28,8 +34,10 @@ export class LoginUserUseCase {
     const user = this.mapperUser.mapperUserPermissionsToUser(findUser);
         
     const passwordMatch = await compare(password, findUser.password);
-    if(!passwordMatch)
+    if(!passwordMatch) {
+      this.logger.warn(`${AccessTokenErrorMessages.passwordLogger} ${findUser.name}.`);
       throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.emailOrPasswordInvalid), 404);
+    }
 
     this.validateFields(user);
     
@@ -39,7 +47,9 @@ export class LoginUserUseCase {
   }
 
   private validateFields(user: User): void {
-    if(user.isActive === false || user.userPermissions?.length == 0)
+    if(user.isActive === false || user.userPermissions?.length == 0) {
+      this.logger.warn(UserErrorMessages.userWithoutPermissionsOrInactive);
       throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
+    }
   }
 }

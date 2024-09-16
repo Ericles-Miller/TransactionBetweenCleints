@@ -120,12 +120,15 @@ To hide the execute the build we will use pm2 . To do this, globally install pm2
   - pm2-startup install
 
 To start the automatic process, execute the commands below.
-  - pm2 start <yourExe.exe> --no-daemon -i 1 --name yournameapp
+  - pm2 start build/Api/Http/server.js
   - pm2 save
   - reboot
   - pm2 ls
 
 Check if the project was started successfully on the computer
+
+To monitor the application use the command - pm2 monit
+
 
 ## Backend project structure
 

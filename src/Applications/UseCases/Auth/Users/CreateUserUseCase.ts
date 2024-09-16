@@ -12,9 +12,14 @@ import { User } from '@Domain/Entities/Auth/User';
 import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
 import { mapperUserResponse } from '@Applications/Mappings/mapperUserResponse';
 import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessages';
+import LoggerComponent from '@Infra/Logging/LoggerComponent';
+import { GenericErrorMessages } from '@Domain/Exceptions/Shared/GenericErrorMessages';
+import { LoggerConstants } from '@Domain/Constants/LoggerConstants';
 
 @injectable()
 export class CreateUserUseCase {
+  private readonly logger = new LoggerComponent(CreateUserUseCase.name);
+
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUserRepository,
@@ -26,6 +31,8 @@ export class CreateUserUseCase {
 
   async execute({ email, name, password, permissions, balance }: CreateUserRequestDTO) : Promise<ResponseDTO<UserResponseDTO>> {
     try {
+      this.logger.info(LoggerConstants.createUserLogger);
+
       await this.validateUser(email, permissions);
 
       const user = new User(name, email, balance, null);
@@ -45,9 +52,11 @@ export class CreateUserUseCase {
 
       return new ResponseDTO<UserResponseDTO>(response);
     } catch (error) {
-      if(error instanceof AppError)
+      if(error instanceof AppError) {
+        this.logger.warn(GenericErrorMessages.invalidAction, error);
         throw error;
-
+      }
+      this.logger.error(UserErrorMessages.unexpectedCreateUser, error);
       throw new AppError(new ResponseDTO<string>(UserErrorMessages.unexpectedCreateUser), 500);
     }
   }

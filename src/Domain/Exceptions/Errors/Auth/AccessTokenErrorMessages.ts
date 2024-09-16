@@ -7,4 +7,5 @@ export class AccessTokenErrorMessages {
   static invalidToken = 'Token is missing.';  
   static unexpectedLogout = `${GenericErrorMessages.unexpectedServerError} to logout.`;
   static unexpectedRefreshAccess = `${GenericErrorMessages.unexpectedServerError} to refresh access token`;
+  static passwordLogger = 'Login attempt with incorrect password for user';
 }

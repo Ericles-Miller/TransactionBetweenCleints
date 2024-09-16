@@ -9,10 +9,13 @@ import { User } from '@Domain/Entities/Auth/User';
 import { RefreshAccessRequestDTO } from '@Applications/DTOs/Requests/Auth/RefreshAccessRequestDTO';
 import { tokenBlacklist } from '@Api/Extensions/AuthorizedFlow';
 import { TokensResponseDTO } from '@Applications/DTOs/Responses/Auth/TokensResponseDTO';
+import LoggerComponent from '@Infra/Logging/LoggerComponent';
+import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessages';
 
 @injectable()
 export class RefreshAccessUseCase {
-  private mapperUser = new MapperUser();
+  private readonly mapperUser = new MapperUser();
+  private readonly logger = new LoggerComponent(RefreshAccessUseCase.name);
 
   constructor(
     @inject('UsersRepository')
@@ -47,15 +50,19 @@ export class RefreshAccessUseCase {
       tokenBlacklist.push(token);
       return new ResponseDTO<TokensResponseDTO>({token: newToken, refreshToken}); 
     } catch (error) {
-      if(error instanceof AppError)
+      if(error instanceof AppError) {
         throw error
+      }
 
+      this.logger.error(AccessTokenErrorMessages.unexpectedRefreshAccess, error);
       throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.unexpectedRefreshAccess), 500);
     }   
   }
 
   private validateFields(user: User): void {
-    if(user.isActive === false || user.userPermissions?.length === 0)
+    if(user.isActive === false || user.userPermissions?.length === 0) {
+      this.logger.warn(UserErrorMessages.userWithoutPermissionsOrInactive);
       throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
+    }
   }
 }

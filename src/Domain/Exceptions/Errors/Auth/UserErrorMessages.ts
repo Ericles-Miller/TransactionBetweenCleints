@@ -15,6 +15,7 @@ export class UserErrorMessages extends GenericErrorMessages {
 
   static invalidLengthRefreshTokenCode = 'The refresh token code size is invalid.'; 
 
+  static userWithoutPermissionsOrInactive = 'The user does not have permissions or is inactive.';
   static invalidLengthPassword = `The password must be between ${UserConstants.minLengthPassword} and 
     ${UserConstants.maxLengthPassword} characters.`;
   
