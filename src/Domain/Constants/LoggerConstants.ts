@@ -8,4 +8,5 @@ export class LoggerConstants {
   static updateIsActive = 'update is active method initiated';
   static transactionReversal = 'transaction reversal method initiated';
   static createTransaction = 'Create transaction method initiated';
+  static UpdateUser = 'Update user method initiated';
 }
