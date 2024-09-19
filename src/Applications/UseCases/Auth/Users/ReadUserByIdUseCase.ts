@@ -8,6 +8,7 @@ import { AppError } from '@Domain/Exceptions/Shared/AppError';
 import { GenericErrorMessages } from '@Domain/Exceptions/Shared/GenericErrorMessages';
 import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
 import LoggerComponent from '@Infra/Logging/LoggerComponent';
+import { databaseResponseTimeHistogram } from '@Infra/Metrics/metrics';
 import { inject, injectable } from 'inversify';
 
 @injectable()
@@ -20,6 +21,9 @@ export class ReadUserByIdUseCase {
   ) {}
 
   async execute({id}: GetIdRequestDTO) : Promise<ResponseDTO<UserResponseDTO>> {
+    const metricsLabels = { operation: 'readUsersById' };
+    const timer = databaseResponseTimeHistogram.startTimer();
+
     try {
       this.logger.info(LoggerConstants.readUserByIdLogger);
       
@@ -28,14 +32,20 @@ export class ReadUserByIdUseCase {
         throw new AppError(new ResponseDTO<string>(UserErrorMessages.invalidId), 404);
       
       const response = mapperUserResponse(user);
+      timer({ ...metricsLabels, success: 'true' });
+
       return new ResponseDTO<UserResponseDTO>(response);
       
     } catch (error) {
       if(error instanceof AppError) {
         this.logger.warn(GenericErrorMessages.invalidAction, error);
+        timer({ ...metricsLabels, success: 'false' });
+
         throw error;
       }
       this.logger.error(UserErrorMessages.unexpectedReadById, error);
+      timer({ ...metricsLabels, success: 'false' });
+
       throw new AppError(new ResponseDTO<string>(UserErrorMessages.unexpectedReadById), 500);
     }
   }

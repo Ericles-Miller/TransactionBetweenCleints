@@ -15,6 +15,7 @@ import { prisma } from '@Infra/DataBase/database';
 import LoggerComponent from '@Infra/Logging/LoggerComponent';
 import { GenericErrorMessages } from '@Domain/Exceptions/Shared/GenericErrorMessages';
 import { LoggerConstants } from '@Domain/Constants/LoggerConstants';
+import { databaseResponseTimeHistogram } from '@Infra/Metrics/metrics';
 
 
 @injectable()
@@ -35,6 +36,9 @@ export class CreateTransactionsUseCase {
   ) {}
 
   async execute({ amount, receivedId, senderId, sub }: TransactionRequestDTO) : Promise<ResponseDTO<TransactionResponseDTO>> {
+    const metricsLabels = { operation: 'Transaction' };
+    const timer = databaseResponseTimeHistogram.startTimer();
+    
     try {
       this.logger.info(LoggerConstants.createTransaction);
       const sender = await this.usersRepository.getById(senderId);
@@ -76,14 +80,19 @@ export class CreateTransactionsUseCase {
       });
 
       const response = await this.mapperTransactions.mapperTransactionResponse(transaction);
+      
+      timer({ ...metricsLabels, success: 'true' });
       return new ResponseDTO<TransactionResponseDTO>(response);
+    
     } 
     catch (error) {
       if(error instanceof AppError) {
         this.logger.warn(GenericErrorMessages.invalidAction, error);
         throw error;
       }
+
       this.logger.error(TransactionsErrorsMessages.unexpectedCreateTransaction, error);
+      timer({ ...metricsLabels, success: 'false' });
       throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.unexpectedCreateTransaction), 500);
     }
   }
