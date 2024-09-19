@@ -8,6 +8,7 @@ import { LogoutRequestDTO } from '@Applications/DTOs/Requests/Auth/LogoutRequest
 import { tokenBlacklist } from '@Api/Extensions/AuthorizedFlow';
 import LoggerComponent from '@Infra/Logging/LoggerComponent';
 import { LoggerConstants } from '@Domain/Constants/LoggerConstants';
+import { databaseResponseTimeHistogram } from '@Infra/Metrics/metrics';
 
 @injectable()
 export class LogoutUseCase {
@@ -19,6 +20,9 @@ export class LogoutUseCase {
   ) {}
 
   async execute({refreshToken, userId, token}: LogoutRequestDTO) : Promise<void> {
+    const metricsLabels = { operation: 'logout' };
+    const timer = databaseResponseTimeHistogram.startTimer();
+    
     try {
       this.logger.info(LoggerConstants.logoutLogger);
 
@@ -34,11 +38,14 @@ export class LogoutUseCase {
       await this.usersRepository.invalidToken(userId);
 
       tokenBlacklist.push(token);
+   
     } catch (error) {
       if(error instanceof AppError){
         throw error;
       }
+
       this.logger.error(AccessTokenErrorMessages.unexpectedLogout, error);
+      timer({ ...metricsLabels, success: 'false' });
       throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.unexpectedLogout), 500);
     }
   }

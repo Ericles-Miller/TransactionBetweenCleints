@@ -12,6 +12,7 @@ import { TokensResponseDTO } from '@Applications/DTOs/Responses/Auth/TokensRespo
 import LoggerComponent from '@Infra/Logging/LoggerComponent';
 import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessages';
 import { LoggerConstants } from '@Domain/Constants/LoggerConstants';
+import { databaseResponseTimeHistogram } from '@Infra/Metrics/metrics';
 
 @injectable()
 export class LoginUserUseCase {
@@ -25,6 +26,9 @@ export class LoginUserUseCase {
   ) {}
 
   async execute({ email, password }: LoginRequestDTO) : Promise<ResponseDTO<TokensResponseDTO>> {
+    const metricsLabels = { operation: 'login' };
+    const timer = databaseResponseTimeHistogram.startTimer();
+
     this.logger.info(LoggerConstants.loginLogger);
 
     let findUser = await this.usersRepository.getByEmail(email);
@@ -43,6 +47,8 @@ export class LoginUserUseCase {
     
     const token = await this.createAccessTokenUseCase.createAccessToken(user);
     const refreshToken = await this.createAccessTokenUseCase.generateRefreshToken(user);
+
+    timer({ ...metricsLabels, success: 'true' });
     return new ResponseDTO<TokensResponseDTO>({token, refreshToken});
   }
 
