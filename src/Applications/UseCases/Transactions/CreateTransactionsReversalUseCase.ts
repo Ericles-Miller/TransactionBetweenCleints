@@ -14,6 +14,7 @@ import { UpdateBalanceUserUseCase } from '../Auth/Users/UpdateBalanceUserUseCase
 import { AccessTokenErrorMessages } from '@Domain/Exceptions/Errors/Auth/AccessTokenErrorMessages';
 import LoggerComponent from '@Infra/Logging/LoggerComponent';
 import { LoggerConstants } from '@Domain/Constants/LoggerConstants';
+import { databaseResponseTimeHistogram } from '@Infra/Metrics/metrics';
 
 @injectable()
 export class CreateTransactionsReversalUseCase {
@@ -36,6 +37,9 @@ export class CreateTransactionsReversalUseCase {
   ){}
 
   async execute({code, reason, sub}: TransactionReversalRequestDTO) : Promise<ResponseDTO<TransactionsReversals>> {
+    const metricsLabels = { operation: 'TransactionReversal' };
+    const timer = databaseResponseTimeHistogram.startTimer();
+    
     this.logger.info(LoggerConstants.transactionReversal);
 
     if(!sub) 
@@ -59,6 +63,7 @@ export class CreateTransactionsReversalUseCase {
 
     if(error) {
       this.logger.warn(TransactionsErrorsMessages.transactInverseFailed);
+      timer({ ...metricsLabels, success: 'false' });
       throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.transactInverseFailed), 400);
     }
 
@@ -67,6 +72,7 @@ export class CreateTransactionsReversalUseCase {
     await this.transactionsRepository.updateStatus(transaction.id, transaction);
     
     const response = await this.transactionReversalRepository.create(mapperTransactionReversal);
+    timer({ ...metricsLabels, success: 'true' });
     return new ResponseDTO<TransactionsReversals>(response);
   }
 

@@ -12,7 +12,7 @@ module.exports = {
           '@Applications': './src/Applications',
           '@Domain': './src/Domain',
           '@Infra': './src/Infra',
-          '@IoC': './src/IoC'
+          '@IoC': './src/IoC',
         },
       },
     ],

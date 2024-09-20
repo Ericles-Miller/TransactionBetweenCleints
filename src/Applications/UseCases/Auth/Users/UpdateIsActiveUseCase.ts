@@ -7,6 +7,7 @@ import { AppError } from '@Domain/Exceptions/Shared/AppError';
 import { GenericErrorMessages } from '@Domain/Exceptions/Shared/GenericErrorMessages';
 import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
 import LoggerComponent from '@Infra/Logging/LoggerComponent';
+import { databaseResponseTimeHistogram } from '@Infra/Metrics/metrics';
 import { inject, injectable } from 'inversify';
 
 
@@ -21,6 +22,9 @@ export class UpdateIsActiveUseCase {
   ) {}
 
   async execute({id, isActive}: UserIsActiveRequestDTO) : Promise<void> {
+    const metricsLabels = { operation: 'updateIsActiveUsers' };
+    const timer = databaseResponseTimeHistogram.startTimer();
+    
     try {
       this.logger.info(LoggerConstants.updateIsActive);
 
@@ -32,6 +36,10 @@ export class UpdateIsActiveUseCase {
       mapperUser.setIsActive(isActive);
   
       await this.usersRepository.updateIsActive(id, mapperUser.isActive);
+
+      this.logger.info(LoggerConstants.finishedMethod);
+      timer({ ...metricsLabels, success: 'true' });
+
     } catch (error) {
       if(error instanceof AppError) {
         this.logger.warn(GenericErrorMessages.invalidAction, error);
@@ -39,6 +47,7 @@ export class UpdateIsActiveUseCase {
       }
 
       this.logger.error(UserErrorMessages.unexpectedUpdateIsActive, error);
+      timer({ ...metricsLabels, success: 'false' });
       throw new AppError(new ResponseDTO<string>(UserErrorMessages.unexpectedUpdateIsActive), 500);
     }
   }

@@ -15,6 +15,7 @@ import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessa
 import LoggerComponent from '@Infra/Logging/LoggerComponent';
 import { GenericErrorMessages } from '@Domain/Exceptions/Shared/GenericErrorMessages';
 import { LoggerConstants } from '@Domain/Constants/LoggerConstants';
+import { databaseResponseTimeHistogram } from '@Infra/Metrics/metrics';
 
 @injectable()
 export class CreateUserUseCase {
@@ -30,6 +31,9 @@ export class CreateUserUseCase {
   ) {}
 
   async execute({ email, name, password, permissions, balance }: CreateUserRequestDTO) : Promise<ResponseDTO<UserResponseDTO>> {
+    const metricsLabels = { operation: 'createUser' };
+    const timer = databaseResponseTimeHistogram.startTimer();
+    
     try {
       this.logger.info(LoggerConstants.createUserLogger);
 
@@ -49,14 +53,19 @@ export class CreateUserUseCase {
       prismaUser = await this.usersRepository.updateUpdateAt(prismaUser.id, user.updatedAt);
 
       const response = mapperUserResponse(prismaUser);
-
+      
+      this.logger.info(LoggerConstants.finishedMethod);
+      timer({ ...metricsLabels, success: 'true' });
       return new ResponseDTO<UserResponseDTO>(response);
+    
     } catch (error) {
       if(error instanceof AppError) {
         this.logger.warn(GenericErrorMessages.invalidAction, error);
         throw error;
       }
+  
       this.logger.error(UserErrorMessages.unexpectedCreateUser, error);
+      timer({ ...metricsLabels, success: 'false' });
       throw new AppError(new ResponseDTO<string>(UserErrorMessages.unexpectedCreateUser), 500);
     }
   }

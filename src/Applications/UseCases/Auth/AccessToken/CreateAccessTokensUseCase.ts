@@ -4,6 +4,7 @@ import { inject, injectable } from 'inversify';
 import jwt from 'jsonwebtoken';
 import { User } from '@Domain/Entities/Auth/User';
 import { UpdateUserTokenUseCase } from './UpdateUserTokenUseCase';
+import { databaseResponseTimeHistogram } from '@Infra/Metrics/metrics';
 
 
 @injectable()
@@ -16,6 +17,9 @@ export abstract class CreateAccessTokensUseCase {
     private updateUserTokenUseCase : UpdateUserTokenUseCase
   ) {}
   async createAccessToken(user: User) : Promise<string> {
+    const metricsLabels = { operation: 'CreateAccessTokens' };
+    const timer = databaseResponseTimeHistogram.startTimer();
+
     try {
       const token = jwt.sign(
         await this.credentialsTokens.generateCredentials(user),
@@ -28,9 +32,12 @@ export abstract class CreateAccessTokensUseCase {
           issuer: Configuration.authApiSecrets.issuer!,
         }
       );
-      
+
+      timer({ ...metricsLabels, success: 'true' });
       return token;
+      
     } catch (error) {
+      timer({ ...metricsLabels, success: 'false' });
       throw new Error(`Error creating access token: ${(error as Error).message}`);
     } 
   }

@@ -6,6 +6,7 @@ import { AppError } from '@Domain/Exceptions/Shared/AppError';
 import { GenericErrorMessages } from '@Domain/Exceptions/Shared/GenericErrorMessages';
 import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
 import LoggerComponent from '@Infra/Logging/LoggerComponent';
+import { databaseResponseTimeHistogram } from '@Infra/Metrics/metrics';
 import { inject, injectable } from 'inversify';
 
 @injectable()
@@ -18,6 +19,9 @@ export class UpdateBalanceUserUseCase {
   ) {}
 
   async execute({ receivedId, amount, sender }: UpdateBalanceRequestDTO): Promise<boolean> {
+    const metricsLabels = { operation: 'updateBalance' };
+    const timer = databaseResponseTimeHistogram.startTimer();
+    
     try {
       this.logger.info(LoggerConstants.updateBalanceLogger);
 
@@ -30,13 +34,19 @@ export class UpdateBalanceUserUseCase {
   
       await this.usersRepository.updateBalance(receivedId, user.balance + amount);
       await this.usersRepository.updateBalance(sender.id, sender.balance - amount);
+
+      this.logger.info(LoggerConstants.finishedMethod);
+      timer({ ...metricsLabels, success: 'true' });
       return false;
+    
     } catch (error) {
       if(error instanceof AppError) {
         this.logger.warn(GenericErrorMessages.invalidAction, error);
         throw error;
       }
+
       this.logger.error(GenericErrorMessages.invalidAction, error);
+      timer({ ...metricsLabels, success: 'false' });
       return true;
     }
   }

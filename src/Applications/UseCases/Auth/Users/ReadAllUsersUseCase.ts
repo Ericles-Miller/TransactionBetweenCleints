@@ -7,6 +7,7 @@ import { AppError } from '@Domain/Exceptions/Shared/AppError';
 import { GenericErrorMessages } from '@Domain/Exceptions/Shared/GenericErrorMessages';
 import { IUserRepository } from '@Domain/Interfaces/Repositories/Auth/IUserRepository';
 import LoggerComponent from '@Infra/Logging/LoggerComponent';
+import { databaseResponseTimeHistogram } from '@Infra/Metrics/metrics';
 import { inject, injectable } from 'inversify';
 
 @injectable()
@@ -19,6 +20,9 @@ export class ReadAllUsersUseCase {
   ) {}
 
   async execute(): Promise<ResponseDTO<UserResponseDTO[]>> {
+    const metricsLabels = { operation: 'readAllUsers' };  
+    const timer = databaseResponseTimeHistogram.startTimer();
+
     try {
       this.logger.info(LoggerConstants.readAllLogger);
 
@@ -30,13 +34,18 @@ export class ReadAllUsersUseCase {
         return mapperUserResponse(user);
       });
 
+      this.logger.info(LoggerConstants.finishedMethod);
+      timer({ ...metricsLabels, success: 'true' });
       return new ResponseDTO<UserResponseDTO[]>(responses);
+    
     } catch (error) {
       if(error instanceof AppError) {
         this.logger.warn(GenericErrorMessages.invalidAction, error);
         throw error;
       }
+
       this.logger.error(UserErrorMessages.unexpectedReadAll, error);
+      timer({ ...metricsLabels, success: 'false' });
       throw new AppError(new ResponseDTO<string>(UserErrorMessages.unexpectedReadAll), 500);
     }
   }

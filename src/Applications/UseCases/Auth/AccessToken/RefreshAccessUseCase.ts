@@ -11,6 +11,8 @@ import { tokenBlacklist } from '@Api/Extensions/AuthorizedFlow';
 import { TokensResponseDTO } from '@Applications/DTOs/Responses/Auth/TokensResponseDTO';
 import LoggerComponent from '@Infra/Logging/LoggerComponent';
 import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessages';
+import { databaseResponseTimeHistogram } from '@Infra/Metrics/metrics';
+import { LoggerConstants } from '@Domain/Constants/LoggerConstants';
 
 @injectable()
 export class RefreshAccessUseCase {
@@ -26,6 +28,9 @@ export class RefreshAccessUseCase {
   ){}
 
   async execute({refreshTokenCode, userId, token }: RefreshAccessRequestDTO): Promise<ResponseDTO<TokensResponseDTO>> {
+    const metricsLabels = { operation: 'refreshAccessToken' };
+    const timer = databaseResponseTimeHistogram.startTimer();
+    
     try {
       if(!refreshTokenCode || !userId)
         throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
@@ -48,6 +53,10 @@ export class RefreshAccessUseCase {
       const refreshToken = await this.createAccessTokenUseCase.generateRefreshToken(mapperUser);
       
       tokenBlacklist.push(token);
+
+      this.logger.info(LoggerConstants.finishedMethod);
+      timer({ ...metricsLabels, success: 'true' });
+
       return new ResponseDTO<TokensResponseDTO>({token: newToken, refreshToken}); 
     } catch (error) {
       if(error instanceof AppError) {
@@ -55,6 +64,7 @@ export class RefreshAccessUseCase {
       }
 
       this.logger.error(AccessTokenErrorMessages.unexpectedRefreshAccess, error);
+      timer({ ...metricsLabels, success: 'false' });
       throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.unexpectedRefreshAccess), 500);
     }   
   }
