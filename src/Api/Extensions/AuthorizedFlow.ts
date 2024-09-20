@@ -1,4 +1,4 @@
-import { Configuration } from '@Domain/Config';
+import { Configuration } from '@Domain/Config/Configuration';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 

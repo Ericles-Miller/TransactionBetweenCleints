@@ -1,5 +1,5 @@
 import { CredentialsToken } from '@Applications/UseCases/Shared/CredentialsToken';
-import { Configuration } from '@Domain/Config';
+import { Configuration } from '@Domain/Config/Configuration';
 import { inject, injectable } from 'inversify';
 import jwt from 'jsonwebtoken';
 import { User } from '@Domain/Entities/Auth/User';
