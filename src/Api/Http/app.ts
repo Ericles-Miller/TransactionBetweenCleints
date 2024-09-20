@@ -8,7 +8,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import { router } from './Router';
 import { AppError } from '@Domain/Exceptions/Shared/AppError';
 import { DatabaseConnection } from '@Infra/DataBase/database';
-import { Configuration } from '@Domain/Config';
+import { Configuration } from '@Domain/Config/Configuration';
 import swaggerUi from 'swagger-ui-express';
 import swaggerFile from '../../../swagger.json';
 import responseTime from "response-time";

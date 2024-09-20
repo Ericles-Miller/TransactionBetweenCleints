@@ -1,4 +1,4 @@
-import { Configuration } from '@Domain/Config';
+import { Configuration } from '@Domain/Config/Configuration';
 import LoggerComponent from '@Infra/Logging/LoggerComponent';
 import express from 'express';
 import client from 'prom-client';

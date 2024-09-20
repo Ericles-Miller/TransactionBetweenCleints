@@ -1,4 +1,4 @@
-import { Configuration } from '@Domain/Config';
+import { Configuration } from '@Domain/Config/Configuration';
 import { Format } from 'logform';
 import winston, { Logger } from 'winston';
 
