@@ -35,6 +35,7 @@ export class UpdateBalanceUserUseCase {
       await this.usersRepository.updateBalance(receivedId, user.balance + amount);
       await this.usersRepository.updateBalance(sender.id, sender.balance - amount);
 
+      this.logger.info(LoggerConstants.finishedMethod);
       timer({ ...metricsLabels, success: 'true' });
       return false;
     

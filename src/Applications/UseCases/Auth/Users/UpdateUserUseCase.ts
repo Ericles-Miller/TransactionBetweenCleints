@@ -25,7 +25,7 @@ export  class UpdateUserUseCase {
     const timer = databaseResponseTimeHistogram.startTimer();
 
     try {
-      this.logger.info(LoggerConstants.UpdateUser);
+      this.logger.info(LoggerConstants.updateUser);
 
       const findUser = await this.usersRepository.getById(id);
       if(!findUser)
@@ -38,6 +38,8 @@ export  class UpdateUserUseCase {
       let prismaUser = mapper.map(user);
   
       await this.usersRepository.update(prismaUser); 
+
+      this.logger.info(LoggerConstants.finishedMethod);
       timer({ ...metricsLabels, success: 'true' });
 
     } catch (error) {

@@ -33,6 +33,8 @@ export class ReadAllUsersUseCase {
       const responses = users.map((user) => {
         return mapperUserResponse(user);
       });
+
+      this.logger.info(LoggerConstants.finishedMethod);
       timer({ ...metricsLabels, success: 'true' });
       return new ResponseDTO<UserResponseDTO[]>(responses);
     

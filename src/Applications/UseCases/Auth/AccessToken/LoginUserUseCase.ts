@@ -48,6 +48,7 @@ export class LoginUserUseCase {
     const token = await this.createAccessTokenUseCase.createAccessToken(user);
     const refreshToken = await this.createAccessTokenUseCase.generateRefreshToken(user);
 
+    this.logger.info(LoggerConstants.finishedMethod);
     timer({ ...metricsLabels, success: 'true' });
     return new ResponseDTO<TokensResponseDTO>({token, refreshToken});
   }

@@ -32,6 +32,8 @@ export class ReadUserByIdUseCase {
         throw new AppError(new ResponseDTO<string>(UserErrorMessages.invalidId), 404);
       
       const response = mapperUserResponse(user);
+
+      this.logger.info(LoggerConstants.finishedMethod);
       timer({ ...metricsLabels, success: 'true' });
 
       return new ResponseDTO<UserResponseDTO>(response);

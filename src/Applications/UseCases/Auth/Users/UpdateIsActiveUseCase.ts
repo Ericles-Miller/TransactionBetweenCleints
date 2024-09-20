@@ -36,6 +36,8 @@ export class UpdateIsActiveUseCase {
       mapperUser.setIsActive(isActive);
   
       await this.usersRepository.updateIsActive(id, mapperUser.isActive);
+
+      this.logger.info(LoggerConstants.finishedMethod);
       timer({ ...metricsLabels, success: 'true' });
 
     } catch (error) {

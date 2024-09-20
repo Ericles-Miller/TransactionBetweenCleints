@@ -1,5 +1,6 @@
 import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
 import { GetIdRequestDTO } from '@Applications/DTOs/Shared/GetIdRequestDTO';
+import { LoggerConstants } from '@Domain/Constants/LoggerConstants';
 import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessages';
 import { AppError } from '@Domain/Exceptions/Shared/AppError';
 import { GenericErrorMessages } from '@Domain/Exceptions/Shared/GenericErrorMessages';
@@ -27,6 +28,8 @@ export class DeleteUserUseCase {
         throw new AppError(new ResponseDTO<string>(UserErrorMessages.invalidUser), 404);
   
       await this.usersRepository.delete(id);
+
+      this.logger.info(LoggerConstants.finishedMethod);
       timer({ ...metricsLabels, success: 'true' });
     
     } catch(error) {

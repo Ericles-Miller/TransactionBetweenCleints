@@ -1,3 +1,4 @@
+import { GenericConstants } from '@Domain/Constants/Shared/GenericConstants';
 import LoggerComponent from '@Infra/Logging/LoggerComponent';
 import express from 'express';
 import client from 'prom-client';
@@ -30,6 +31,6 @@ export function startMetricsServer() {
   });
 
   app.listen(9100, () => {
-    logger.info('Metrics server started at http://localhost:9100');
+    logger.info(`Metrics server started at ${GenericConstants.metricsEndPoint}`);
   });
 }

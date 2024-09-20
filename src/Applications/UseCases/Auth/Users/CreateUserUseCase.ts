@@ -54,6 +54,7 @@ export class CreateUserUseCase {
 
       const response = mapperUserResponse(prismaUser);
       
+      this.logger.info(LoggerConstants.finishedMethod);
       timer({ ...metricsLabels, success: 'true' });
       return new ResponseDTO<UserResponseDTO>(response);
     

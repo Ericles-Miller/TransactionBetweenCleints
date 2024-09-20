@@ -12,6 +12,7 @@ import { TokensResponseDTO } from '@Applications/DTOs/Responses/Auth/TokensRespo
 import LoggerComponent from '@Infra/Logging/LoggerComponent';
 import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessages';
 import { databaseResponseTimeHistogram } from '@Infra/Metrics/metrics';
+import { LoggerConstants } from '@Domain/Constants/LoggerConstants';
 
 @injectable()
 export class RefreshAccessUseCase {
@@ -52,6 +53,8 @@ export class RefreshAccessUseCase {
       const refreshToken = await this.createAccessTokenUseCase.generateRefreshToken(mapperUser);
       
       tokenBlacklist.push(token);
+
+      this.logger.info(LoggerConstants.finishedMethod);
       timer({ ...metricsLabels, success: 'true' });
 
       return new ResponseDTO<TokensResponseDTO>({token: newToken, refreshToken}); 

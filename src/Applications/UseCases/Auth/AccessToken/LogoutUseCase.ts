@@ -38,7 +38,9 @@ export class LogoutUseCase {
       await this.usersRepository.invalidToken(userId);
 
       tokenBlacklist.push(token);
-   
+      this.logger.info(LoggerConstants.finishedMethod);
+      timer({ ...metricsLabels, success: 'true' });
+      
     } catch (error) {
       if(error instanceof AppError){
         throw error;

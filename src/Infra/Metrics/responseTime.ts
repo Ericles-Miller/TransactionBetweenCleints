@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import { restResponseTimeHistogram } from "./metrics";
+import { Request, Response } from 'express';
+import { restResponseTimeHistogram } from './metrics';
 
 export function responseMetric(request: Request, response: Response, time: number) :void {
   if (request?.route?.path) {
@@ -7,9 +7,7 @@ export function responseMetric(request: Request, response: Response, time: numbe
       method: request.method,
       route: request.route.path,
       status_code: response.statusCode,
-    },
-    time * 1000
-    );
+    },time * 1000);
   }
 }
 
