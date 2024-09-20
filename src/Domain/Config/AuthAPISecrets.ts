@@ -19,6 +19,8 @@ export class AuthAPISecrets {
     this.issuer = process.env.ISSUER || '';
     this.audience = process.env.AUDIENCE || '';
     
+    console.log(this.secretKey, this.secretRefreshKey, this.tokenExpiresIn, this.refreshExpiresIn, this.issuer, this.audience, 'aaaa');
+    
     this.validateEnvVariables();
   }
 

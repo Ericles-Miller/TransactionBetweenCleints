@@ -1,4 +1,4 @@
-import { GenericConstants } from '@Domain/Constants/Shared/GenericConstants';
+import { Configuration } from '@Domain/Config';
 import LoggerComponent from '@Infra/Logging/LoggerComponent';
 import express from 'express';
 import client from 'prom-client';
@@ -17,7 +17,7 @@ export const databaseResponseTimeHistogram = new client.Histogram({
   labelNames: ['operation', 'success'],
 });
 
-export function startMetricsServer() {
+export async function startMetricsServer() {
   const logger = new LoggerComponent(startMetricsServer.name);
 
   const collectDefaultMetrics = client.collectDefaultMetrics;
@@ -31,6 +31,6 @@ export function startMetricsServer() {
   });
 
   app.listen(9100, () => {
-    logger.info(`Metrics server started at ${GenericConstants.metricsEndPoint}`);
+    logger.info(`Metrics server started at ${Configuration.apiSecrets.metricsEndPoint}`);
   });
 }
