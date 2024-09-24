@@ -391,9 +391,6 @@
                 "amount": {
                   "type": "number"
                 },
-                "senderId": {
-                  "type": "string"
-                },
                 "receivedId": {
                   "type": "string"
                 }

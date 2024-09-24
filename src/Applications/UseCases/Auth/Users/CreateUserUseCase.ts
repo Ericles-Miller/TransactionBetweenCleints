@@ -30,7 +30,7 @@ export class CreateUserUseCase {
     private addPermission: AddPermissions
   ) {}
 
-  async execute({ email, name, password, permissions, balance }: CreateUserRequestDTO) : Promise<ResponseDTO<UserResponseDTO>> {
+  async execute({ email, name, password, permissions, balance }: CreateUserRequestDTO) : Promise<UserResponseDTO> {
     const metricsLabels = { operation: 'createUser' };
     const timer = databaseResponseTimeHistogram.startTimer();
     
@@ -56,7 +56,7 @@ export class CreateUserUseCase {
       
       this.logger.info(LoggerConstants.finishedMethod);
       timer({ ...metricsLabels, success: 'true' });
-      return new ResponseDTO<UserResponseDTO>(response);
+      return response;
     
     } catch (error) {
       if(error instanceof AppError) {

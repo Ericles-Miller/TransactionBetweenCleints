@@ -7,17 +7,18 @@ import { CreateAccessTokensUseCase } from './CreateAccessTokensUseCase';
 import { MapperUser } from '@Applications/Mappings/Users/MapperUser';
 import { User } from '@Domain/Entities/Auth/User';
 import { RefreshAccessRequestDTO } from '@Applications/DTOs/Requests/Auth/RefreshAccessRequestDTO';
-import { tokenBlacklist } from '@Api/Extensions/AuthorizedFlow';
 import { TokensResponseDTO } from '@Applications/DTOs/Responses/Auth/TokensResponseDTO';
 import LoggerComponent from '@Infra/Logging/LoggerComponent';
 import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessages';
 import { databaseResponseTimeHistogram } from '@Infra/Metrics/metrics';
 import { LoggerConstants } from '@Domain/Constants/LoggerConstants';
+import { BlackListToken } from '@Api/Extensions/blackListToken';
 
 @injectable()
 export class RefreshAccessUseCase {
   private readonly mapperUser = new MapperUser();
   private readonly logger = new LoggerComponent(RefreshAccessUseCase.name);
+  private readonly blackListTokens = new BlackListToken();
 
   constructor(
     @inject('UsersRepository')
@@ -52,7 +53,8 @@ export class RefreshAccessUseCase {
       const newToken = await this.createAccessTokenUseCase.createAccessToken(mapperUser);
       const refreshToken = await this.createAccessTokenUseCase.generateRefreshToken(mapperUser);
       
-      tokenBlacklist.push(token);
+      this.blackListTokens.addTokenBlackList(token);
+      this.blackListTokens.removeExpTokens();
 
       this.logger.info(LoggerConstants.finishedMethod);
       timer({ ...metricsLabels, success: 'true' });
