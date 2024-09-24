@@ -18,7 +18,6 @@ export class Limiter {
   static authLimiter = rateLimit({
       windowMs: 1 * 60 * 1000,
       max: 2, 
-
       keyGenerator(request: Request) : string {
         return request.ip!;
       },

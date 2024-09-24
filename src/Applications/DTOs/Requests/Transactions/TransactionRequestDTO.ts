@@ -1,6 +1,5 @@
 export class TransactionRequestDTO {
-  senderId: string = '';
+  senderId?: string;
   receivedId: string = '';
   amount!: number;
-  sub?: string
 }

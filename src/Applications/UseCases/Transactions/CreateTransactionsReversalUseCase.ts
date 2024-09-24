@@ -36,7 +36,7 @@ export class CreateTransactionsReversalUseCase {
     private updateBalanceUserUseCase: UpdateBalanceUserUseCase,
   ){}
 
-  async execute({code, reason, sub}: TransactionReversalRequestDTO) : Promise<ResponseDTO<TransactionsReversals>> {
+  async execute({code, reason, sub}: TransactionReversalRequestDTO) : Promise<TransactionsReversals> {
     const metricsLabels = { operation: 'TransactionReversal' };
     const timer = databaseResponseTimeHistogram.startTimer();
     
@@ -49,7 +49,7 @@ export class CreateTransactionsReversalUseCase {
     if(!transaction)
       throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.invalidCode), 404);
 
-    if(sub !== transaction.senderId)
+    if(sub !== transaction.receiverId)
       throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
     
     const sender = await this.validateReversalTransaction(transaction);
@@ -73,7 +73,7 @@ export class CreateTransactionsReversalUseCase {
     
     const response = await this.transactionReversalRepository.create(mapperTransactionReversal);
     timer({ ...metricsLabels, success: 'true' });
-    return new ResponseDTO<TransactionsReversals>(response);
+    return response;
   }
 
   private async validateReversalTransaction(transaction: Transactions) : Promise<Users> {
