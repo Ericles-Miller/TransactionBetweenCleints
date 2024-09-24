@@ -22,12 +22,15 @@ export const app = express();
 app.use(express.json());
 app.use(router);
 
-app.use(Limiter.usersLimiter);
-app.use(Limiter.authLimiter);
+if(Configuration.apiSecrets.environment === 'production') {
+  app.use(Limiter.usersLimiter) 
+  app.use(Limiter.authLimiter);
+  app.use(Limiter.transactionLimiter);
+}
+
+
 app.use(helmet());
-
 app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
-
 
 new Configuration();
 new DatabaseConnection().checkConnection();
@@ -35,7 +38,6 @@ new DatabaseConnection().checkConnection();
 app.use(cors({ origin: Configuration.apiSecrets.frontAddress})) 
   ? Configuration.apiSecrets.environment === 'production'
   : app.use(cors());
-
 
 startMetricsServer();
 app.use(responseTime(responseMetric));
