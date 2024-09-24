@@ -35,18 +35,17 @@ export class CreateTransactionsUseCase {
     private mapperTransactions: MapperTransactions,
   ) {}
 
-  async execute({ amount, receivedId, senderId, sub }: TransactionRequestDTO) : Promise<ResponseDTO<TransactionResponseDTO>> {
+  async execute({ amount, receivedId, senderId }: TransactionRequestDTO) : Promise<TransactionResponseDTO> {
     const metricsLabels = { operation: 'Transaction' };
     const timer = databaseResponseTimeHistogram.startTimer();
     
     try {
       this.logger.info(LoggerConstants.createTransaction);
+      
+      if(!senderId) 
+        throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
+
       const sender = await this.usersRepository.getById(senderId);
-      if(!sub) 
-        throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
-  
-      if(sub !== senderId)
-        throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied), 401);
   
       if(!sender)
         throw new AppError(new ResponseDTO<string>(TransactionsErrorsMessages.invalidSender), 404);
@@ -82,7 +81,7 @@ export class CreateTransactionsUseCase {
       const response = await this.mapperTransactions.mapperTransactionResponse(transaction);
       
       timer({ ...metricsLabels, success: 'true' });
-      return new ResponseDTO<TransactionResponseDTO>(response);
+      return response;
     
     } 
     catch (error) {

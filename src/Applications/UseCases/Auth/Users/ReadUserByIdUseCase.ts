@@ -20,7 +20,7 @@ export class ReadUserByIdUseCase {
     private readonly usersRepository: IUserRepository
   ) {}
 
-  async execute({id}: GetIdRequestDTO) : Promise<ResponseDTO<UserResponseDTO>> {
+  async execute({id}: GetIdRequestDTO) : Promise<UserResponseDTO> {
     const metricsLabels = { operation: 'readUsersById' };
     const timer = databaseResponseTimeHistogram.startTimer();
 
@@ -36,7 +36,7 @@ export class ReadUserByIdUseCase {
       this.logger.info(LoggerConstants.finishedMethod);
       timer({ ...metricsLabels, success: 'true' });
 
-      return new ResponseDTO<UserResponseDTO>(response);
+      return response;
       
     } catch (error) {
       if(error instanceof AppError) {

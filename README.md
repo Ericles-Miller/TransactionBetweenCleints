@@ -115,6 +115,8 @@ This project was developed with the following libraries:
   - babel
   - eslint and prettier
   - dotenv
+  - cors
+  - helmet
 
 
 To hide the execute the build we will use pm2 . To do this, globally install pm2 on your computer.

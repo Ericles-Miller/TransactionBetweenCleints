@@ -5,13 +5,14 @@ import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
 import { UserErrorMessages } from '@Domain/Exceptions/Errors/Auth/UserErrorMessages';
 import { AccessTokenErrorMessages } from '@Domain/Exceptions/Errors/Auth/AccessTokenErrorMessages';
 import { LogoutRequestDTO } from '@Applications/DTOs/Requests/Auth/LogoutRequestDTO';
-import { tokenBlacklist } from '@Api/Extensions/AuthorizedFlow';
 import LoggerComponent from '@Infra/Logging/LoggerComponent';
 import { LoggerConstants } from '@Domain/Constants/LoggerConstants';
 import { databaseResponseTimeHistogram } from '@Infra/Metrics/metrics';
+import { BlackListToken } from '@Api/Extensions/blackListToken';
 
 @injectable()
 export class LogoutUseCase {
+  private readonly blackListTokens = new BlackListToken();
   private readonly logger = new LoggerComponent(LogoutUseCase.name);
 
   constructor (
@@ -36,8 +37,9 @@ export class LogoutUseCase {
         throw new AppError(new ResponseDTO<string>(AccessTokenErrorMessages.invalidToken), 401);
   
       await this.usersRepository.invalidToken(userId);
-
-      tokenBlacklist.push(token);
+      this.blackListTokens.addTokenBlackList(token);
+      this.blackListTokens.removeExpTokens();
+      
       this.logger.info(LoggerConstants.finishedMethod);
       timer({ ...metricsLabels, success: 'true' });
       

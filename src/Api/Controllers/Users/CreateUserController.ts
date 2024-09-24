@@ -1,3 +1,5 @@
+import { UserResponseDTO } from '@Applications/DTOs/Responses/Auth/Users/UserResponseDTO';
+import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
 import { CreateUserUseCase } from '@Applications/UseCases/Auth/Users/CreateUserUseCase';
 import { container } from '@IoC/index';
 import { Request, Response } from 'express';
@@ -12,8 +14,9 @@ export class CreateUserController {
     const useCase = container.get(CreateUserUseCase);
 
     const user = await useCase.execute({email, name, password, permissions, balance});
-    const uri = `api/v1/users/${user.data?.id}`;
+
+    const uri = `api/v1/users/${user.id}`;
     
-    return response.status(201).location(uri).json(user);
+    return response.status(201).location(uri).json(new ResponseDTO<UserResponseDTO>(user));
   }
 }
