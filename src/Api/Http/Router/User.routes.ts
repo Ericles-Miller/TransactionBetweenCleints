@@ -5,7 +5,7 @@ import { ReadUserByIdController } from '@Api/Controllers/Users/ReadUserByIdContr
 import { UpdateIsActiveController } from '@Api/Controllers/Users/UpdateIsActiveController';
 import { UpdateUserController } from '@Api/Controllers/Users/UpdateUserController';
 import { AuthorizedFlow } from '@Api/Extensions/AuthorizedFlow';
-import { limiter } from '@Api/Extensions/Limiter';
+import { Limiter } from '@Api/Extensions/Limiter';
 import { Router } from 'express';
 
 export const userRouters = Router();
@@ -19,17 +19,17 @@ const updateIsActiveController = new UpdateIsActiveController();
 const deleteUserController = new DeleteUserController();
 const updateUserController = new UpdateUserController();
 
-userRouters.post('/',limiter.usersLimiter, creteUserController.handle);
-userRouters.get('/', readAllUsersController.handle);
-userRouters.get('/:id', limiter.usersLimiter, readUserByIdController.handle);
-userRouters.patch('/:id/updateIsActive',limiter.usersLimiter, updateIsActiveController.handle);
-userRouters.delete('/', limiter.usersLimiter,
+userRouters.post('/',Limiter.usersLimiter, creteUserController.handle);
+userRouters.get('/', Limiter.usersLimiter, readAllUsersController.handle);
+userRouters.get('/:id', Limiter.usersLimiter, readUserByIdController.handle);
+userRouters.patch('/:id/updateIsActive',Limiter.usersLimiter, updateIsActiveController.handle);
+userRouters.delete('/', Limiter.usersLimiter,
   authorizedFlow.authenticateToken,
   authorizedFlow.authorizePermission('Client.Admin'),
   deleteUserController.handle
 );
 
-userRouters.patch("/", limiter.usersLimiter, 
+userRouters.patch("/", Limiter.usersLimiter, 
   authorizedFlow.authenticateToken,
   authorizedFlow.authorizePermission('Client.Admin'),
   updateUserController.handle

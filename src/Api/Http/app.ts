@@ -13,21 +13,29 @@ import swaggerFile from '../../../swagger.json';
 import responseTime from "response-time";
 import { responseMetric } from '@Infra/Metrics/responseTime';
 import { startMetricsServer } from '@Infra/Metrics/metrics';
-import { limiter } from '@Api/Extensions/Limiter';
-
+import cors from 'cors';
+import helmet from 'helmet';
+import { Limiter } from '@Api/Extensions/Limiter';
 
 export const app = express();
 
 app.use(express.json());
 app.use(router);
 
-app.use(limiter.usersLimiter);
-app.use(limiter.authLimiter);
+app.use(Limiter.usersLimiter);
+app.use(Limiter.authLimiter);
+app.use(helmet());
 
 app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
+
 new Configuration();
 new DatabaseConnection().checkConnection();
+
+app.use(cors({ origin: Configuration.apiSecrets.frontAddress})) 
+  ? Configuration.apiSecrets.environment === 'production'
+  : app.use(cors());
+
 
 startMetricsServer();
 app.use(responseTime(responseMetric));
