@@ -3,11 +3,9 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
 import { AccessTokenErrorMessages } from '@Domain/Exceptions/Errors/Auth/AccessTokenErrorMessages';
-
-export let tokenBlacklist: string[] = [];
+import { BlackListToken, tokenBlacklist } from './blackListToken';
 
 export class AuthorizedFlow {
-
   authenticateToken(request: Request, response: Response, next: NextFunction) {
     const authToken = request.headers.authorization;
   
@@ -21,9 +19,11 @@ export class AuthorizedFlow {
       return response.status(401).json(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied));
     }
 
-    if (tokenBlacklist.includes(token)) {
-      return response.status(401).json(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied));
-    }
+    tokenBlacklist.map((item) => {
+      if (token === item.token) {
+        return response.status(401).json(new ResponseDTO<string>(AccessTokenErrorMessages.AccessDenied));
+      }
+    })
   
     const secretToken = Configuration.authApiSecrets.secretKey;
     const jwtOptions = {
