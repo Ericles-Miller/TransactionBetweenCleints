@@ -1,9 +1,9 @@
-import { AppError } from "@Domain/Exceptions/Shared/AppError";
-import { PermissionErrorMessages } from "@Domain/Exceptions/Errors/Auth/PermissionErrorMessages";
-import { GenericValidator } from "../Shared/GenericValidator";
-import { GenericEntityConstants } from "@Domain/Constants/Shared/GenericEntityConstant";
-import { PermissionConstants } from "@Domain/Constants/Auth/PermissionsConstants";
-import { ResponseDTO } from "@Applications/DTOs/Responses/Shared/ResponseDTO";
+import { AppError } from '@Domain/Exceptions/Shared/AppError';
+import { PermissionErrorMessages } from '@Domain/Exceptions/Errors/Auth/PermissionErrorMessages';
+import { GenericValidator } from '../Shared/GenericValidator';
+import { GenericEntityConstants } from '@Domain/Constants/Shared/GenericEntityConstant';
+import { PermissionConstants } from '@Domain/Constants/Auth/PermissionsConstants';
+import { ResponseDTO } from '@Applications/DTOs/Responses/Shared/ResponseDTO';
 
 export class PermissionsValidator extends GenericValidator{
 
